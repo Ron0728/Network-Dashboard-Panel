@@ -16,28 +16,28 @@ const SideBar = () => {
             // className="a"
             className="flex text-gray-900 font-semibold border-2 border-transparent
             hover:border-2 hover:border-r-transparent hover:border-l-transparent
-            hover:text-white p-3  cursor-pointer gap-2"
+            hover:text-white p-3 items-center cursor-pointer gap-2"
             onClick={() => navigate(items.Path)}
             key={items.key}
           >
-            <div>{items.icon}o</div>
+            <div>{items.icon}</div>
             <button onClick={() => navigate(items.Path)}>{items.label}</button>
           </div>
         ))}
         <div className=" border-b-2 border-gray-700 "></div>
       </div>
-      <div>
+      <div className="flex items-end w-full h-full">
         {DASHBOARS_SIDEBAR_BOTTOM_LNKS.map((items) => (
           <div
-            className="flex  text-gray-900  font-bold border-2 border-transparent cursor-pointer"
+            className="flex  hover:bg-red-700 h-[20%] w-full  text-gray-900  font-bold border-2 border-transparent cursor-pointer"
             key={items.key}
             onClick={() => navigate(items.Path)}
           >
             <button
-              className="flex gap-2 p-5 font-bold"
+              className="flex w-full justify-start items-center hover:text-white hover:bg-red-700 gap-2 p-5 font-bold"
               onClick={() => navigate(items.Path)}
             >
-              <div>{items.icon}o</div>
+              <div>{items.icon}</div>
               {items.label}
             </button>
           </div>

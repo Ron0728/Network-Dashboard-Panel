@@ -1,18 +1,15 @@
-// import {
-//   HiOutlineviewGrid,
-//   HiOutlineCube,
-//   HiOutlineShoppingCart,
-//   HiOutlineUsers,
-//   HiOutlineDocumentText,
-//   HiOutlineAnnotation,
-// } from "react-icons/hi";
+import { MdDashboard } from "react-icons/md";
+import { MdOutlineSecurity } from "react-icons/md";
+import { TbLogout2 } from "react-icons/tb";
+import { AiOutlineFileProtect } from "react-icons/ai";
+import { AiFillAlert } from "react-icons/ai";
 
 export const DASHBOARS_SIDEBAR_LNKS = [
   {
     key: "Board",
     label: "Board",
     Path: "board",
-    icon: "",
+    icon: <MdDashboard />,
   },
 
   {
@@ -31,19 +28,19 @@ export const DASHBOARS_SIDEBAR_LNKS = [
     key: "Security",
     label: "Security",
     Path: "security",
-    icon: "",
+    icon: <MdOutlineSecurity />,
   },
   {
     key: "Protocols",
     label: "Protocols",
     Path: "protocols",
-    icon: "",
+    icon: <AiOutlineFileProtect />,
   },
   {
     key: "Alerts",
     label: "Alerts",
     Path: "alerts",
-    icon: "",
+    icon: <AiFillAlert />,
   },
 ];
 
@@ -52,6 +49,6 @@ export const DASHBOARS_SIDEBAR_BOTTOM_LNKS = [
     key: "Logout",
     label: "Logout",
     Path: "/",
-    // icon: <HiOutlineAnnotation />,
+    icon: <TbLogout2 />,
   },
 ];

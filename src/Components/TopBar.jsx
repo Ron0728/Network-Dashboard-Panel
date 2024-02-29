@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { IoSearch } from "react-icons/io5";
 
 const TopBar = () => {
   const navigate = useNavigate();
@@ -15,7 +16,9 @@ const TopBar = () => {
               placeholder="Search . . . "
               className=" rounded-2xl outline-none p-1 w-96 h-9"
             />
-            <div>-O</div>
+            <div>
+              <IoSearch />
+            </div>
           </div>
         </div>
         <div className="flex gap-16 text-gray-600">
