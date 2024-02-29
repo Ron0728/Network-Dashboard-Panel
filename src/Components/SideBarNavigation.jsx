@@ -12,38 +12,38 @@ export const DASHBOARS_SIDEBAR_LNKS = [
     key: "Board",
     label: "Board",
     Path: "board",
-    // icon: <HiOutlineCube />,
+    icon: "",
   },
 
   {
     key: "Details",
     label: "Details",
     Path: "details",
-    // icon: <HiOutlineCube />,
+    icon: "",
   },
   {
     key: "TroubleShooting",
     label: "TroubleShooting",
     Path: "troubleShooting",
-    // icon: <HiOutlineCube />,
+    icon: "",
   },
   {
     key: "Security",
     label: "Security",
     Path: "security",
-    // icon: <HiOutlineShoppingCart />,
+    icon: "",
   },
   {
     key: "Protocols",
     label: "Protocols",
     Path: "protocols",
-    // icon: <HiOutlineUsers />,
+    icon: "",
   },
   {
     key: "Alerts",
     label: "Alerts",
     Path: "alerts",
-    // icon: <HiOutlineDocumentText />,
+    icon: "",
   },
 ];
 

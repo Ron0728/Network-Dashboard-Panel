@@ -14,9 +14,19 @@ const Board = () => {
         </div>
         <div className="flex flex-col bg-gradient-to-r from-blue-700 to-blue-200 rounded-full gap-3 p-3 w-full shadow-lg shadow-black ">
           <div className="flex items-center justify-between text-white font-bold">
-            <div>Source</div>
-            <div>Fast</div>
-            <div>AI</div>
+            <div className="flex gap-3">
+              <div>Source</div>
+              <div>o</div>
+            </div>
+            <div className="flex gap-3">
+              <div>Fast</div>
+              <div>o</div>
+            </div>
+            <div className="flex gap-3">
+              <div>AI</div>
+              <div>o</div>
+            </div>
+
             <button
               className="flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 hover:animate-bounce text-white font-bold rounded-full p-3"
               onClick={() => navigate("fetchdata")}

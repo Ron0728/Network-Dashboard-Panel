@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const TopBar = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col h-[15%] shadow-md shadow-black w-full backdrop-blur-[5px] p-10 justify-center">
+    <div className="flex flex-col h-[15%] shadow-md bg-[rgb(6,28,69)] shadow-black w-full backdrop-blur-[5px] p-10 justify-center">
       <div className="flex justify-between">
         <div className="font-bold flex justify-center p-5 animate-pulse text-warmGray-100 italic">
           DashBoard
