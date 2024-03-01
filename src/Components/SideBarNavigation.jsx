@@ -3,6 +3,8 @@ import { MdOutlineSecurity } from "react-icons/md";
 import { TbLogout2 } from "react-icons/tb";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import { AiFillAlert } from "react-icons/ai";
+import { FaTools } from "react-icons/fa";
+import { TbListDetails } from "react-icons/tb";
 
 export const DASHBOARS_SIDEBAR_LNKS = [
   {
@@ -16,13 +18,13 @@ export const DASHBOARS_SIDEBAR_LNKS = [
     key: "Details",
     label: "Details",
     Path: "details",
-    icon: "",
+    icon: <TbListDetails />,
   },
   {
     key: "TroubleShooting",
-    label: "TroubleShooting",
+    label: "TroubleShoot",
     Path: "troubleShooting",
-    icon: "",
+    icon: <FaTools />,
   },
   {
     key: "Security",
