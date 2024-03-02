@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IoSpeedometerSharp } from "react-icons/io5";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
+import BoardInfo from "./BoardInfo";
 
 const Board = () => {
   const navigate = useNavigate();
@@ -33,17 +34,14 @@ const Board = () => {
               <div className="text-xl">AI</div>
             </div>
 
-            <button
-              className="flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 hover:animate-bounce text-white font-bold rounded-full p-3"
-              onClick={() => navigate("fetchdata")}
-            >
+            <button className="flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 hover:animate-bounce text-white font-bold rounded-full p-3">
               Fetch Data
             </button>
           </div>
         </div>
       </div>
       <div>
-        <Outlet />
+        <BoardInfo />
       </div>
     </div>
   );

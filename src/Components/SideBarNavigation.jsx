@@ -10,38 +10,38 @@ export const DASHBOARS_SIDEBAR_LNKS = [
   {
     key: "Board",
     label: "Board",
-    Path: "board",
+    Path: "/main/board",
     icon: <MdDashboard />,
   },
 
   {
     key: "Details",
     label: "Details",
-    Path: "details",
+    Path: "/main/details",
     icon: <TbListDetails />,
   },
   {
     key: "TroubleShooting",
     label: "TroubleShoot",
-    Path: "troubleShooting",
+    Path: "/main/troubleShooting",
     icon: <FaTools />,
   },
   {
     key: "Security",
     label: "Security",
-    Path: "security",
+    Path: "/main/security",
     icon: <MdOutlineSecurity />,
   },
   {
     key: "Protocols",
     label: "Protocols",
-    Path: "protocols",
+    Path: "/main/protocols",
     icon: <AiOutlineFileProtect />,
   },
   {
     key: "Alerts",
     label: "Alerts",
-    Path: "alerts",
+    Path: "/main/alerts",
     icon: <AiFillAlert />,
   },
 ];

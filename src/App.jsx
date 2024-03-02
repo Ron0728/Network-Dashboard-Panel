@@ -31,9 +31,9 @@ function App() {
           <Route path="login" element={<Login />}></Route>
         </Route>
 
-        <Route path="help" element={<Help />}></Route>
+        <Route path="/help" element={<Help />}></Route>
 
-        <Route path="setting" element={<Settings />}>
+        <Route path="/setting" element={<Settings />}>
           <Route index element={<SettingBoxes />}></Route>
 
           <Route path="trubleshooting" element={<TrubleShooting />}>
@@ -54,11 +54,9 @@ function App() {
           <Route path="protocols2" element={<Protocols2 />}></Route>
         </Route>
 
-        <Route path="main" element={<DashBoard />}>
+        <Route path="/main" element={<DashBoard />}>
           <Route index element={<Hello />}></Route>
-          <Route path="board" element={<Board />}>
-            <Route path="fetchdata" element={<BoardInfo />}></Route>
-          </Route>
+          <Route path="board" element={<Board />}></Route>
           <Route path="protocols" element={<Protocols />}></Route>
           <Route path="details" element={<Details />}></Route>
           <Route path="troubleShooting" element={<TroubleShooting />}></Route>
