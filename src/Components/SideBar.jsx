@@ -37,7 +37,7 @@ export default function Sidebar() {
     </div>
   );
 }
-const LinkClasses = "flex items-center gap-5 p-2 text-gray-700";
+const LinkClasses = "flex items-center gap-5 p-2 ";
 
 function SidebarLink({ items }) {
   const { pathname } = useLocation();
@@ -52,10 +52,8 @@ function SidebarLink({ items }) {
           LinkClasses
         )}
       >
-        <div className="flex items-center gap-2">
-          <span>{items.icon}</span>
-          {items.label}
-        </div>
+        <span>{items.icon}</span>
+        <div>{items.label}</div>
       </Link>
     </button>
   );

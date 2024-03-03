@@ -5,9 +5,18 @@ function DropDown() {
   const navigate = useNavigate();
   const [value, setValue] = useState("");
   const options = [
+    { lable: "", value: 0, Path: "" },
     { lable: "DHCP", value: 1, Path: "dhcp" },
-    { lable: "Check Configurations", value: 2, Path: "configurations" },
-    { lable: "Interfaces", value: 3, Path: "interfaces" },
+    {
+      lable: "Check Configurations",
+      value: 2,
+      Path: "configurations",
+    },
+    {
+      lable: "Interfaces",
+      value: 3,
+      Path: "interfaces",
+    },
   ];
   function handleSelect(event) {
     setValue(event.target.value);
