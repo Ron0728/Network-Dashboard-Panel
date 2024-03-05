@@ -10,12 +10,13 @@ const SettingBoxes = () => {
           <div
             className="flex h-[25%] w-[25%] justify-center bg-gray-300 font-bold 
             backdrop-blur-lg shadow-md shadow-black border-2 border-gray-500 
-            rounded-xl hover:text-blue-800  p-3 cursor-pointer"
+            rounded-xl hover:text-blue-800 hover:-translate-y-5  p-3 cursor-pointer"
             onClick={() => navigate(items.Path)}
             key={items.key}
           >
             <button
-              className="hover:animate-pulse"
+              className="flex flex-col items-center justify-center gap-2
+               hover:animate-pulse "
               onClick={() => navigate(items.Path)}
             >
               {items.label}

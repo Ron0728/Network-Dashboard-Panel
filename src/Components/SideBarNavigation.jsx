@@ -4,7 +4,8 @@ import { TbLogout2 } from "react-icons/tb";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import { AiFillAlert } from "react-icons/ai";
 import { FaTools } from "react-icons/fa";
-import { TbListDetails } from "react-icons/tb";
+
+import { Cpu } from "lucide-react";
 
 export const DASHBOARS_SIDEBAR_LNKS = [
   {
@@ -15,10 +16,10 @@ export const DASHBOARS_SIDEBAR_LNKS = [
   },
 
   {
-    key: "Details",
-    label: "Details",
-    Path: "/main/details",
-    icon: <TbListDetails />,
+    key: "Hardware",
+    label: "Hardware",
+    Path: "/main/hardware",
+    icon: <Cpu size={19} />,
   },
   {
     key: "TroubleShooting",

@@ -1,6 +1,7 @@
 import { ListChecks } from "lucide-react";
 import { ShieldCheck } from "lucide-react";
 import { Waypoints } from "lucide-react";
+import { HdmiPort } from "lucide-react";
 import { GrConfigure } from "react-icons/gr";
 export const Settings_Boxes = [
   {
@@ -18,7 +19,7 @@ export const Settings_Boxes = [
   },
   {
     key: "Check-Configurations",
-    label: "Check C",
+    label: "Check Configurations",
     Path: "configurations",
     icon: <GrConfigure />,
   },
@@ -26,7 +27,7 @@ export const Settings_Boxes = [
     key: "Interfaces",
     label: "Interfaces",
     Path: "interfaces",
-    icon: "",
+    icon: <HdmiPort />,
   },
   {
     key: "Protocols",

@@ -5,7 +5,7 @@ import Login from "./Frames/Login";
 import DashBoard from "./Frames/DashBoard";
 import Protocols from "./Frames/Protocols";
 import Security from "./Frames/Security";
-import Details from "./Frames/Details";
+import Hardware from "./Frames/Hardware";
 import Alerts from "./Frames/Alerts";
 import Board from "./Components/Board";
 import Help from "./Frames/Help";
@@ -58,7 +58,7 @@ function App() {
           <Route index element={<Hello />}></Route>
           <Route path="board" element={<Board />}></Route>
           <Route path="protocols" element={<Protocols />}></Route>
-          <Route path="details" element={<Details />}></Route>
+          <Route path="hardware" element={<Hardware />}></Route>
           <Route path="troubleShooting" element={<TroubleShooting />}></Route>
           <Route path="alerts" element={<Alerts />}></Route>
           <Route path="security" element={<Security />}></Route>

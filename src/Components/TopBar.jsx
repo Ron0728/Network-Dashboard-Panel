@@ -4,7 +4,9 @@ import { IoMdSettings } from "react-icons/io";
 import { MdHome } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import Notification from "./Notification";
-import { Bell } from "lucide-react";
+import lottie from "lottie-web";
+import { defineElement } from "@lordicon/element";
+defineElement(lottie.loadAnimation);
 
 const TopBar = () => {
   const [ShowNoti, setShowNoti] = useState(false);
@@ -15,7 +17,11 @@ const TopBar = () => {
         <div className="font-bold items-center h-full text-xl gap-7 flex justify-center p-5 text-warmGray-100 ">
           <div className="animate-pulse">DashBoard</div>
           <button onClick={() => setShowNoti(true)}>
-            <Bell />
+            <lord-icon
+              src="https://cdn.lordicon.com/lznlxwtc.json"
+              trigger="hover"
+              colors="primary:#ffffff"
+            ></lord-icon>
           </button>
           <div>
             {ShowNoti && <Notification onclose={() => setShowNoti(false)} />}

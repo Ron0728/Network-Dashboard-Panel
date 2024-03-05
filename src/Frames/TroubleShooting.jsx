@@ -119,21 +119,33 @@ const TroubleShooting = () => {
           </div>
           <div className="flex gap-2 w-full h-full justify-between">
             <div className="flex flex-col gap-2 w-[85%] h-full">
-              <div className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 bg-blue-600">
+              <div
+                className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
+               bg-gradient-to-r from-[rgb(0,0,255)] to-[rgb(0,255,0)]"
+              >
                 <div>GigabitEthernet 0/0</div>
-                <div>up</div>
+                <div>Up</div>
               </div>
-              <div className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 bg-blue-600">
+              <div
+                className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
+               bg-gradient-to-r from-[rgb(0,0,255)] to-warmGray-600"
+              >
                 <div>GigabitEthernet 0/0</div>
-                <div>up</div>
+                <div>Down</div>
               </div>
-              <div className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 bg-blue-600">
+              <div
+                className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
+               bg-gradient-to-r from-[rgb(0,0,255)] to-[rgb(0,255,0)]"
+              >
                 <div>GigabitEthernet 0/0</div>
-                <div>up</div>
+                <div>Up</div>
               </div>
-              <div className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 bg-blue-600">
+              <div
+                className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
+               bg-gradient-to-r from-[rgb(0,0,255)] to-warmGray-600"
+              >
                 <div>GigabitEthernet 0/0</div>
-                <div>up</div>
+                <div>Down</div>
               </div>
             </div>
             <div className="flex flex-col justify-center items-center w-[15%] gap-5 p-3 ">

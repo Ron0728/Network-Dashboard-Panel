@@ -10,7 +10,10 @@ import "/src/Css/LogOutButton.css";
 export default function Sidebar() {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col w-[15%] text-lg  bg-gradient-to-r from-[rgb(6,28,69)] to-gray-400 border-r-2 border-gray-700  pt-5 justify-between ">
+    <div
+      className="flex flex-col w-[15%] text-lg  bg-gradient-to-r from-[rgb(6,28,69)] to-gray-400
+     border-r-2 border-gray-700  pt-5 justify-between "
+    >
       <div className="flex flex-col gap-5">
         <div className="flex flex-col ">
           {DASHBOARS_SIDEBAR_LNKS.map((items) => (
@@ -21,10 +24,10 @@ export default function Sidebar() {
         </div>
         <div className=" border-b-2 border-gray-700 "></div>
       </div>
-      <div className="flex flex-col  bg-gradient-to-r from-[rgb(255,0,0)] to-gray-400   gap-3">
+      <div className="flex flex-col text-lg bg-gradient-to-r from-[rgb(6,28,69)] to-gray-400 gap-3">
         {DASHBOARS_SIDEBAR_BOTTOM_LNKS.map((items) => (
           <button2
-            className="flex cursor-pointer font-bold items-center gap-2"
+            className="flex cursor-pointer font-bold items-center gap-5"
             key={items.key}
             items={items}
             onClick={() => navigate(items.Path)}
