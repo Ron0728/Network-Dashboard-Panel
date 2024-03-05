@@ -19,6 +19,7 @@ const SettingBoxes = () => {
               onClick={() => navigate(items.Path)}
             >
               {items.label}
+              {items.icon}
             </button>
           </div>
         ))}

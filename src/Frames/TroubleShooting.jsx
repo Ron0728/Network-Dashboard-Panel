@@ -2,7 +2,7 @@ import React from "react";
 
 const TroubleShooting = () => {
   return (
-    <div className="flex flex-col overflow-y-scroll bg-gray-400 w-full h-full p-5 gap-3">
+    <div className="flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full bg-gray-400 w-full h-full p-5 gap-3">
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full shadow-lg shadow-black ">
         <div className="font-bold">Existing Devives on GNS3 port 3080</div>
         <div className="flex gap-3">

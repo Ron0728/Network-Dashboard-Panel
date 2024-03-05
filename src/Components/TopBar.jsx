@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdSettings } from "react-icons/io";
 import { MdHome } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
+import Notification from "./Notification";
+import { Bell } from "lucide-react";
 
 const TopBar = () => {
+  const [ShowNoti, setShowNoti] = useState(false);
   const navigate = useNavigate();
   return (
     <div className="flex flex-col h-full shadow-md bg-[rgb(6,28,69)] shadow-black w-full backdrop-blur-[5px] justify-center">
-      <div className="flex justify-between p-5">
-        <div className="font-bold text-xl flex justify-center p-5 animate-pulse text-warmGray-100 ">
-          DashBoard
+      <div className="flex h-full justify-between">
+        <div className="font-bold items-center h-full text-xl gap-7 flex justify-center p-5 text-warmGray-100 ">
+          <div className="animate-pulse">DashBoard</div>
+          <button onClick={() => setShowNoti(true)}>
+            <Bell />
+          </button>
+          <div>
+            {ShowNoti && <Notification onclose={() => setShowNoti(false)} />}
+          </div>
         </div>
-
         <div className="flex gap-16 p-2 text-gray-600">
           <button
             className="topbuttons p-2 text-lg"

@@ -11,7 +11,7 @@ const Settings = () => {
     <div className="w-screen h-screen bg-gray-400 bg-cover">
       <div className="flex flex-col h-[10%] shadow-md bg-[rgb(6,28,69)] shadow-black w-full backdrop-blur-[5px] justify-center">
         <div className="flex justify-between p-5">
-          <div className="font-bold text-xl flex justify-center p-5 animate-pulse text-warmGray-100 ">
+          <div className="font-bold text-xl flex justify-center  p-5 animate-pulse text-warmGray-100 ">
             DashBoard
           </div>
           <div className="flex flex-col justify-center">
