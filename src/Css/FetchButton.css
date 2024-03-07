@@ -1,0 +1,59 @@
+.fetchbutton {
+  position: relative;
+}
+
+.fetchbutton {
+  bottom: 80%;
+  background: rgba(37, 132, 255, 0.882);
+  color: rgb(255, 255, 255);
+  width: 120px;
+  height: 40px;
+
+  font-size: 18px;
+  border-radius: 20px;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+.fetchbutton:focus {
+  outline: none;
+}
+
+.fetchbutton::before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  width: 60px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0.5s;
+  filter: blur(10px);
+  transform: translate(-130px) skewX(-15deg);
+}
+
+.fetchbutton::after {
+  content: "";
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 100%;
+  left: 30px;
+  top: 0;
+  opacity: 0;
+  filter: blur(30px);
+  transform: translate(-100px) skewX(-15deg);
+}
+
+.fetchbutton:hover {
+  background: rgb(8, 4, 255);
+  cursor: pointer;
+}
+
+.fetchbutton:hover:before {
+  transform: translateX(300px) skewX(-15deg);
+  opacity: 0.6;
+  transition: 0.7s;
+}

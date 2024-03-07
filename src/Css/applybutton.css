@@ -1,0 +1,60 @@
+.apply {
+  position: relative;
+  transform: translate(0%, 100%);
+}
+
+.apply {
+  bottom: 80%;
+  color: rgb(255, 255, 255);
+  width: 170px;
+  height: 50px;
+  border: 1px solid black;
+  font-size: 18px;
+  border-radius: 50px;
+  transition: 0.4s;
+  overflow: hidden;
+}
+
+.apply:focus {
+  outline: none;
+}
+
+.apply::before {
+  content: "";
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+  width: 60px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0.5s;
+  filter: blur(10px);
+  transform: translate(-130px) skewX(-15deg);
+}
+
+.apply::after {
+  content: "";
+  display: block;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  width: 30px;
+  height: 100%;
+  left: 30px;
+  top: 0;
+  opacity: 0;
+  filter: blur(30px);
+  transform: translate(-100px) skewX(-15deg);
+}
+
+.apply:hover {
+  background: rgb(8, 192, 8);
+  border: 1px solid rgb(8, 192, 8);
+  cursor: pointer;
+}
+
+.apply:hover:before {
+  transform: translateX(300px) skewX(-15deg);
+  opacity: 0.6;
+  transition: 0.7s;
+}

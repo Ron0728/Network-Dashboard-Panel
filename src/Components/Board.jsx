@@ -4,7 +4,7 @@ import { IoSpeedometerSharp } from "react-icons/io5";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { BrainCircuit } from "lucide-react";
 import BoardInfo from "./BoardInfo";
-
+import "/src/Css/FetchButton.css";
 const Board = () => {
   const navigate = useNavigate();
   return (
@@ -36,7 +36,7 @@ const Board = () => {
               <div className="text-xl">AI</div>
             </div>
 
-            <button className="flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 hover:animate-bounce text-white font-bold rounded-full p-3">
+            <button className="fetchbutton flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 items-center text-white font-bold rounded-full p-3">
               Fetch Data
             </button>
           </div>

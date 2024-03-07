@@ -1,4 +1,5 @@
 import React from "react";
+import "/src/Css/pingbutton.css";
 
 const BoardInfo = () => {
   return (
@@ -119,7 +120,7 @@ const BoardInfo = () => {
             </button>
           </div>
           <div>
-            <button className="bg-green-600 hover:animate-bounce text-white font-bold rounded-full p-3 shadow-lg shadow-black ">
+            <button className=" ping bg-green-600  text-white font-bold rounded-full p-3 shadow-lg shadow-black ">
               Ping
             </button>
           </div>
