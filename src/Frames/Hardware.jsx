@@ -11,9 +11,20 @@ const Hardeare = () => {
               <div className="text-blue-700 font-bold">Choose first device</div>
               <div className="text-gray-600 font-bol">One sending ICMP req</div>
             </div>
-            <button className="bg-blue-900 w-[40%]  shadow-lg shadow-black rounded-full sh">
-              R1
-            </button>
+            <div className="flex justify-around items-center  bg-blue-900 w-[30%] shadow-lg shadow-black rounded-full ">
+              <div>
+                <select className="flex pr-5 bg-transparent outline-none font-bold">
+                  <option value="R1">R 1</option>
+                  <option value="R2">R 2</option>
+                  <option value="R3">R 3</option>
+                  <option value="R4">R 4</option>
+                  <option value="SW1">SW 1</option>
+                  <option value="SW2">SW 2</option>
+                  <option value="SW3">SW 3</option>
+                  <option value="SW4">SW 4</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div className=" flex w-full h-full justify-end gap-5">
             <button className=" bg-black text-white p-3 w-[25%] rounded-full shadow-black shadow-md">

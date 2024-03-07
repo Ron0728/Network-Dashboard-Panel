@@ -1,15 +1,19 @@
 import React from "react";
-import Linechart from "../Charts/Linechart";
+import "/src/Css/applybutton.css";
+import "/src/Css/discardbutton.css";
+import "/src/Css/startcheckingbutton.css";
 
 const Security = () => {
   return (
     <div className="flex flex-col w-full h-full gap-3 bg-gray-400 p-5 overflow-y-scroll">
-      <div className="bg-gradient-to-r from-blue-700 to-white p-5 rounded-xl shadow-md shadow-black">
-        text
+      <div className="bg-gradient-to-r text-gray-800 from-blue-700 to-white p-5 rounded-full font-bold shadow-md shadow-black">
+        Text
       </div>
 
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full  shadow-lg shadow-black ">
-        <div className="font-bold">Existing Devives on GNS3 port 3080</div>
+        <div className="font-bold text-2xl">
+          Existing Devives on GNS3 port 3080
+        </div>
         <div className="flex gap-3">
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
             <div className="font-bold">SW1</div>
@@ -39,25 +43,36 @@ const Security = () => {
       </div>
 
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full  shadow-lg shadow-black ">
-        <div className="font-bold">Accessability</div>
+        <div className="font-bold text-2xl">Accessability</div>
 
         <div className="flex gap-3 w-[30%]">
           <div>
             <div className="text-blue-700 font-bold">Choose first device</div>
             <div className="text-gray-600 font-bol">One sending ICMP req</div>
           </div>
-          <button className="bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full sh">
-            R1
-          </button>
+          <div className="flex justify-around items-center  bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
+            <div>
+              <select className="flex pr-5 bg-transparent outline-none font-bold">
+                <option value="R1">R 1</option>
+                <option value="R2">R 2</option>
+                <option value="R3">R 3</option>
+                <option value="R4">R 4</option>
+                <option value="SW1">SW 1</option>
+                <option value="SW2">SW 2</option>
+                <option value="SW3">SW 3</option>
+                <option value="SW4">SW 4</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
-          <div className="font-bold bg-gradient-to-r from-[rgb(0,255,0)] to-gray-500 p-2 rounded-full">
+          <div className="font-bold bg-gradient-to-r from-[rgb(0,255,0)] to-gray-500 shadow-md shadow-black p-2 rounded-full">
             Permition list
           </div>
           <div className=" flex justify-around ">
             <div>
-              <div className="flex h-full gap-3">
+              <div className="flex h-full gap-3 items-center">
                 <div>
                   <div className="text-blue-700 font-bold">
                     Choose first device
@@ -66,11 +81,11 @@ const Security = () => {
                     One sending ICMP req
                   </div>
                 </div>
-                <input className="bg-gray-200 shadow-black shadow-inner rounded-full"></input>
+                <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
               </div>
             </div>
             <div>
-              <div className="flex h-full gap-3">
+              <div className="flex h-full gap-3 items-center">
                 <div>
                   <div className="text-blue-700 font-bold">
                     Choose first device
@@ -79,7 +94,7 @@ const Security = () => {
                     One sending ICMP req
                   </div>
                 </div>
-                <input className="bg-gray-200 shadow-black shadow-inner rounded-full"></input>
+                <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
               </div>
             </div>
           </div>
@@ -90,12 +105,12 @@ const Security = () => {
           </div>
         </div>
         <div className="flex flex-col bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
-          <div className="font-bold bg-gradient-to-r from-[rgb(255,0,0)] to-gray-500 p-2 rounded-full">
+          <div className="font-bold shadow-md shadow-black bg-gradient-to-r from-[rgb(255,0,0)] to-gray-500 p-2 rounded-full">
             Permition list
           </div>
           <div className=" flex justify-around ">
             <div>
-              <div className="flex h-full gap-3">
+              <div className="flex h-full gap-3 items-center">
                 <div>
                   <div className="text-blue-700 font-bold">
                     Choose first device
@@ -104,7 +119,7 @@ const Security = () => {
                     One sending ICMP req
                   </div>
                 </div>
-                <input className="bg-gray-200 shadow-black shadow-inner rounded-full"></input>
+                <input className="bg-gray-200 h-[70%] p-1 outline-none shadow-black shadow-inner rounded-full"></input>
               </div>
             </div>
             <div>
@@ -117,7 +132,7 @@ const Security = () => {
                     One sending ICMP req
                   </div>
                 </div>
-                <input className="bg-gray-200 shadow-black shadow-inner rounded-full"></input>
+                <input className="bg-gray-200 h-[70%] p-1 outline-none shadow-black shadow-inner rounded-full"></input>
               </div>
             </div>
           </div>
@@ -129,11 +144,11 @@ const Security = () => {
         </div>
 
         <div className=" flex gap-5">
-          <button className=" bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
-            apply
+          <button className="apply bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
+            Apply
           </button>
-          <button className=" bg-warmGray-600 text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
-            discard
+          <button className="discard bg-warmGray-600 text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
+            Discard
           </button>
         </div>
       </div>
@@ -146,12 +161,23 @@ const Security = () => {
               <div className="text-blue-700 font-bold">Choose first device</div>
               <div className="text-gray-600 font-bol">One sending ICMP req</div>
             </div>
-            <button className="bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full sh">
-              R1
-            </button>
+            <div className="flex justify-around items-center  bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
+              <div>
+                <select className="flex pr-5 bg-transparent outline-none font-bold">
+                  <option value="R1">R 1</option>
+                  <option value="R2">R 2</option>
+                  <option value="R3">R 3</option>
+                  <option value="R4">R 4</option>
+                  <option value="SW1">SW 1</option>
+                  <option value="SW2">SW 2</option>
+                  <option value="SW3">SW 3</option>
+                  <option value="SW4">SW 4</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <button className=" bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
-            Start Comparing
+          <button className="startchecking bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
+            Start
           </button>
         </div>
         <div className="flex flex-col w-full h-full">
@@ -161,7 +187,7 @@ const Security = () => {
 
           <div className="flex flex-col p-5 bg-purple-800 w-[30%] gap-3 items-center justify-center">
             <div className="flex w-fitt h-fitt justify-center bg-pink-500">
-              s <Linechart />s
+              s
             </div>
             <div className="flex w-[30%] justify-center bg-red-500">text</div>
             <button
