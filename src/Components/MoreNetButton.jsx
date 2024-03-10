@@ -6,7 +6,7 @@ export default function MoreNetButtom({ children, text, color, ...props }) {
     <button
       onMouseEnter={() => sethoverd(true)}
       onMouseLeave={() => sethoverd(false)}
-      className={`flex gap-3 shadow-black shadow-md items-center rounded-full text-black ${
+      className={`flex p-1 gap-3 shadow-black shadow-md items-center rounded-full text-black ${
         color || "bg-blue-800"
       }`}
       {...props}
@@ -16,8 +16,8 @@ export default function MoreNetButtom({ children, text, color, ...props }) {
         style={{ width: hoverd ? ref.current?.offsetWidth || 0 : 0 }}
         className="flex items-center justify-center overflow-hidden transition-all duration-300 ease-out"
       >
-        <span ref={ref} className=" font-bold pr-3">
-          More NetWork
+        <span ref={ref} className=" flex gap-1 font-bold pr-3">
+          More <div>Network</div>
         </span>
       </div>
     </button>

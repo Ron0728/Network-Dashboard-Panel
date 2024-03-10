@@ -102,7 +102,7 @@ const Security = () => {
           </div>
           <div className="flex justify-center">
             <MoreNetButtom>
-              <FaNetworkWired className="translate-x-1.5 " size={30} />
+              <FaNetworkWired className="translate-x-1.5 " size={20} />
             </MoreNetButtom>
           </div>
         </div>
@@ -140,7 +140,7 @@ const Security = () => {
           </div>
           <div className="flex items-center justify-center">
             <MoreNetButtom>
-              <FaNetworkWired className="translate-x-1.5 " size={30} />
+              <FaNetworkWired className="translate-x-1.5 " size={20} />
             </MoreNetButtom>
           </div>
         </div>
