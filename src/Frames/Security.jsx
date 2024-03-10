@@ -2,6 +2,8 @@ import React from "react";
 import "/src/Css/applybutton.css";
 import "/src/Css/discardbutton.css";
 import "/src/Css/startcheckingbutton.css";
+import { FaNetworkWired } from "react-icons/fa6";
+import MoreNetButtom from "../Components/MoreNetButton";
 
 const Security = () => {
   return (
@@ -99,9 +101,9 @@ const Security = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <button className="flex bg-blue-800 p-2 rounded-full shadow-black shadow-md ">
-              + More Networks
-            </button>
+            <MoreNetButtom>
+              <FaNetworkWired className="translate-x-1.5 " size={30} />
+            </MoreNetButtom>
           </div>
         </div>
         <div className="flex flex-col bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
@@ -136,10 +138,10 @@ const Security = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center">
-            <button className="flex bg-blue-800 p-2 rounded-full shadow-black shadow-md ">
-              + More Networks
-            </button>
+          <div className="flex items-center justify-center">
+            <MoreNetButtom>
+              <FaNetworkWired className="translate-x-1.5 " size={30} />
+            </MoreNetButtom>
           </div>
         </div>
 

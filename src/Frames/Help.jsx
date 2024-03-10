@@ -7,7 +7,7 @@ const Help = () => {
       <div className="flex flex-col border-2 shadow-black shadow-xl justify-between backdrop-blur-xl p-64 rounded-3xl ">
         <div>
           <div className=" bg-slate-300">
-            <button onClick={() => navigate("/main")}>Back</button>
+            <button onClick={() => navigate("/main/board")}>Back</button>
           </div>
         </div>
         <div>

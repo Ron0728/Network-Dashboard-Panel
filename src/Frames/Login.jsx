@@ -46,7 +46,7 @@ const Login = () => {
             </span>
             <button1
               className=" mb-2 bg-cyan-600 cursor-pointer hover:bg-cyan-800 p-2 rounded-lg text-white "
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/main/board")}
             >
               Login
             </button1>

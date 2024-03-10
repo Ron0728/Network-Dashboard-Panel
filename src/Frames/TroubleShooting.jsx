@@ -148,7 +148,7 @@ const TroubleShooting = () => {
 
       <div className="flex flex-col gap-3 bg-gray-300 w-full h-full rounded-2xl p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">Check Interfaces:</div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 ">
           <div className="flex gap-5">
             <div className="flex w-full h-full gap-3 ">
               <div className="flex flex-col">
@@ -175,8 +175,8 @@ const TroubleShooting = () => {
               </div>
             </div>
             <div className="flex justify-end w-full h-full">
-              <button className="startchecking flex justify-center bg-blue-950 p-3  text-white font-bold rounded-full shadow-lg shadow-black">
-                Start checking
+              <button className="startchecking flex justify-center  bg-blue-950 p-3  text-white font-bold rounded-full shadow-lg shadow-black">
+                Start Checking
               </button>
             </div>
           </div>

@@ -19,7 +19,6 @@ import Interfaces from "./Frames/Interfaces";
 import Protocols2 from "./Frames/Protocols2";
 import TroubleShooting from "./Frames/troubleShooting";
 import Hello from "./Components/Hello";
-import BoardInfo from "./Components/BoardInfo";
 
 function App() {
   return (
@@ -55,7 +54,6 @@ function App() {
         </Route>
 
         <Route path="/main" element={<DashBoard />}>
-          <Route index element={<Hello />}></Route>
           <Route path="board" element={<Board />}></Route>
           <Route path="protocols" element={<Protocols />}></Route>
           <Route path="hardware" element={<Hardware />}></Route>

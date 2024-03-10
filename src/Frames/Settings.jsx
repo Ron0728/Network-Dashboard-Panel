@@ -29,7 +29,7 @@ const Settings = () => {
           <div className="flex gap-16 p-2 text-gray-600">
             <button
               className="topbuttons p-2 text-lg"
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/main/board")}
               //  className="border-2 border-transparent
               //  hover:border-white hover:border-2 hover:border-r-transparent hover:border-l-transparent
               //  hover:text-warmGray-100 "

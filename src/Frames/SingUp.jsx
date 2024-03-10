@@ -49,7 +49,7 @@ const SingUp = () => {
           <div className="flex flex-col text-center gap-4">
             <button1
               className="bg-cyan-800 cursor-pointer hover:bg-cyan-600 p-2 rounded-lg text-white border-2 border-cyan-700"
-              onClick={() => navigate("/main")}
+              onClick={() => navigate("/main/board")}
             >
               SignUp
             </button1>
