@@ -17,7 +17,7 @@ export default function MoreNetButtom({ children, text, color, ...props }) {
         className="flex items-center justify-center overflow-hidden transition-all duration-300 ease-out"
       >
         <span ref={ref} className=" flex gap-1 font-bold pr-3">
-          More <div>Network</div>
+          More <div>Networks</div>
         </span>
       </div>
     </button>
