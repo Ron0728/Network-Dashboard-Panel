@@ -4,6 +4,7 @@ import "/src/Css/discardbutton.css";
 import "/src/Css/startcheckingbutton.css";
 import { FaNetworkWired } from "react-icons/fa6";
 import MoreNetButtom from "../Components/MoreNetButton";
+import LevelPieChart from "../Charts/LevelPieChart";
 
 const Security = () => {
   return (
@@ -155,7 +156,7 @@ const Security = () => {
         </div>
       </div>
 
-      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-fitt  shadow-lg shadow-black ">
+      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
         <div className="font-bold">Security Audit</div>
         <div className="flex justify-around">
           <div className="flex gap-3 w-[30%]">
@@ -186,23 +187,45 @@ const Security = () => {
           <div className="font-bold text-blue-600">
             Securtity level according to CISCO & Al-Baath standards:
           </div>
-
-          <div className="flex flex-col p-5 bg-purple-800 w-[30%] gap-3 items-center justify-center">
-            <div className="flex w-fitt h-fitt justify-center bg-pink-500">
-              s
-            </div>
-            <div className="flex w-[30%] justify-center bg-red-500">text</div>
-            <button
-              className="flex justify-center text-white rounded-full shadow-black shadow-md
-       bg-blue-950 w-[70%] p-2 "
-            >
-              save
+        </div>
+        {/* <div className="w-full flex  bg-green-500">
+          <div className=" w-1/2 bg-red-500">
+            <LevelPieChart />
+            <div>text</div>
+          </div>
+          <div className="w-1/2 bg-blue-700">
+            <LevelPieChart />
+          </div>
+        </div> */}
+      </div>
+      <div className="flex gap-5  ">
+        <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
+          <div className=" w-full ">
+            <LevelPieChart />
+            <span className="text-transparent">s</span>
+          </div>
+          <div className="flex flex-col gap-3 -translate-y-10 items-center justify-center w-full">
+            <div className=" font-bold">text</div>
+            <button className="bg-gray-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
+              q
             </button>
-            <button
-              className="flex justify-center text-white rounded-full shadow-black shadow-md
-       bg-[rgb(0,255,0)] w-[70%] p-2 "
-            >
-              apply
+            <button className="bg-green-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
+              q
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
+          <div className="w-full ">
+            <LevelPieChart />
+            <span className="text-transparent">s</span>
+          </div>
+          <div className="flex flex-col gap-3 -translate-y-10 items-center justify-center w-full">
+            <div className=" font-bold">text</div>
+            <button className="bg-gray-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
+              q
+            </button>
+            <button className="bg-green-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
+              q
             </button>
           </div>
         </div>

@@ -10,16 +10,16 @@ const data = [
   { name: "Group F", value: 500 },
 ];
 
-const Piechart = () => {
+const numberchart = () => {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={400} height={400}>
+    <ResponsiveContainer>
+      <PieChart width={100} height={100}>
         <Pie
           dataKey="value"
           isAnimationActive={false}
           data={data}
-          cx="50%"
-          cy="50%"
+          cx="120"
+          cy="100"
           outerRadius={80}
           fill="#8884d8"
           label
@@ -30,4 +30,4 @@ const Piechart = () => {
   );
 };
 
-export default Piechart;
+export default numberchart;
