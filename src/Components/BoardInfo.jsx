@@ -93,8 +93,12 @@ const BoardInfo = () => {
               <div>Down</div>
             </div>
           </div>
-          <div className=" flex w-[35%] bg-gray-400 shadow-black shadow-md justify-around items-center rounded-full h-[75%]">
-            <div>30%</div>
+          <div className=" flex w-[35%] bg-gray-400 shadow-black shadow-md justify-around items-center rounded-full h-[62%]">
+            <div className=" bg-gradient-to-tl from-[rgb(0,255,0)] to-[rgb(0,0,255)]  p-2  rounded-full ">
+              <div className=" bg-gray-300 p-4  rounded-full font-bold ">
+                30%
+              </div>
+            </div>
             <div className="flex flex-col items-center font-bold">
               <div>Memory R1 </div>
               <div className="text-blue-700">40255 kb</div>

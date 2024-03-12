@@ -50,7 +50,7 @@ function SidebarLink({ items }) {
         to={items.Path}
         className={classNames(
           pathname === items.Path
-            ? "flex shadow-inner shadow-blueGray-600  bg-gradient-to-r from-blue-700 to-gray-400 font-bold w-full text-white"
+            ? "flex shadow-inner shadow-blueGray-600 bg-gradient-to-r from-blue-700 to-gray-400 font-bold w-full text-white"
             : "text-black font-bold",
           LinkClasses
         )}

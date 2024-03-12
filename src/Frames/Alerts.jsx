@@ -1,74 +1,27 @@
 import React from "react";
+import DAlertMSG from "../Components/DAlertMSG";
+import GAlertMSG from "../Components/GAlertMSG";
 
 const Alerts = () => {
   return (
-    <div className="w-full h-full">
-      <div className="flex w-full h-full bg-gray-400 ">
-        {/* <div className="flex bg-green-700 justify-center gap-10  w-3/4 m-5"> */}
-        <div className="w-1/2 flex gap-2 flex-col justify-center items-center">
-          <div className="font-bold animate-pulse text-[rgb(0,255,0)]">
-            Updated <div className="border-b-2 border-[rgb(0,255,0)]"></div>
-          </div>
-          <div className="flex w-full items-center h-full flex-col gap-2">
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-          </div>
+    <div className="flex gap-3 p-5 w-full bg-gray-400">
+      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 w-full shadow-inner shadow-black ">
+        <span className="flex items-center justify-center pt-5 text-2xl text-[rgb(255,0,0)] font-bold">
+          Danger Massage
+        </span>
+        <div className="flex flex-col gap-3 overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-2xl p-5 ">
+          <DAlertMSG />
         </div>
-        {/* <div className="border-2 border-slate-500"></div> */}
-        <div className="w-1/2 flex gap-2 flex-col justify-center items-center">
-          <div className="font-bold animate-pulse text-[rgb(255,0,0)]">
-            Risks <div className="border-b-2 border-[rgb(255,0,0)]"></div>
-          </div>
-          <div className="flex w-full h-full items-center flex-col gap-2">
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-            <span className="flex bg-white justify-center w-4/5 h-full p-2 shadow-md shadow-black ">
-              test
-            </span>
-          </div>
+      </div>
+      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 w-full shadow-inner shadow-black ">
+        <span className="flex items-center justify-center pt-5 text-2xl text-[rgb(92,206,92)] font-bold">
+          Good Massage
+        </span>
+        <div className="flex flex-col gap-3 overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-2xl p-5 ">
+          <GAlertMSG />
+
+          <GAlertMSG />
         </div>
-        {/* </div> */}
       </div>
     </div>
   );

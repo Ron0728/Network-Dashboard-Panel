@@ -141,7 +141,7 @@ const Security = () => {
           </div>
           <div className="flex items-center justify-center">
             <MoreNetButtom>
-              <FaNetworkWired className="translate-x-1.5 " size={20} />
+              <FaNetworkWired className="translate-x-1.5  " size={20} />
             </MoreNetButtom>
           </div>
         </div>
@@ -188,44 +188,35 @@ const Security = () => {
             Securtity level according to CISCO & Al-Baath standards:
           </div>
         </div>
-        {/* <div className="w-full flex  bg-green-500">
-          <div className=" w-1/2 bg-red-500">
-            <LevelPieChart />
-            <div>text</div>
-          </div>
-          <div className="w-1/2 bg-blue-700">
-            <LevelPieChart />
-          </div>
-        </div> */}
       </div>
       <div className="flex gap-5  ">
         <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
-          <div className=" w-full ">
+          <div className=" w-full  ">
             <LevelPieChart />
-            <span className="text-transparent">s</span>
+            <div className=" font-bold flex justify-center">CISCO</div>
           </div>
-          <div className="flex flex-col gap-3 -translate-y-10 items-center justify-center w-full">
-            <div className=" font-bold">text</div>
+          <div className="flex font-bold flex-col gap-3 items-center justify-center w-full">
             <button className="bg-gray-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
-              q
+              Check
             </button>
             <button className="bg-green-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
-              q
+              Start
             </button>
           </div>
         </div>
         <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
           <div className="w-full ">
             <LevelPieChart />
-            <span className="text-transparent">s</span>
+            <div className=" font-bold flex justify-center items-center">
+              AL-Baath
+            </div>
           </div>
-          <div className="flex flex-col gap-3 -translate-y-10 items-center justify-center w-full">
-            <div className=" font-bold">text</div>
+          <div className="flex font-bold flex-col gap-3 items-center justify-center w-full">
             <button className="bg-gray-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
-              q
+              Check
             </button>
             <button className="bg-green-700 w-[20%] p-2 rounded-xl shadow-black shadow-md">
-              q
+              Start
             </button>
           </div>
         </div>
