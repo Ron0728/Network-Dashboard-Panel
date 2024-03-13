@@ -49,7 +49,7 @@ const TroubleShooting = () => {
 
               <div className="text-gray-600 font-bol">One sending ICMP req</div>
             </div>
-            <div className="flex justify-around items-center  bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
+            <div className="flex justify-around items-center bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
               <div>
                 <select className="flex pr-5 bg-transparent outline-none font-bold">
                   <option value="R1">R 1</option>
@@ -175,7 +175,7 @@ const TroubleShooting = () => {
               </div>
             </div>
             <div className="flex justify-end w-full h-full">
-              <button className="startchecking flex justify-center  bg-blue-950 p-3  text-white font-bold rounded-full shadow-lg shadow-black">
+              <button className="startchecking -translate-x-3 flex justify-center  bg-blue-950 p-3  text-white font-bold rounded-full shadow-lg shadow-black">
                 Start Checking
               </button>
             </div>
