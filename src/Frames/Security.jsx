@@ -19,41 +19,53 @@ const Security = () => {
         </div>
         <div className="flex gap-3">
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
+            <img src={"/public/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
+            <img src={"/public/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <div className="font-bold">R1</div>
-            <div>
-              <div className="text-sm">C7200</div>
+            <img src={"/public/Router.png"} />
+            <div className="flex flex-col items-center justify-center translate-y-3">
+              <div className="font-bold">R1</div>
+              <div>
+                <div className="text-sm">C7200</div>
+              </div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <div className="font-bold">R1</div>
-            <div>
-              <div className="text-sm">C2600</div>
+            <img src={"/public/Router.png"} />
+            <div className="flex flex-col items-center justify-center translate-y-3">
+              <div className="font-bold">R1</div>
+              <div>
+                <div className="text-sm">C7200</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full  shadow-lg shadow-black ">
+      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-fit shadow-lg shadow-black ">
         <div className="font-bold text-2xl ">Accessability</div>
 
-        <div className="flex gap-3 w-[30%] sm:w-1/2">
+        <div className="flex gap-3 items-center h-full  w-full sm:w-1/2">
           <div>
-            <div className="text-blue-700 font-bold">Choose first device</div>
-            <div className="text-gray-600 font-bold">One sending ICMP req</div>
+            <div className="text-blue-700 text-lg font-bold">
+              Choose the device{" "}
+              <span className="text-gray-600 text-sm font-bold">
+                to edit accessabilty
+              </span>
+            </div>
           </div>
-          <div className="flex justify-around items-center bg-blue-900 w-[25%]  shadow-lg shadow-black rounded-full ">
+          <div className="flex justify-around items-center bg-blue-900 w-[25%] p-2 shadow-lg shadow-black rounded-full ">
             <div>
               <select className="flex pr-5 bg-transparent outline-none font-bold">
                 <option value="R1">R 1</option>
@@ -77,11 +89,11 @@ const Security = () => {
             <div className="flex justify-center">
               <div className="flex h-full gap-3  items-center">
                 <div>
-                  <div className="text-blue-700 font-bold">
-                    Choose first device
+                  <div className="text-blue-700 text-lg font-bold">
+                    Insert network
                   </div>
-                  <div className="text-gray-600 font-bol">
-                    One sending ICMP req
+                  <div className="text-gray-600 font-bold">
+                    the appling network
                   </div>
                 </div>
                 <input className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"></input>
@@ -90,12 +102,10 @@ const Security = () => {
             <div className="flex justify-center">
               <div className="flex h-full gap-3  items-center">
                 <div>
-                  <div className="text-blue-700 font-bold">
-                    Choose first device
+                  <div className="text-blue-700 text-lg font-bold">
+                    Insert subnet
                   </div>
-                  <div className="text-gray-600 font-bol">
-                    One sending ICMP req
-                  </div>
+                  <div className="text-gray-600 font-bold">network's mask</div>
                 </div>
                 <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
               </div>
@@ -111,18 +121,29 @@ const Security = () => {
           <div className="font-bold shadow-md shadow-black bg-gradient-to-r from-[rgb(255,0,0)] to-gray-500 p-2 rounded-full">
             Permition list
           </div>
-          <div className=" md:flex justify-around ">
+          <div className=" md:flex justify-around">
             <div className="flex justify-center">
-              <div className="flex h-full gap-3 items-center">
+              <div className="flex h-full gap-3  items-center">
                 <div>
-                  <div className="text-blue-700 font-bold">
-                    Choose first device
+                  <div className="text-blue-700 text-lg font-bold">
+                    Insert network
                   </div>
-                  <div className="text-gray-600 font-bol">
-                    One sending ICMP req
+                  <div className="text-gray-600 font-bold">
+                    the appling network
                   </div>
                 </div>
-                <input className="bg-gray-200 h-[70%] p-1 outline-none shadow-black shadow-inner rounded-full"></input>
+                <input className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"></input>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <div className="flex h-full gap-3  items-center">
+                <div>
+                  <div className="text-blue-700 text-lg font-bold">
+                    Insert subnet
+                  </div>
+                  <div className="text-gray-600 font-bold">network's mask</div>
+                </div>
+                <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
               </div>
             </div>
           </div>
@@ -145,13 +166,12 @@ const Security = () => {
 
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
         <div className="font-bold">Security Audit</div>
-        <div className="flex justify-around">
-          <div className="flex gap-3 w-[30%]">
+        <div className="flex h-full justify-around">
+          <div className="flex items-center gap-3 h-full w-[30%]">
             <div className="md:flex-col">
-              <div className="text-blue-700 font-bold">Choose first device</div>
-              <div className="text-gray-600 font-bol">One sending ICMP req</div>
+              <div className="text-blue-700 font-bold">Choose the device</div>
             </div>
-            <div className="flex justify-around items-center  bg-blue-900 md:w-[40%] md:h-full sm:h-[30%] shadow-lg shadow-black rounded-full ">
+            <div className="flex justify-around items-center bg-blue-900 w-[40%] h-[70%] shadow-lg shadow-black rounded-full ">
               <div>
                 <select className="flex pr-5 bg-transparent outline-none font-bold">
                   <option value="R1">R 1</option>

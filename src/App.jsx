@@ -17,12 +17,13 @@ import Dhcp from "./Frames/Dhcp";
 import CheckConfigurations from "./Frames/CheckConfigurations";
 import Interfaces from "./Frames/Interfaces";
 import Protocols2 from "./Frames/Protocols2";
-import TroubleShooting from "./Frames/troubleShooting";
-import Hello from "./Components/Hello";
+import TroubleShooting from "./Frames/TroubleShooting";
+import Toodelete from "./Frames/Toodelete";
 
 function App() {
   return (
     <div>
+      {/* <Toodelete /> */}
       <Routes>
         <Route path="/" element={<Background />}>
           <Route index element={<Welcome />}></Route>
