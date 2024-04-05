@@ -42,7 +42,7 @@ const Hardeare = () => {
         <div className="flex w-full p-3 items-center bg-gray-400 rounded-full shadow-md shadow-black">
           <div className="flex w-[10%] h-full">
             {" "}
-            <img src={"/public/Router.png"} />
+            <img src={"/Router.png"} />
           </div>
           <div className="flex items-center w-full justify-around">
             <div className="flex flex-col items-center font-bold">

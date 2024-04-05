@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { IoSpeedometerSharp } from "react-icons/io5";
 import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { BrainCircuit } from "lucide-react";
@@ -36,15 +36,16 @@ const Board = () => {
               <div className="text-xl">AI</div>
             </div>
 
-            <button className="fetchbutton flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 items-center text-white font-bold rounded-full p-3">
+            <button
+              onClick={() => navigate("boardinfo")}
+              className="fetchbutton flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 items-center text-white font-bold rounded-full p-3"
+            >
               Fetch Data
             </button>
           </div>
         </div>
       </div>
-      <div>
-        <BoardInfo />
-      </div>
+      <Outlet />
     </div>
   );
 };

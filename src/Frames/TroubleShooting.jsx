@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-// import axios from 'axios'
+
 import "/src/Css/applybutton.css";
 import "/src/Css/discardbutton.css";
 import "/src/Css/dhcpinfobutton.css";
 import "/src/Css/ping2.css";
 import "/src/Css/startcheckingbutton.css";
+import InterfacesLoop from "../Components/InterfacesLoop";
 
 const TroubleShooting = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(false);
   const [isChecked3, setIsChecked3] = useState(false);
-
-  // const handleApplyClick = async () => {
-  //   try{
-  //     const response = await axios.post('')
-  //   }
-  // }
 
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full bg-gray-400 w-full h-full p-5 gap-3">
@@ -26,21 +21,21 @@ const TroubleShooting = () => {
         </div>
         <div className="flex gap-3">
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Switch.png"} />
+            <img src={"/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Switch.png"} />
+            <img src={"/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Router.png"} />
+            <img src={"/Router.png"} />
             <div className="flex flex-col items-center justify-center translate-y-3">
               <div className="font-bold">R1</div>
               <div>
@@ -49,7 +44,7 @@ const TroubleShooting = () => {
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Router.png"} />
+            <img src={"/Router.png"} />
             <div className="flex flex-col items-center justify-center translate-y-3">
               <div className="font-bold">R1</div>
               <div>
@@ -207,127 +202,8 @@ const TroubleShooting = () => {
               </button>
             </div>
           </div>
-          <div className="flex gap-2 w-full h-full justify-between">
-            <div className="flex flex-col gap-2 w-[85%] h-full">
-              <div
-                className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
-               bg-gradient-to-r from-[rgb(0,0,255)] ${
-                 isChecked ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
-               }`}
-              >
-                <div>GigabitEthernet 0/0</div>
-                <div>{isChecked ? " Up " : " Down "}</div>
-              </div>
-              <div
-                className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
-               bg-gradient-to-r from-[rgb(0,0,255)] ${
-                 isChecked1 ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
-               }`}
-              >
-                <div>GigabitEthernet 0/0</div>
-                <div>{isChecked1 ? " Up " : " Down "}</div>
-              </div>
-              <div
-                className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
-                bg-gradient-to-r from-[rgb(0,0,255)] ${
-                  isChecked2 ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
-                }`}
-              >
-                <div>GigabitEthernet 0/0</div>
-                <div>{isChecked2 ? " Up " : " Down "}</div>
-              </div>
-              <div
-                className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
-               bg-gradient-to-r from-[rgb(0,0,255)] ${
-                 isChecked3 ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
-               }`}
-              >
-                <div>GigabitEthernet 0/0</div>
-                <div>{isChecked3 ? " Up " : " Down "}</div>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center w-[15%] h-full gap-6 p-2 ">
-              <div className=" flex w-full h-full gap-3 font-bold">
-                OFF
-                <label
-                  for="check"
-                  className="bg-gray-700 shadow-md shadow-black cursor-pointer relative w-[40%] rounded-full"
-                >
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={(e) => setIsChecked(e.target.checked)}
-                    id="check"
-                    class="sr-only peer"
-                  />
-                  <span
-                    class="bg-[rgb(255,0,0)] w-1/3 h-4/6 shadow-inner shadow-black absolute rounded-full left-1 top-1 peer-checked:bg-[rgb(0,255,0)]
-                   peer-checked:left-8 transition-all duration-500"
-                  ></span>
-                </label>
-                ON
-              </div>
-              <div className=" flex w-full h-full gap-3 font-bold">
-                OFF
-                <label
-                  for="check1"
-                  className="bg-gray-700 shadow-md shadow-black cursor-pointer relative w-[40%] rounded-full"
-                >
-                  <input
-                    type="checkbox"
-                    checked={isChecked1}
-                    onChange={(e) => setIsChecked1(e.target.checked)}
-                    id="check1"
-                    class="sr-only peer"
-                  />
-                  <span
-                    class="bg-[rgb(255,0,0)] w-1/3 h-4/6 shadow-inner shadow-black absolute rounded-full left-1 top-1 peer-checked:bg-[rgb(0,255,0)] 
-                  peer-checked:left-8  transition-all duration-500"
-                  ></span>
-                </label>
-                ON
-              </div>
-              <div className=" flex w-full h-full gap-3 font-bold ">
-                OFF
-                <label
-                  for="check2"
-                  className="bg-gray-700 shadow-md shadow-black cursor-pointer relative w-[40%] rounded-full"
-                >
-                  <input
-                    type="checkbox"
-                    checked={isChecked2}
-                    onChange={(e) => setIsChecked2(e.target.checked)}
-                    id="check2"
-                    class="sr-only peer"
-                  />
-                  <span
-                    class="bg-[rgb(255,0,0)] w-1/3 h-4/6 shadow-inner shadow-black absolute rounded-full left-1 top-1 peer-checked:bg-[rgb(0,255,0)] 
-                  peer-checked:left-8 transition-all duration-500"
-                  ></span>
-                </label>
-                ON
-              </div>
-              <div className=" flex w-full h-full gap-3 font-bold">
-                OFF
-                <label
-                  for="check3"
-                  className="bg-gray-700 shadow-md shadow-black  cursor-pointer relative w-[40%] rounded-full"
-                >
-                  <input
-                    type="checkbox"
-                    id="check3"
-                    checked={isChecked3}
-                    onChange={(e) => setIsChecked3(e.target.checked)}
-                    class="sr-only peer"
-                  />
-                  <span
-                    class="bg-[rgb(255,0,0)] w-1/3 h-4/6 absolute shadow-inner shadow-black rounded-full left-1 top-1 peer-checked:bg-[rgb(0,255,0)] 
-                  peer-checked:left-8 transition-all duration-500"
-                  ></span>
-                </label>
-                ON
-              </div>
-            </div>
+          <div>
+            <InterfacesLoop />
           </div>
         </div>
       </div>

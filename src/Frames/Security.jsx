@@ -19,21 +19,21 @@ const Security = () => {
         </div>
         <div className="flex gap-3">
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Switch.png"} />
+            <img src={"/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Switch.png"} />
+            <img src={"/Switch.png"} />
             <div className="font-bold">SW1</div>
             <div>
               <div className="text-sm">CISCO Catalyst</div>
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Router.png"} />
+            <img src={"/Router.png"} />
             <div className="flex flex-col items-center justify-center translate-y-3">
               <div className="font-bold">R1</div>
               <div>
@@ -42,7 +42,7 @@ const Security = () => {
             </div>
           </div>
           <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/public/Router.png"} />
+            <img src={"/Router.png"} />
             <div className="flex flex-col items-center justify-center translate-y-3">
               <div className="font-bold">R1</div>
               <div>

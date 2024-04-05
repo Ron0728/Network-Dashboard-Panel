@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { MdHome } from "react-icons/md";
+import { IoMdHelpCircle } from "react-icons/io";
 import { FaInfoCircle } from "react-icons/fa";
 
 const Settings = () => {
@@ -49,8 +50,8 @@ const Settings = () => {
               //  onClick={() => navigate("/setting")}
             >
               <div className="flex gap-1 items-center justify-center">
-                <IoMdSettings />
-                Settings
+                <FaInfoCircle />
+                Informations
               </div>
             </button>
             <button
@@ -61,7 +62,7 @@ const Settings = () => {
               onClick={() => navigate("/help")}
             >
               <div className="flex gap-1 items-center justify-center">
-                <FaInfoCircle />
+                <IoMdHelpCircle />
                 Help
               </div>
             </button>

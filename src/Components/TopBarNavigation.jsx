@@ -6,7 +6,7 @@ export const DASHBOARS_TOPBAR_LNKS = [
     icon: <MdDashboard />,
   },
   {
-    key: "Setting",
+    key: "Board",
     label: "Board",
     Path: "/main/board",
     icon: <MdDashboard />,
@@ -18,3 +18,5 @@ export const DASHBOARS_TOPBAR_LNKS = [
     icon: <MdDashboard />,
   },
 ];
+
+//delete

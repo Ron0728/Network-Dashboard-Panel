@@ -5,7 +5,7 @@ const SettingBoxes = () => {
   const navigate = useNavigate();
   return (
     <div className="flex  h-full w-full justify-center items-center">
-      <div className="h-[80%] flex  gap-5 justify-center">
+      <div className="h-[80%] w-[40%] flex  gap-5 justify-center">
         {Settings_Boxes.map((items) => (
           <div
             className="flex h-[25%] w-[25%] justify-center bg-gray-300 font-bold 

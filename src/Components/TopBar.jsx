@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IoMdSettings } from "react-icons/io";
+
 import { MdHome } from "react-icons/md";
+import { IoMdHelpCircle } from "react-icons/io";
 import { FaInfoCircle } from "react-icons/fa";
 import Notification from "./Notification";
 import lottie from "lottie-web";
@@ -49,8 +50,8 @@ const TopBar = () => {
             //  onClick={() => navigate("/setting")}
           >
             <div className="flex gap-1 items-center justify-center">
-              <IoMdSettings />
-              Settings
+              <FaInfoCircle />
+              Informations
             </div>
           </button>
           <button
@@ -61,7 +62,7 @@ const TopBar = () => {
             onClick={() => navigate("/help")}
           >
             <div className="flex gap-1 items-center justify-center">
-              <FaInfoCircle />
+              <IoMdHelpCircle />
               Help
             </div>
           </button>
