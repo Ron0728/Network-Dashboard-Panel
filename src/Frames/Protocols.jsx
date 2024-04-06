@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import {
-  AlertContext,
-  AlertContextDHCP,
-  AlertContextOSPF,
-  AlertContextEGRIP,
+  AlertContextGood,
+  AlertContextDanger,
+  AlertContextSuggested,
+  AlertContextWarrning,
 } from "../alertsContext";
 import GAlertMSG from "../Components/GAlertMSG";
 import DAlertMSG from "../Components/DAlertMSG";
@@ -13,10 +13,15 @@ import InterfacesLoop from "../Components/InterfacesLoop";
 
 const Protocols = () => {
   const [isbuttonClicked, setIsButtonClicked] = useState(false);
-  const [alertRip, setAlertRip] = useContext(AlertContext);
-  const [alertEgrip, setAlertEgrip] = useContext(AlertContextEGRIP);
-  const [alertOspf, setAlertOspf] = useContext(AlertContextOSPF);
-  const [alertDhcp, setAlertDhcp] = useContext(AlertContextDHCP);
+  const [alertGoodMessages, setAlertGoodMessages] =
+    useContext(AlertContextGood);
+  const [alertWarningMessages, setAlertWarningMessages] =
+    useContext(AlertContextWarrning);
+  const [alertSuggestedMessages, setAlertSuggestedMessages] = useContext(
+    AlertContextSuggested
+  );
+  const [alertDangerMessages, setAlertDangerMessages] =
+    useContext(AlertContextDanger);
 
   // ------------- Select -------------
   const [optionss, setOptions] = useState([]);
@@ -61,8 +66,52 @@ const Protocols = () => {
     await fetch("http://localhost:3000/data2")
       .then((res) => res.json())
       .then((data) => {
-        setAlertRip([...alertRip, <GAlertMSG alertRip={data.message} />]);
-        call_ALerts("done from rip");
+        {
+          data.messageRipW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageRipW} />,
+            ]),
+            call_ALerts("Worning from Rip Protocol"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageRipD ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.messageRipD} />,
+            ]),
+            call_ALerts("Danger from Rip Protocol"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageRipG ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.messageRipG} />,
+            ]),
+            call_ALerts("RIP configured successfully"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageRipS ? (
+            (setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageRipS} />,
+            ]),
+            call_ALerts("RIP Suggested message"))
+          ) : (
+            <></>
+          );
+        }
+
+        // call_ALerts("done from rip");
       });
   };
 
@@ -71,8 +120,51 @@ const Protocols = () => {
     await fetch("http://localhost:3000/data2")
       .then((res) => res.json())
       .then((data) => {
-        setAlertDhcp([...alertDhcp, <DAlertMSG alertDhcp={data.message2} />]);
-        call_ALerts("done from dhcp");
+        {
+          data.messageDhcpW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageDhcpW} />,
+            ]),
+            call_ALerts("Warning from DHCP"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageDhcpD ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.messageDhcpD} />,
+            ]),
+            call_ALerts("Danger from DHCP"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageDhcpG ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.messageDhcpG} />,
+            ]),
+            call_ALerts("DHCP configured successfully"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageDhcpS ? (
+            (setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageDhcpS} />,
+            ]),
+            call_ALerts("DHCP suggested message"))
+          ) : (
+            <></>
+          );
+        }
+        // call_ALerts("done from dhcp");
       });
   };
 
@@ -81,11 +173,51 @@ const Protocols = () => {
     await fetch("http://localhost:3000/data2")
       .then((res) => res.json())
       .then((data) => {
-        setAlertEgrip([
-          ...alertEgrip,
-          <WAlertMSG alertEgrip={data.message3} />,
-        ]);
-        call_ALerts("done from egrip");
+        {
+          data.messageEgripW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageEgripW} />,
+            ]),
+            call_ALerts("Warning from EGRIP"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageEgripD ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.messageEgripD} />,
+            ]),
+            call_ALerts("Danger from EGRIP"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageEgripG ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.messageEgripG} />,
+            ]),
+            call_ALerts("EGRIP configured successfully"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageEgripS ? (
+            (setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
+            ]),
+            call_ALerts("Egrip Suggested message"))
+          ) : (
+            <></>
+          );
+        }
+        // call_ALerts("done from egrip");
       });
   };
 
@@ -94,30 +226,53 @@ const Protocols = () => {
     await fetch("http://localhost:3000/data2")
       .then((res) => res.json())
       .then((data) => {
-        setAlertOspf([...alertOspf, <SAlertMSG alertOspf={data.message4} />]);
-        call_ALerts("done from ospf");
+        {
+          data.messageOspfW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageOspfW} />,
+            ]),
+            call_ALerts("Warning from OSPF"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageOspfD ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.messageOspfD} />,
+            ]),
+            call_ALerts("Danger from OSPF"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageOspfG ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.messageOspfG} />,
+            ]),
+            call_ALerts("OSPF configured successfully"))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageOspfS ? (
+            (setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageOspfS} />,
+            ]),
+            call_ALerts("OSPF Suggested message"))
+          ) : (
+            <></>
+          );
+        }
+        // call_ALerts("done from ospf");
       });
   };
-
-  // const [isChecked, setIsChecked] = useState();
-  // const [isChecked1, setIsChecked1] = useState(false);
-  // const [isChecked2, setIsChecked2] = useState(false);
-
-  // const [protocolNetwork, setProtocolNetwork] = useState("");
-  // const [protocolSubnet, setProtocolSubnet] = useState("");
-
-  // const handleNetChange = (e) => {
-  //   setProtocolNetwork({ ...protocolData, [e.target.network]: e.target.value });
-  // };
-  // const handleSubChange = (e) => {
-  //   setProtocolSubnet({ ...protocolData, [e.target.subnet]: e.target.value });
-  // };
-
-  // const handleApply = (e) => {
-  //   e.preventDefault();
-  //   setProtocolData({ network: " ", subnet: " " });
-  //   console.log("Apply done");
-  // };
 
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full bg-gray-400 w-full h-full p-5 gap-3">
@@ -513,11 +668,7 @@ const Protocols = () => {
                 </div>
                 <div className="text-gray-600 font-bold">Applying Network</div>
               </div>
-              <input
-                // value={setProtocolSubnet.network}
-                // onChange={handleNetChange}
-                className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
-              ></input>
+              <input className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"></input>
             </div>
           </div>
           <div className="flex flex-col gap-5">
@@ -536,11 +687,7 @@ const Protocols = () => {
             </div>
             <div className="flex gap-3 items-center">
               <div className="text-gray-600 font-bold">Insert subnet</div>
-              <input
-                // value={setProtocolSubnet.subnet}
-                // onChange={handleSubChange}
-                className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
-              ></input>
+              <input className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"></input>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { createContext } from "react";
-export const AlertContext = createContext([]),
-  AlertContextDHCP = createContext([]),
-  AlertContextOSPF = createContext([]),
-  AlertContextEGRIP = createContext([]);
+export const AlertContextGood = createContext([]),
+  AlertContextDanger = createContext([]),
+  AlertContextSuggested = createContext([]),
+  AlertContextWarrning = createContext([]);

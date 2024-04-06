@@ -5,6 +5,7 @@ import "/src/Css/startcheckingbutton.css";
 import { FaNetworkWired } from "react-icons/fa6";
 import MoreNetButtom from "../Components/MoreNetButton";
 import LevelPieChart from "../Charts/LevelPieChart";
+import MoreNetworks from "../Components/MoreNetworks";
 
 const Security = () => {
   return (
@@ -85,73 +86,13 @@ const Security = () => {
           <div className="font-bold bg-gradient-to-r from-[rgb(0,255,0)] to-gray-500 shadow-md shadow-black p-2 rounded-full">
             Permition list
           </div>
-          <div className=" md:flex justify-around">
-            <div className="flex justify-center">
-              <div className="flex h-full gap-3  items-center">
-                <div>
-                  <div className="text-blue-700 text-lg font-bold">
-                    Insert network
-                  </div>
-                  <div className="text-gray-600 font-bold">
-                    the appling network
-                  </div>
-                </div>
-                <input className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"></input>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <div className="flex h-full gap-3  items-center">
-                <div>
-                  <div className="text-blue-700 text-lg font-bold">
-                    Insert subnet
-                  </div>
-                  <div className="text-gray-600 font-bold">network's mask</div>
-                </div>
-                <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center">
-            <MoreNetButtom>
-              <FaNetworkWired className="translate-x-1.5 " size={20} />
-            </MoreNetButtom>
-          </div>
+          <MoreNetworks />
         </div>
-        <div className="flex flex-col bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
+        <div className="flex flex-col  bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
           <div className="font-bold shadow-md shadow-black bg-gradient-to-r from-[rgb(255,0,0)] to-gray-500 p-2 rounded-full">
-            Permition list
+            Prevention list
           </div>
-          <div className=" md:flex justify-around">
-            <div className="flex justify-center">
-              <div className="flex h-full gap-3  items-center">
-                <div>
-                  <div className="text-blue-700 text-lg font-bold">
-                    Insert network
-                  </div>
-                  <div className="text-gray-600 font-bold">
-                    the appling network
-                  </div>
-                </div>
-                <input className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"></input>
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <div className="flex h-full gap-3  items-center">
-                <div>
-                  <div className="text-blue-700 text-lg font-bold">
-                    Insert subnet
-                  </div>
-                  <div className="text-gray-600 font-bold">network's mask</div>
-                </div>
-                <input className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"></input>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <MoreNetButtom>
-              <FaNetworkWired className="translate-x-1.5  " size={20} />
-            </MoreNetButtom>
-          </div>
+          <MoreNetworks />
         </div>
 
         <div className=" flex gap-5">

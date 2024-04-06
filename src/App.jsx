@@ -19,29 +19,27 @@ import Interfaces from "./Frames/Interfaces";
 import TroubleShooting from "./Frames/TroubleShooting";
 
 import {
-  AlertContext,
-  AlertContextDHCP,
-  AlertContextEGRIP,
-  AlertContextOSPF,
+  AlertContextGood,
+  AlertContextDanger,
+  AlertContextWarrning,
+  AlertContextSuggested,
 } from "./alertsContext";
 import { useState } from "react";
 import BoardInfo from "./Components/BoardInfo";
 
-import InterfacesLoop from "./Components/InterfacesLoop";
-
 function App() {
-  const [val, setVal] = useState([]);
-  const [dhcpValue, setDhcpValue] = useState([]);
-  const [ospfValue, setOspfValue] = useState([]);
-  const [egripValue, setEgripValue] = useState([]);
+  const [goodMSG, setGoodMSG] = useState([]);
+  const [dangerMSG, setDangerMSG] = useState([]);
+  const [suggested, setSuggested] = useState([]);
+  const [warrningMSG, setWarrningMSG] = useState([]);
   return (
     <div>
-      <AlertContext.Provider value={[val, setVal]}>
-        <AlertContextDHCP.Provider value={[dhcpValue, setDhcpValue]}>
-          <AlertContextEGRIP.Provider value={[egripValue, setEgripValue]}>
-            <AlertContextOSPF.Provider value={[ospfValue, setOspfValue]}>
+      <AlertContextGood.Provider value={[goodMSG, setGoodMSG]}>
+        <AlertContextDanger.Provider value={[dangerMSG, setDangerMSG]}>
+          <AlertContextWarrning.Provider value={[warrningMSG, setWarrningMSG]}>
+            <AlertContextSuggested.Provider value={[suggested, setSuggested]}>
               {/* <Routes>
-                <Route path="/" element={<InterfacesLoop />}></Route>
+                <Route path="/" element={<Toodelete4 />}></Route>
               </Routes> */}
               <Routes>
                 <Route path="/" element={<Background />}>
@@ -75,10 +73,10 @@ function App() {
                   <Route path="security" element={<Security />}></Route>
                 </Route>
               </Routes>
-            </AlertContextOSPF.Provider>
-          </AlertContextEGRIP.Provider>
-        </AlertContextDHCP.Provider>
-      </AlertContext.Provider>
+            </AlertContextSuggested.Provider>
+          </AlertContextWarrning.Provider>
+        </AlertContextDanger.Provider>
+      </AlertContextGood.Provider>
     </div>
   );
 }
