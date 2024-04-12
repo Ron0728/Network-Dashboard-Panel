@@ -1,58 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import SpeedChart from "../Charts/SpeedChart";
+import LevelPieChart from "../Charts/LevelPieChart";
 
-const App = () => {
-  const [text, setText] = useState("");
+function App() {
+  const [percentNumber, setPercentNumber] = useState(0);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Send the data to the backend
-    sendDataToBackend(text);
-  };
-
-  const sendDataToBackend = (text) => {
-    // Make an HTTP POST request to the backend endpoint
-    fetch("/data2", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Request was successful
-          console.log("Data sent to the backend");
-          // Handle any further actions or responses from the backend
-        } else {
-          // Request failed
-          console.log( text );
-          console.error("Failed to send data to the backend");
-        }
+  useEffect(() => {
+    // Fetch data from the backend
+    fetch("http://localhost:3000/data8")
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the percentNumberage
+        setPercentNumber(data.percentNumber);
       })
       .catch((error) => {
-        console.error("An error occurred", error);
+        console.error(error);
       });
-  };
+  }, []);
 
   return (
-    <div className=" p-2">
-      <form className="flex gap-3" onSubmit={handleSubmit}>
-        <input
-          className="bg-gray-400 p-2 rounded-xl outline-none shadow-black shadow-inner"
-          type="text"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-        />
-        <button
-          className="bg-black rounded-xl text-white p-2 shadow-md shadow-black "
-          type="submit"
-        >
-          Submit
-        </button>
-      </form>
+    <div className="w-full h-screen">
+      <LevelPieChart percentage={percentNumber} />
+      <div className="pie-chart">
+        <div className="bar" style={{ width: `${percentNumber}%` }}></div>
+      </div>
+      <p>{percentNumber}%</p>
     </div>
   );
-};
+}
 
 export default App;

@@ -26,6 +26,7 @@ import {
 } from "./alertsContext";
 import { useState } from "react";
 import BoardInfo from "./Components/BoardInfo";
+import Toodelete5 from "./Frames/Toodelete5";
 
 function App() {
   const [goodMSG, setGoodMSG] = useState([]);
@@ -39,7 +40,7 @@ function App() {
           <AlertContextWarrning.Provider value={[warrningMSG, setWarrningMSG]}>
             <AlertContextSuggested.Provider value={[suggested, setSuggested]}>
               {/* <Routes>
-                <Route path="/" element={<Toodelete4 />}></Route>
+                <Route path="/" element={<Toodelete5 />}></Route>
               </Routes> */}
               <Routes>
                 <Route path="/" element={<Background />}>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, version } from "react";
 import {
   AlertContextGood,
   AlertContextDanger,
@@ -12,6 +12,26 @@ import SAlertMSG from "../Components/SAlertMSG";
 import InterfacesLoop from "../Components/InterfacesLoop";
 
 const Protocols = () => {
+  const [routerDhcp, setRouterDhcp] = useState([]);
+  const [routerRip, setRouterRip] = useState([]);
+  const [routerEgrip, setRouterEgrip] = useState([]);
+  const [routerOspf, setRouterOspf] = useState([]);
+
+  const [versionRip, setVersionRip] = useState([]);
+  const [interfaces, setInterfaces] = useState([]);
+  const [interfacesOspf, setInterfacesOspf] = useState([]);
+  const [asNumber, setAsNumber] = useState([]);
+
+  const [selectedRouterDhcp, setSelectedRouterDhcp] = useState("");
+  const [selectedRouterRip, setSelectedRouterRip] = useState("");
+  const [selectedRouterEgrip, setSelectedRouterEgrip] = useState("");
+  const [selectedRouterOspf, setSelectedRouterOspf] = useState("");
+
+  const [selectedInterfaces, setSelectedInterfaces] = useState("");
+  const [selectedVersionRip, setSelectedVersionRip] = useState("");
+  const [selectedAsNUmber, setSelectedAsNUmber] = useState("");
+  const [selectedInterfaceOspfs, setSelectedInterfaceOspfs] = useState("");
+
   const [isbuttonClicked, setIsButtonClicked] = useState(false);
   const [alertGoodMessages, setAlertGoodMessages] =
     useContext(AlertContextGood);
@@ -23,27 +43,149 @@ const Protocols = () => {
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
 
-  // ------------- Select -------------
-  const [optionss, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
-
   useEffect(() => {
-    fetchDataFromBackend();
+    fetchRouterDhcp();
+    fetchRouterRip();
+    fetchRouterEgrip();
+    fetchRouterOspf();
   }, []);
 
-  const fetchDataFromBackend = async () => {
-    await fetch("http://localhost:3000/data4")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setOptions(data);
-      });
+  const fetchRouterDhcp = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/data7RouterDhcp");
+      const data = await response.json();
+      setRouterDhcp(data);
+    } catch (error) {
+      console.error("Error fetching router Dhcp:", error);
+    }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const fetchRouterOspf = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/data7RouterOspf");
+      const data = await response.json();
+      setRouterOspf(data);
+    } catch (error) {
+      console.error("Error fetching router Ospf:", error);
+    }
   };
-  // ------------- Select -------------
+
+  const fetchRouterRip = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/data7RouterRip");
+      const data = await response.json();
+      setRouterRip(data);
+    } catch (error) {
+      console.error("Error fetching router Rip:", error);
+    }
+  };
+
+  const fetchRouterEgrip = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/data7RouterEgrip");
+      const data = await response.json();
+      setRouterEgrip(data);
+    } catch (error) {
+      console.error("Error fetching router Egrip:", error);
+    }
+  };
+
+  // ------------------
+  const fetchInterfaces = async (RouterDhcp) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/data7Interface?RouterDhcp=${RouterDhcp}`
+      );
+      const data = await response.json();
+      setInterfaces(data);
+    } catch (error) {
+      console.error("Error fetching interfaces:", error);
+    }
+  };
+
+  const fetchInterfacesOspf = async (RouterOspf) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/data7InterfaceOspf?RouterOspf=${RouterOspf}`
+      );
+      const data = await response.json();
+      setInterfacesOspf(data);
+    } catch (error) {
+      console.error("Error fetching interfaces Ospf:", error);
+    }
+  };
+
+  const fetchVersionRip = async (RouterRip) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/data7Version?RouterRip=${RouterRip}`
+      );
+      const data = await response.json();
+      setVersionRip(data);
+    } catch (error) {
+      console.error("Error fetching version:", error);
+    }
+  };
+
+  const fetchAsNumber = async (RouterEgrip) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/data7AsNumber?RouterEgrip=${RouterEgrip}`
+      );
+      const data = await response.json();
+      setAsNumber(data);
+    } catch (error) {
+      console.error("Error fetching AS Number:", error);
+    }
+  };
+  // ---------------------
+
+  const handleRouterDhcpChange = (event) => {
+    const selectedRouterDhcp = event.target.value;
+    setSelectedRouterDhcp(selectedRouterDhcp);
+    fetchInterfaces(selectedRouterDhcp);
+  };
+
+  const handleRouterOspfChange = (event) => {
+    const selectedRouterOspf = event.target.value;
+    setSelectedRouterOspf(selectedRouterOspf);
+    fetchInterfacesOspf(selectedRouterOspf);
+  };
+
+  const handleRouterRipChange = (event) => {
+    const selectedRouterRip = event.target.value;
+    setSelectedRouterRip(selectedRouterRip);
+    fetchVersionRip(selectedRouterRip);
+  };
+
+  const handleRouterEgripChange = (event) => {
+    const selectedRouterEgrip = event.target.value;
+    setSelectedRouterEgrip(selectedRouterEgrip);
+    fetchAsNumber(selectedRouterEgrip);
+  };
+
+  // --------------------
+
+  const handleInterfaceChange = (event) => {
+    const selectedInterfaces = event.target.value;
+    setSelectedInterfaces(selectedInterfaces);
+  };
+
+  const handleInterfaceOspfChange = (event) => {
+    const selectedInterfaceOspfs = event.target.value;
+    setSelectedInterfaceOspfs(selectedInterfaceOspfs);
+  };
+
+  const handleVersionRipChange = (event) => {
+    const selectedVersionRip = event.target.value;
+    setSelectedVersionRip(selectedVersionRip);
+  };
+
+  const handleAsNumberChange = (event) => {
+    const selectedAsNumber = event.target.value;
+    setSelectedAsNUmber(selectedAsNumber);
+  };
+  // ---------------------
 
   const twofunc = () => {
     fetchRIPdata();
@@ -276,6 +418,7 @@ const Protocols = () => {
 
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full bg-gray-400 w-full h-full p-5 gap-3">
+      {/* Existing Devives */}
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full  shadow-lg shadow-black ">
         <div className="font-bold text-2xl">
           Existing Devives on GNS3 port 3080
@@ -317,6 +460,8 @@ const Protocols = () => {
           </div>
         </div>
       </div>
+
+      {/* Check Interfaces: */}
       <div className="flex flex-col gap-3 bg-gray-300 w-full h-full rounded-2xl p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">Check Interfaces:</div>
         <div className="flex flex-col gap-3 ">
@@ -331,23 +476,7 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center h-[70%] bg-blue-900 w-[30%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select
-                    className="bg-transparent p-2 outline-none text-white "
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                  >
-                    {optionss.map((dataOP) => (
-                      <option
-                        className="bg-white text-black "
-                        key={dataOP.id}
-                        value={dataOP.value}
-                      >
-                        {dataOP.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {/* select missing */}
               </div>
             </div>
             <div className="flex justify-end w-full h-full">
@@ -362,6 +491,7 @@ const Protocols = () => {
         </div>
       </div>
 
+      {/* DHCP  Configuration*/}
       <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">DHCP Configuration:</div>
         <div className="flex justify-between">
@@ -376,19 +506,16 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
-                <div>
+                <div className="flex w-[80%] justify-center">
                   <select
-                    className="bg-transparent p-2 outline-none text-white "
-                    value={selectedOption}
-                    onChange={handleSelectChange}
+                    className="bg-transparent text-white w-[60%] outline-none "
+                    value={selectedRouterDhcp}
+                    onChange={handleRouterDhcpChange}
                   >
-                    {optionss.map((dataOP) => (
-                      <option
-                        className="bg-white text-black "
-                        key={dataOP.id}
-                        value={dataOP.value}
-                      >
-                        {dataOP.label}
+                    <option className="text-black" value=""></option>
+                    {routerDhcp.map((R) => (
+                      <option className="text-black" key={R.id} value={R.id}>
+                        {R.name}
                       </option>
                     ))}
                   </select>
@@ -407,22 +534,28 @@ const Protocols = () => {
           </div>
           <div className="flex flex-col gap-5">
             <div className="flex items-center h-full gap-7">
-              <div className="text-blue-700 font-bold">Choose interfaces</div>
+              <div className="text-blue-700 text-xl w-[40%] flex justify-end font-bold">
+                Choose
+              </div>
 
               <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
-                <div>
+                <div className="flex items-center justify-center">
                   <select
-                    className="bg-transparent p-2 outline-none text-white "
-                    value={selectedOption}
-                    onChange={handleSelectChange}
+                    className="bg-transparent text-white p-2  outline-none "
+                    value={selectedInterfaces}
+                    onChange={handleInterfaceChange}
                   >
-                    {optionss.map((dataOP) => (
+                    <option className="text-black" value="">
+                      {" "}
+                      Interfaces
+                    </option>
+                    {interfaces.map((inter) => (
                       <option
-                        className="bg-white text-black "
-                        key={dataOP.id}
-                        value={dataOP.value}
+                        className="text-black"
+                        key={inter.id}
+                        value={inter.id}
                       >
-                        {dataOP.label}
+                        {inter.name}
                       </option>
                     ))}
                   </select>
@@ -458,6 +591,7 @@ const Protocols = () => {
         </div>
       </div>
 
+      {/* RIP Configuration */}
       <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">RIP Configuration:</div>
         <div className="flex justify-between">
@@ -472,16 +606,18 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="R1">R 1</option>
-                    <option value="R2">R 2</option>
-                    <option value="R3">R 3</option>
-                    <option value="R4">R 4</option>
-                    <option value="SW1">SW 1</option>
-                    <option value="SW2">SW 2</option>
-                    <option value="SW3">SW 3</option>
-                    <option value="SW4">SW 4</option>
+                <div className="flex w-[80%] justify-center">
+                  <select
+                    className="bg-transparent text-white w-[60%] outline-none "
+                    value={selectedRouterRip}
+                    onChange={handleRouterRipChange}
+                  >
+                    <option className="text-black" value=""></option>
+                    {routerRip.map((R) => (
+                      <option className="text-black" key={R.id} value={R.id}>
+                        {R.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -500,10 +636,22 @@ const Protocols = () => {
             <div className="flex items-center -translate-y-1.5 h-full gap-7">
               <div className="text-blue-700 font-bold">Choose RIP version</div>
               <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="Version1">Version 1</option>
-                    <option value="Version2">Version 2</option>
+                <div className="flex items-center justify-center">
+                  <select
+                    className="bg-transparent text-white p-2  outline-none "
+                    value={selectedVersionRip}
+                    onChange={handleVersionRipChange}
+                  >
+                    <option className="text-black" value=""></option>
+                    {versionRip.map((ver) => (
+                      <option
+                        className="text-black"
+                        key={ver.id}
+                        value={ver.id}
+                      >
+                        {ver.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -518,7 +666,6 @@ const Protocols = () => {
           <div className="flex gap-5">
             <button
               onClick={twofunc}
-              // className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
               className={`px-4 py-2 rounded-lg ${
                 isbuttonClicked
                   ? "apply shadow-in shadow-black bg-black text-white p-3 w-[20%] rounded-full"
@@ -541,6 +688,8 @@ const Protocols = () => {
           </div>
         </div>
       </div>
+
+      {/* EGRIP Configuration */}
       <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">EGRIP Configuration:</div>
         <div className="flex justify-between">
@@ -555,16 +704,18 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="R1">R 1</option>
-                    <option value="R2">R 2</option>
-                    <option value="R3">R 3</option>
-                    <option value="R4">R 4</option>
-                    <option value="SW1">SW 1</option>
-                    <option value="SW2">SW 2</option>
-                    <option value="SW3">SW 3</option>
-                    <option value="SW4">SW 4</option>
+                <div className="flex w-[80%] justify-center">
+                  <select
+                    className="bg-transparent text-white w-[60%] outline-none "
+                    value={selectedRouterEgrip}
+                    onChange={handleRouterEgripChange}
+                  >
+                    <option className="text-black" value=""></option>
+                    {routerEgrip.map((R) => (
+                      <option className="text-black" key={R.id} value={R.id}>
+                        {R.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -588,18 +739,20 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
+                <div className="flex items-center justify-center">
+                  <select
+                    className="bg-transparent text-white p-2  outline-none "
+                    value={selectedAsNUmber}
+                    onChange={handleAsNumberChange}
+                  >
+                    <option className="text-black" value="">
+                      10
+                    </option>
+                    {asNumber.map((As) => (
+                      <option className="text-black" key={As.id} value={As.id}>
+                        {As.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -633,6 +786,7 @@ const Protocols = () => {
         </div>
       </div>
 
+      {/* OSPF Configuration */}
       <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
         <div className="font-bold text-2xl">OSPF Configuration:</div>
         <div className="flex w-full justify-between">
@@ -647,16 +801,18 @@ const Protocols = () => {
                 </div>
               </div>
               <div className="flex justify-around items-center bg-blue-900 w-[40%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="R1">R 1</option>
-                    <option value="R2">R 2</option>
-                    <option value="R3">R 3</option>
-                    <option value="R4">R 4</option>
-                    <option value="SW1">SW 1</option>
-                    <option value="SW2">SW 2</option>
-                    <option value="SW3">SW 3</option>
-                    <option value="SW4">SW 4</option>
+                <div className="flex w-[80%] justify-center">
+                  <select
+                    className="bg-transparent text-white w-[60%] outline-none "
+                    value={selectedRouterOspf}
+                    onChange={handleRouterOspfChange}
+                  >
+                    <option className="text-black" value=""></option>
+                    {routerOspf.map((R) => (
+                      <option className="text-black" key={R.id} value={R.id}>
+                        {R.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -676,11 +832,25 @@ const Protocols = () => {
               <div className="text-blue-700 font-bold">Choose interfaces</div>
 
               <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
-                <div>
-                  <select className="flex pr-5 bg-transparent outline-none font-bold">
-                    <option value="F 0/1">F 0/1</option>
-                    <option value="F 0/2">F 0/2</option>
-                    <option value="F 0/3">F 0/3</option>
+                <div className="flex items-center justify-center">
+                  <select
+                    className="bg-transparent text-white p-2  outline-none "
+                    value={selectedInterfaceOspfs}
+                    onChange={handleInterfaceOspfChange}
+                  >
+                    <option className="text-black" value="">
+                      {" "}
+                      Interfaces
+                    </option>
+                    {interfacesOspf.map((inter) => (
+                      <option
+                        className="text-black"
+                        key={inter.id}
+                        value={inter.id}
+                      >
+                        {inter.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
