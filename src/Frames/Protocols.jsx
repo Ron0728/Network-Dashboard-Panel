@@ -10,6 +10,7 @@ import DAlertMSG from "../Components/DAlertMSG";
 import WAlertMSG from "../Components/WAlertMSG";
 import SAlertMSG from "../Components/SAlertMSG";
 import InterfacesLoop from "../Components/InterfacesLoop";
+import ExistingDevives from "../Components/ExistingDevives";
 
 const Protocols = () => {
   const [routerDhcp, setRouterDhcp] = useState([]);
@@ -33,6 +34,7 @@ const Protocols = () => {
   const [selectedInterfaceOspfs, setSelectedInterfaceOspfs] = useState("");
 
   const [isbuttonClicked, setIsButtonClicked] = useState(false);
+
   const [alertGoodMessages, setAlertGoodMessages] =
     useContext(AlertContextGood);
   const [alertWarningMessages, setAlertWarningMessages] =
@@ -418,48 +420,7 @@ const Protocols = () => {
 
   return (
     <div className="flex flex-col overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full bg-gray-400 w-full h-full p-5 gap-3">
-      {/* Existing Devives */}
-      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full  shadow-lg shadow-black ">
-        <div className="font-bold text-2xl">
-          Existing Devives on GNS3 port 3080
-        </div>
-        <div className="flex gap-3">
-          <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%]  p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <div>
-              <img className="" src={"/Switch.png"} />
-            </div>
-            <div className="font-bold">SW1</div>
-            <div>
-              <div className="text-sm">CISCO Catalyst</div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Switch.png"} />
-            <div className="font-bold">SW1</div>
-            <div>
-              <div className="text-sm">CISCO Catalyst</div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Router.png"} />
-            <div className="flex flex-col items-center justify-center translate-y-3">
-              <div className="font-bold">R1</div>
-              <div>
-                <div className="text-sm">C7200</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Router.png"} />
-            <div className="flex flex-col items-center justify-center translate-y-3">
-              <div className="font-bold">R1</div>
-              <div>
-                <div className="text-sm">C7200</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ExistingDevives />
 
       {/* Check Interfaces: */}
       <div className="flex flex-col gap-3 bg-gray-300 w-full h-full rounded-2xl p-5 shadow-lg shadow-black ">

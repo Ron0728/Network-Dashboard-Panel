@@ -29,12 +29,7 @@ const TopBar = () => {
           </div>
         </div>
         <div className="flex gap-16 p-2 text-gray-600">
-          <button
-            className="topbuttons p-2 text-lg"
-            //  className="border-2 border-transparent
-            //  hover:border-white hover:border-2 hover:border-r-transparent hover:border-l-transparent
-            //  hover:text-warmGray-100 "
-          >
+          <button className="topbuttons p-2 text-lg">
             <div className="flex gap-1 items-center justify-center">
               <MdHome />
               Home
@@ -43,11 +38,6 @@ const TopBar = () => {
           <button
             className="topbuttons p-2 text-lg"
             onClick={() => navigate("/setting")}
-
-            //  className="border-2 border-transparent
-            //   hover:border-white hover:border-2 hover:border-r-transparent hover:border-l-transparent
-            //   hover:text-warmGray-100 "
-            //  onClick={() => navigate("/setting")}
           >
             <div className="flex gap-1 items-center justify-center">
               <FaInfoCircle />
@@ -56,9 +46,6 @@ const TopBar = () => {
           </button>
           <button
             className="topbuttons p-2 text-lg"
-            //  className="border-2 border-transparent
-            //   hover:border-white hover:border-2 hover:border-r-transparent hover:border-l-transparent
-            //  hover:text-warmGray-100 "
             onClick={() => navigate("/help")}
           >
             <div className="flex gap-1 items-center justify-center">

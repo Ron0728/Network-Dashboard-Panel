@@ -1,52 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import "/src/Css/pingbutton.css";
+import ExistingDevives from "./ExistingDevives";
 
-const BoardInfo = () => {
+const BoardInfo = ({
+  Name,
+  Description,
+  Pid,
+  Vid,
+  Sn,
+  Percentage,
+  Actives,
+  Port1,
+  Port2,
+  Active1,
+  Active2,
+  Memory,
+}) => {
+  const [pingMessage, setPingMessage] = useState();
+
+  const fetchPing = async () => {
+    await fetch("http://localhost:3000/data133")
+      .then((res) => res.json())
+      .then((data) => {
+        setPingMessage(data.Message);
+      });
+  };
+
   return (
     <div className="flex flex-col  bg-transparent w-full h-full p-5 gap-3">
-      <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full shadow-lg shadow-black ">
-        <div className="font-bold text-2xl">
-          Existing Devives on GNS3 port 3080
-        </div>
-        <div className="flex gap-3">
-          <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Switch.png"} />
-            <div className="font-bold">SW1</div>
-            <div>
-              <div className="text-sm">CISCO Catalyst</div>
-            </div>
-          </div>
+      <ExistingDevives />
 
-          <div className="flex flex-col items-center bg-gray-400 text-blue-700 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Switch.png"} />
-            <div className="font-bold">SW1</div>
-            <div>
-              <div className="text-sm">CISCO Catalyst</div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Router.png"} />
-            <div className="flex flex-col items-center justify-center translate-y-3">
-              <div className="font-bold">R1</div>
-              <div>
-                <div className="text-sm">C7200</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center bg-gray-400 w-[13%] h-full p-5 rounded-es-2xl rounded-ee-2xl shadow-md shadow-black ">
-            <img src={"/Router.png"} />
-            <div className="flex flex-col items-center justify-center translate-y-3">
-              <div className="font-bold">R1</div>
-              <div>
-                <div className="text-sm">C7200</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {/* Hardware Info Router */}
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full shadow-lg shadow-black ">
-        <div className="font-bold text-2xl">Hardware Info Router :</div>
+        <div className="font-bold text-xl">Hardware Router information:</div>
         <div className="flex w-full p-3 items-center bg-gray-400 rounded-full shadow-md shadow-black">
           <div className="flex w-[10%] h-full">
             {" "}
@@ -54,73 +40,82 @@ const BoardInfo = () => {
           </div>
           <div className="flex items-center w-full justify-around">
             <div className="flex flex-col items-center font-bold">
-              <div className="flex gap-1">
+              <div className="flex items-center gap-1">
                 <div>Activity: </div>
-                <div>
-                  <input type="checkbox" />
-                </div>
+                <div
+                  className={` ${
+                    Actives
+                      ? " rounded-full p-2 shadow-black shadow-md bg-[rgb(0,255,0)]"
+                      : " rounded-full p-2 shadow-black shadow-inner bg-[rgb(97,96,96)]"
+                  }`}
+                ></div>
               </div>
               <div className="flex gap-1">
                 <div>Name:</div>
-                <div className="text-blue-700">R1</div>
+                <div className="text-blue-700">{Name}</div>
               </div>
             </div>
             <div className="flex flex-col items-center font-bold">
               <div className="flex gap-1">
                 <div>Description: </div>
-                <div className="text-blue-700">cisco7200</div>
+                <div className="text-blue-700">{Description}</div>
               </div>
               <div className="flex gap-1">
                 <div>Version ID: </div>
-                <div className="text-blue-700">V01</div>
+                <div className="text-blue-700">{Vid}</div>
               </div>
             </div>
 
             <div className="flex flex-col items-center font-bold ">
               <div className="flex gap-1">
                 <div>Product ID: </div>
-                <div className="text-blue-700">1561658/k9 </div>
+                <div className="text-blue-700"> {Pid}</div>
               </div>
               <div className="flex gap-1">
                 <div>Serial Num: </div>
-                <div className="text-blue-700">DEF987654</div>
+                <div className="text-blue-700">{Sn}</div>
               </div>
             </div>
           </div>
         </div>
         <div className="flex w-full h-full items-center">
-          <div className="flex flex-col w-[65%] gap-3 font-bold">
+          <div className="flex flex-col gap-3 w-[65%]">
             <div
-              className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
-            bg-gradient-to-r from-blue-700 to-[rgb(0,255,0)]"
+              className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
+         bg-gradient-to-r from-[rgb(0,0,255)] ${
+           Active1 ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
+         }`}
             >
-              <div>GigabitEthernet 0/0</div>
-              <div>Up</div>
+              <div> GigabitEthernet 0/{Port1}</div>
+              <div> {Active1 ? " Up " : " Down "} </div>
             </div>
             <div
-              className="flex w-full justify-between rounded-full shadow-md shadow-black p-2 
-            bg-gradient-to-r from-blue-700 to-[rgb(255,0,0)]"
+              className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2 
+         bg-gradient-to-r from-[rgb(0,0,255)] ${
+           Active2 ? "to-[rgb(0,255,0)]" : "to-[rgb(255,0,0)]"
+         }`}
             >
-              <div>GigabitEthernet 0/0</div>
-              <div>Down</div>
+              <div> GigabitEthernet 0/{Port2}</div>
+              <div> {Active2 ? " Up " : " Down "} </div>
             </div>
           </div>
           <div className=" flex w-[35%] bg-gray-400 shadow-black shadow-md justify-around items-center rounded-full h-[62%]">
             <div className=" bg-gradient-to-tl from-[rgb(0,255,0)] to-[rgb(0,0,255)]  p-2  rounded-full ">
               <div className=" bg-gray-300 p-4  rounded-full font-bold ">
-                30%
+                {Percentage}
               </div>
             </div>
             <div className="flex flex-col items-center font-bold">
               <div>Memory R1 </div>
-              <div className="text-blue-700">40255 kb</div>
+              <div className="text-blue-700">{Memory}</div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Check Connectivity */}
       <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl p-5 shadow-lg shadow-black ">
-        <div className="font-bold text-2xl">Check Connectivity:</div>
+        <div className="font-bold text-xl">Check Connectivity:</div>
         <div className="flex w-full h-full justify-around">
           <div className="flex gap-3 items-center w-[50%]">
             <div>
@@ -172,16 +167,18 @@ const BoardInfo = () => {
             </div>
           </div>
           <div className=" flex justify-center items-center h-full w-[10%]">
-            <button className="ping flex items-center justify-center bg-green-600 w-full h-[70%] text-white font-bold rounded-full p-3 shadow-lg shadow-black ">
+            <button
+              onClick={fetchPing}
+              className="ping flex items-center justify-center bg-green-600 w-full h-[70%] text-white font-bold rounded-full p-3 shadow-lg shadow-black "
+            >
               Ping
             </button>
           </div>
         </div>
-        <div className="flex font-bold justify-around bg-gray-400 shadow-sm shadow-black rounded-full p-2">
-          <div>ICMPs Sent: 4 </div>
-          <div>Lost ICMPs: 1</div>
-          <div>Recived ICMPs: 3</div>
-          <div>Success Rate: 75%</div>
+        <div className="flex flex-col items-center">
+          <div className="flex font-bold gap-2 w-fit justify-center bg-gray-400 shadow-sm shadow-black rounded-md p-2">
+            Ping :<div className="text-green-700">{pingMessage}</div>
+          </div>
         </div>
       </div>
     </div>

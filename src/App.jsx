@@ -24,15 +24,21 @@ import {
   AlertContextWarrning,
   AlertContextSuggested,
 } from "./alertsContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BoardInfo from "./Components/BoardInfo";
 import Toodelete5 from "./Frames/Toodelete5";
+import ProtocoloInformation from "./Components/ProtocoloInformation";
 
 function App() {
+  // const [protocolName, setProtocolname] = useState();
   const [goodMSG, setGoodMSG] = useState([]);
   const [dangerMSG, setDangerMSG] = useState([]);
   const [suggested, setSuggested] = useState([]);
   const [warrningMSG, setWarrningMSG] = useState([]);
+
+  // useEffect(() => {
+  //   setProtocolname("rip");
+  // }, []);
   return (
     <div>
       <AlertContextGood.Provider value={[goodMSG, setGoodMSG]}>
@@ -54,10 +60,22 @@ function App() {
                 <Route path="/setting" element={<Settings />}>
                   <Route index element={<SettingBoxes />}></Route>
 
-                  <Route path="rip" element={<TrubleShooting />}></Route>
-                  <Route path="dhcp" element={<Dhcp />}></Route>
-                  <Route path="ospf" element={<CheckConfigurations />}></Route>
-                  <Route path="egrip" element={<Interfaces />}></Route>
+                  <Route
+                    path="rip"
+                    element={<ProtocoloInformation name={"Rip"} />}
+                  ></Route>
+                  <Route
+                    path="dhcp"
+                    element={<ProtocoloInformation name={"DHCP"} />}
+                  ></Route>
+                  <Route
+                    path="ospf"
+                    element={<ProtocoloInformation name={"OSPF"} />}
+                  ></Route>
+                  <Route
+                    path="egrip"
+                    element={<ProtocoloInformation name={"EGRIP"} />}
+                  ></Route>
                 </Route>
 
                 <Route path="/main" element={<DashBoard />}>
