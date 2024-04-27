@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, version } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   AlertContextGood,
   AlertContextDanger,
@@ -11,6 +11,7 @@ import WAlertMSG from "../Components/WAlertMSG";
 import SAlertMSG from "../Components/SAlertMSG";
 import InterfacesLoop from "../Components/InterfacesLoop";
 import ExistingDevives from "../Components/ExistingDevives";
+import axios from "axios";
 
 const Protocols = () => {
   const [routerDhcp, setRouterDhcp] = useState([]);
@@ -44,6 +45,74 @@ const Protocols = () => {
   );
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
+
+  const [subnetDHCPData, setSubnetDHCPData] = useState("");
+  const [networkDHCPData, setNetworkDHCPData] = useState("");
+  const [subnetRIPData, setSubnetRIPData] = useState("");
+  const [networkRIPData, setNetworkRIPData] = useState("");
+  const [subnetEGRIPData, setSubnetEGRIPData] = useState("");
+  const [networkEGRIPData, setNetworkEGRIPData] = useState("");
+  const [subnetOSPFData, setSubnetOSPFData] = useState("");
+  const [networkOSPFData, setNetworkOSPFData] = useState("");
+  const [areaNumberData, setAreaNumberData] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:3000/data55555", {
+        subnetDHCPData: subnetDHCPData,
+        networkDHCPData: networkDHCPData,
+        subnetRIPData: subnetRIPData,
+        networkRIPData: networkRIPData,
+        subnetEGRIPData: subnetEGRIPData,
+        networkEGRIPData: networkEGRIPData,
+        subnetOSPFData: subnetOSPFData,
+        networkOSPFData: networkOSPFData,
+        areaNumberData: areaNumberData,
+      });
+      console.log(response.data);
+      call_ALerts(`update with ${subnetDHCPData} subnet`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleChange_for_DHCP = (event) => {
+    setSubnetDHCPData(event.target.value);
+  };
+
+  const handleChange2_for_DHCP = (e) => {
+    setNetworkDHCPData(e.target.value);
+  };
+
+  const handleChange_for_EGRIP = (event1) => {
+    setSubnetEGRIPData(event1.target.value);
+  };
+
+  const handleChange2_for_EGRIP = (event) => {
+    setNetworkEGRIPData(event.target.value);
+  };
+
+  const handleChange_for_OSPF = (event1) => {
+    setSubnetOSPFData(event1.target.value);
+  };
+
+  const handleChange2_for_OSPF = (event) => {
+    setNetworkOSPFData(event.target.value);
+  };
+
+  const handleChange_for_AreaNumber = (event2) => {
+    setAreaNumberData(event2.target.value);
+  };
+
+  const handleChange_for_RIP = (event1) => {
+    setSubnetRIPData(event1.target.value);
+  };
+
+  const handleChange2_for_RIP = (event) => {
+    setNetworkRIPData(event.target.value);
+  };
 
   useEffect(() => {
     fetchRouterDhcp();
@@ -308,7 +377,6 @@ const Protocols = () => {
             <></>
           );
         }
-        // call_ALerts("done from dhcp");
       });
   };
 
@@ -453,7 +521,10 @@ const Protocols = () => {
       </div>
 
       {/* DHCP  Configuration*/}
-      <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
+      >
         <div className="font-bold text-2xl">DHCP Configuration:</div>
         <div className="flex justify-between">
           <div className="flex flex-col gap-5">
@@ -490,7 +561,11 @@ const Protocols = () => {
                 </div>
                 <div className="text-gray-600 font-bold">Applying Network</div>
               </div>
-              <input className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={networkDHCPData}
+                onChange={handleChange2_for_DHCP}
+                className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
           <div className="flex flex-col gap-5">
@@ -525,7 +600,11 @@ const Protocols = () => {
             </div>
             <div className="flex gap-3 items-center">
               <div className="text-gray-600 font-bold">Insert subnet</div>
-              <input className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={subnetDHCPData}
+                onChange={handleChange_for_DHCP}
+                className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
         </div>
@@ -533,6 +612,7 @@ const Protocols = () => {
           <div className="flex gap-5">
             <button
               onClick={fetchDHCPdata}
+              type="submit"
               className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
             >
               Apply
@@ -550,10 +630,13 @@ const Protocols = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
 
       {/* RIP Configuration */}
-      <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
+      >
         <div className="font-bold text-2xl">RIP Configuration:</div>
         <div className="flex justify-between">
           <div className=" flex flex-col gap-5">
@@ -590,7 +673,11 @@ const Protocols = () => {
                 </div>
                 <div className="text-gray-600 font-bold">Applying Network</div>
               </div>
-              <input className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={networkRIPData}
+                onChange={handleChange2_for_RIP}
+                className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
           <div className="  flex flex-col gap-5 ">
@@ -619,13 +706,18 @@ const Protocols = () => {
             </div>
             <div className="flex gap-3 -translate-y-2 items-center">
               <div className="text-gray-600 font-bold">Insert subnet</div>
-              <input className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={subnetRIPData}
+                onChange={handleChange_for_RIP}
+                className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
         </div>
         <div className="flex justify-between gap-5">
           <div className="flex gap-5">
             <button
+              type="submit"
               onClick={twofunc}
               className={`px-4 py-2 rounded-lg ${
                 isbuttonClicked
@@ -648,10 +740,13 @@ const Protocols = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
 
       {/* EGRIP Configuration */}
-      <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
+      >
         <div className="font-bold text-2xl">EGRIP Configuration:</div>
         <div className="flex justify-between">
           <div className="flex flex-col gap-5">
@@ -688,7 +783,11 @@ const Protocols = () => {
                 </div>
                 <div className="text-gray-600 font-bold">Applying Network</div>
               </div>
-              <input className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={networkEGRIPData}
+                onChange={handleChange2_for_EGRIP}
+                className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
           <div className="  flex flex-col gap-5 ">
@@ -720,13 +819,18 @@ const Protocols = () => {
             </div>
             <div className="flex gap-3 -translate-y-2 items-center">
               <div className="text-gray-600 font-bold">Insert subnet</div>
-              <input className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={subnetEGRIPData}
+                onChange={handleChange_for_EGRIP}
+                className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
         </div>
         <div className="flex justify-between gap-5">
           <div className="flex gap-5">
             <button
+              type="submit"
               onClick={fetchEGRIPdata}
               className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
             >
@@ -745,10 +849,13 @@ const Protocols = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
 
       {/* OSPF Configuration */}
-      <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
+      >
         <div className="font-bold text-2xl">OSPF Configuration:</div>
         <div className="flex w-full justify-between">
           <div className="flex flex-col gap-5">
@@ -785,7 +892,11 @@ const Protocols = () => {
                 </div>
                 <div className="text-gray-600 font-bold">Applying Network</div>
               </div>
-              <input className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={networkOSPFData}
+                onChange={handleChange2_for_OSPF}
+                className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
           <div className="flex flex-col gap-5">
@@ -818,17 +929,26 @@ const Protocols = () => {
             </div>
             <div className="flex gap-3 items-center">
               <div className="text-gray-600 font-bold">Insert subnet</div>
-              <input className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"></input>
+              <input
+                value={subnetOSPFData}
+                onChange={handleChange_for_OSPF}
+                className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
+              ></input>
             </div>
           </div>
         </div>
         <div className="flex w-full justify-center gap-5">
           <div className="text-blue-700 font-bold">Insert Area Number</div>
-          <input className=" bg-gray-400 p-1 outline-none w-[30%]  shadow-black shadow-inner rounded-full"></input>
+          <input
+            value={areaNumberData}
+            onChange={handleChange_for_AreaNumber}
+            className=" bg-gray-400 p-1 outline-none w-[30%] shadow-black shadow-inner rounded-full"
+          ></input>
         </div>
         <div className="flex justify-between gap-5">
           <div className="flex gap-5">
             <button
+              type="submit"
               onClick={fetchOSPFdata}
               className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
             >
@@ -847,7 +967,7 @@ const Protocols = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
