@@ -5,6 +5,7 @@ import Protocol_RIP from "../Components/Protocol_RIP";
 import Protocol_EGRIP from "../Components/Protocol_EGRIP";
 import Protocol_OSPF from "../Components/Protocol_OSPF";
 import Check_Protocol_Interfaces from "../Components/Check_Protocol_Interfaces";
+import DHCP_Configuration from "../Components/DHCP_Configuration";
 
 const Protocols = () => {
   return (
@@ -15,7 +16,8 @@ const Protocols = () => {
       <Check_Protocol_Interfaces />
 
       {/* DHCP  Configuration*/}
-      <Protocol_DHCP />
+      {/* <Protocol_DHCP /> */}
+      <DHCP_Configuration />
 
       {/* RIP Configuration */}
       <Protocol_RIP />

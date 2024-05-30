@@ -16,7 +16,6 @@ const Protocol_OSPF = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
-  const [f, setF] = useState(false);
   const [subnetOSPFData, setSubnetOSPFData] = useState("");
   const [networkOSPFData, setNetworkOSPFData] = useState("");
   const [selectedInterfaceOspfs, setSelectedInterfaceOspfs] = useState("");
@@ -34,22 +33,6 @@ const Protocol_OSPF = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:3000/data55555", {
-        subnetOSPFData: subnetOSPFData,
-        networkOSPFData: networkOSPFData,
-        areaNumberData: areaNumberData,
-      });
-      console.log(response.data);
-      call_ALerts(`update with ${subnetDHCPData} subnet`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const fetchDevices = async () => {
     await fetch("http://localhost:3000/info/routers")
       .then((res) => res.json())
@@ -59,9 +42,23 @@ const Protocol_OSPF = () => {
       }, []);
   };
 
+  const fetchInterfaces = async (Router) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/info/interfaces?Router=${Router}`
+      );
+      const data = await response.json();
+      setInterfacesOspf(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching interfaces:", error);
+    }
+  };
+
   const handlerDeviceChange = (event) => {
     const selectedDevice = event.target.value;
     setSelectedDevice(selectedDevice);
+    fetchInterfaces(selectedDevice);
     const selectedDeviceIP = device.find(
       (device) => device.name === selectedDevice
     ).ip;
@@ -86,6 +83,7 @@ const Protocol_OSPF = () => {
   const handleInterfaceOspfChange = (event) => {
     const selectedInterfaceOspfs = event.target.value;
     setSelectedInterfaceOspfs(selectedInterfaceOspfs);
+    console.log("OSPF Interface --> : ", selectedInterfaceOspfs);
   };
 
   const handleChange_for_AreaNumber = (event2) => {
@@ -93,6 +91,7 @@ const Protocol_OSPF = () => {
   };
 
   const fetchOSPFdata = async () => {
+    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/ospf")
       .then((res) => res.json())
       .then((data) => {
@@ -148,19 +147,26 @@ const Protocol_OSPF = () => {
     alert(msg);
   }
 
-  const isClicked = () => {
-    setF(!f);
+  const Send_data_ToServer = async () => {
+    const response = await fetch(
+      `http://localhost:3000/info/interfaces?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
+    );
+    const data = await response.json();
+    console.log("data sent");
+  };
+
+  const discard = () => {
+    setAreaNumberData("");
+    setNetworkOSPFData("");
+    setSubnetOSPFData("");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
-    >
+    <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
       <div className="font-bold text-xl">OSPF Configuration:</div>
       <div className="flex w-full justify-between">
         <div className="flex flex-col gap-5">
-          <div className="flex gap-7">
+          <div className="flex items-center gap-7">
             <div>
               <div className="text-blue-700 w-full font-bold">
                 Choose wanted device
@@ -169,13 +175,14 @@ const Protocol_OSPF = () => {
                 to apply OSPF to it
               </div>
             </div>
-            <div className="flex justify-around items-center p-2 bg-blue-900 w-[25%] shadow-lg text-white shadow-black rounded-full ">
+            <div className="flex justify-around items-center p-4  bg-blue-900 w-[40%] h-[60%] shadow-lg text-white shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
                   className="bg-transparent outline-none "
                   value={selectedDevice}
                   onChange={handlerDeviceChange}
                 >
+                  <option>Choose</option>
                   {device.map((D) => (
                     <option className="text-black " key={D.id} value={D.name}>
                       {D.name}
@@ -199,26 +206,22 @@ const Protocol_OSPF = () => {
             ></input>
           </div>
         </div>
-        <div className="flex flex-col gap-5">
-          <div className="flex items-center h-full gap-7">
+        <div className="flex w-[30%]  flex-col gap-5">
+          <div className="flex items-center w-full h-full gap-7">
             <div className="text-blue-700 font-bold">Choose interfaces</div>
 
-            <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
+            <div className="flex justify-around items-center  bg-blue-900 w-[50%] h-[50%] shadow-lg shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
                   className="bg-transparent text-white p-2  outline-none "
                   value={selectedInterfaceOspfs}
                   onChange={handleInterfaceOspfChange}
                 >
-                  <option className="text-black" value="">
-                    {" "}
-                    Interfaces
-                  </option>
                   {interfacesOspf.map((inter) => (
                     <option
                       className="text-black"
                       key={inter.id}
-                      value={inter.id}
+                      value={inter.name}
                     >
                       {inter.name}
                     </option>
@@ -248,19 +251,14 @@ const Protocol_OSPF = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            type="submit"
             onClick={fetchOSPFdata}
             className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
           <button
-            onClick={isClicked}
-            className={
-              f == true
-                ? "discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full "
-                : "discard bg-warmGray-600 shadow-inner shadow-black text-white p-3 w-[20%] rounded-full"
-            }
+            onClick={discard}
+            className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Discard
           </button>
@@ -279,7 +277,7 @@ const Protocol_OSPF = () => {
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

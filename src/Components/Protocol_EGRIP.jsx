@@ -10,7 +10,6 @@ import {
   AlertContextWarrning,
 } from "../alertsContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Protocol_EGRIP = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -18,8 +17,7 @@ const Protocol_EGRIP = () => {
   const [iP, setIP] = useState();
   const [subnetEGRIPData, setSubnetEGRIPData] = useState("");
   const [networkEGRIPData, setNetworkEGRIPData] = useState("");
-  const [asNumber, setAsNumber] = useState([]);
-  const [selectedAsNUmber, setSelectedAsNUmber] = useState("");
+  const [selectedAsNUmber, setSelectedAsNUmber] = useState(10);
   const navigate = useNavigate();
 
   const [alertGoodMessages, setAlertGoodMessages] =
@@ -31,21 +29,6 @@ const Protocol_EGRIP = () => {
   );
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:3000/data55555", {
-        subnetEGRIPData: subnetEGRIPData,
-        networkEGRIPData: networkEGRIPData,
-      });
-      console.log(response.data);
-      call_ALerts(`update with ${subnetDHCPData} subnet`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handlerDeviceChange = (event) => {
     const selectedDevice = event.target.value;
@@ -79,9 +62,11 @@ const Protocol_EGRIP = () => {
   const handleAsNumberChange = (event) => {
     const selectedAsNumber = event.target.value;
     setSelectedAsNUmber(selectedAsNumber);
+    console.log("AS Number : ", selectedAsNumber);
   };
 
   const fetchEGRIPdata = async () => {
+    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/eigrp")
       .then((res) => res.json())
       .then((data) => {
@@ -141,12 +126,22 @@ const Protocol_EGRIP = () => {
     alert(msg);
   }
 
+  const Send_data_ToServer = async () => {
+    const response = await fetch(
+      `http://localhost:3000/info/interfaces?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
+    );
+    const data = await response.json();
+    console.log("data sent");
+  };
+
+  const discard = () => {
+    setNetworkEGRIPData("");
+    setSubnetEGRIPData("");
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
-    >
-      <div className="font-bold text-2xl">EGRIP Configuration:</div>
+    <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
+      <div className="font-bold text-xl">EGRIP Configuration:</div>
       <div className="flex justify-between">
         <div className="flex flex-col gap-5">
           <div className="flex gap-7">
@@ -203,14 +198,36 @@ const Protocol_EGRIP = () => {
                   value={selectedAsNUmber}
                   onChange={handleAsNumberChange}
                 >
-                  <option className="text-black" value="">
+                  <option className="text-black" value="10">
                     10
                   </option>
-                  {asNumber.map((As) => (
-                    <option className="text-black" key={As.id} value={As.id}>
-                      {As.name}
-                    </option>
-                  ))}
+                  <option className="text-black" value="1">
+                    1
+                  </option>
+                  <option className="text-black" value="2">
+                    2
+                  </option>
+                  <option className="text-black" value="3">
+                    3
+                  </option>
+                  <option className="text-black" value="4">
+                    4
+                  </option>
+                  <option className="text-black" value="5">
+                    5
+                  </option>
+                  <option className="text-black" value="6">
+                    6
+                  </option>
+                  <option className="text-black" value="7">
+                    7
+                  </option>
+                  <option className="text-black" value="8">
+                    8
+                  </option>
+                  <option className="text-black" value="9">
+                    9
+                  </option>
                 </select>
               </div>
             </div>
@@ -228,13 +245,15 @@ const Protocol_EGRIP = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            type="submit"
             onClick={fetchEGRIPdata}
             className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
-          <button className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={discard}
+            className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Discard
           </button>
           <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
@@ -252,7 +271,7 @@ const Protocol_EGRIP = () => {
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

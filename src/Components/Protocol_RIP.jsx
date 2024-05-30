@@ -18,7 +18,6 @@ const Protocol_RIP = () => {
   const [subnetRIPData, setSubnetRIPData] = useState("");
   const [networkRIPData, setNetworkRIPData] = useState("");
   const [selectedVersionRip, setSelectedVersionRip] = useState("");
-  const [versionRip, setVersionRip] = useState([]);
   const [isbuttonClicked, setIsButtonClicked] = useState(false);
   const [iP, setIP] = useState();
   const navigate = useNavigate();
@@ -37,21 +36,8 @@ const Protocol_RIP = () => {
     fetchDevices();
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:3000/data55555", {
-        subnetRIPData: subnetRIPData,
-        networkRIPData: networkRIPData,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const fetchRIPdata = async () => {
+    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/rip")
       .then((res) => res.json())
       .then((data) => {
@@ -131,6 +117,7 @@ const Protocol_RIP = () => {
   const handleVersionRipChange = (event) => {
     const selectedVersionRip = event.target.value;
     setSelectedVersionRip(selectedVersionRip);
+    console.log("version : ", selectedVersionRip);
   };
 
   const fetchDevices = async () => {
@@ -142,11 +129,21 @@ const Protocol_RIP = () => {
       }, []);
   };
 
+  const Send_data_ToServer = async () => {
+    const response = await fetch(
+      `http://localhost:3000/info/interfaces?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
+    );
+    const data = await response.json();
+    console.log("data sent");
+  };
+
+  const discard = () => {
+    setNetworkRIPData("");
+    setSubnetRIPData("");
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black "
-    >
+    <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
       <div className="font-bold text-2xl">RIP Configuration:</div>
       <div className="flex justify-between">
         <div className=" flex flex-col gap-5">
@@ -166,6 +163,7 @@ const Protocol_RIP = () => {
                   value={selectedDevice}
                   onChange={handlerDeviceChange}
                 >
+                  <option className="text-black">Choose</option>
                   {device.map((D) => (
                     <option className="text-black " key={D.id} value={D.name}>
                       {D.name}
@@ -199,12 +197,13 @@ const Protocol_RIP = () => {
                   value={selectedVersionRip}
                   onChange={handleVersionRipChange}
                 >
-                  <option className="text-black" value=""></option>
-                  {versionRip.map((ver) => (
-                    <option className="text-black" key={ver.id} value={ver.id}>
-                      {ver.name}
-                    </option>
-                  ))}
+                  <option className="text-black">Choose</option>
+                  <option className="text-black" value="1">
+                    1
+                  </option>
+                  <option className="text-black" value="2">
+                    2
+                  </option>
                 </select>
               </div>
             </div>
@@ -222,7 +221,6 @@ const Protocol_RIP = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            type="submit"
             onClick={fetchRIPdata}
             className={`px-4 py-2 rounded-lg ${
               isbuttonClicked
@@ -232,7 +230,10 @@ const Protocol_RIP = () => {
           >
             Apply
           </button>
-          <button className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={discard}
+            className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Discard
           </button>
           <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
@@ -250,7 +251,7 @@ const Protocol_RIP = () => {
           </button>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

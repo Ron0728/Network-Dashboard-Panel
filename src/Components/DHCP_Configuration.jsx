@@ -147,8 +147,14 @@ const DHCP_Configuration = () => {
   const handleChange_for_Network = (event) => {
     setNetworkData(event.target.value);
   };
+
   const handleChange_for_Subnet = (event) => {
     setSubnetData(event.target.value);
+  };
+
+  const discard = () => {
+    setNetworkData("");
+    setSubnetData("");
   };
 
   return (
@@ -246,7 +252,10 @@ const DHCP_Configuration = () => {
           >
             Apply
           </button>
-          <button className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={discard}
+            className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Discard
           </button>
           <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
