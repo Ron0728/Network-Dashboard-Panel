@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Welcome from "./Frames/Welcome";
 import SingUp from "./Frames/SingUp";
 import Login from "./Frames/Login";
@@ -12,10 +12,6 @@ import Help from "./Frames/Help";
 import Settings from "./Frames/Settings";
 import SettingBoxes from "./Frames/SettingBoxes";
 import Background from "./Frames/Background";
-import TrubleShooting from "./Frames/TrubleShooting";
-import Dhcp from "./Frames/Dhcp";
-import CheckConfigurations from "./Frames/CheckConfigurations";
-import Interfaces from "./Frames/Interfaces";
 import TroubleShooting from "./Frames/TroubleShooting";
 
 import {
@@ -24,21 +20,22 @@ import {
   AlertContextWarrning,
   AlertContextSuggested,
 } from "./alertsContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BoardInfo from "./Components/BoardInfo";
 import Toodelete5 from "./Frames/Toodelete5";
-import ProtocoloInformation from "./Components/ProtocoloInformation";
+import RIP_Protocol_Information from "./Components/RIP_Protocol_Information";
+
+import DHCP_Protocol_Information from "./Components/DHCP_Protocol_Information";
+import OSPF_Protocol_Information from "./Components/OSPF_Protocol_Information";
+import EGRIP_Protocol_Information from "./Components/EGRIP_Protocol_Information";
+import Todelete1 from "./Components/DHCP_Configuration";
 
 function App() {
-  // const [protocolName, setProtocolname] = useState();
   const [goodMSG, setGoodMSG] = useState([]);
   const [dangerMSG, setDangerMSG] = useState([]);
   const [suggested, setSuggested] = useState([]);
   const [warrningMSG, setWarrningMSG] = useState([]);
 
-  // useEffect(() => {
-  //   setProtocolname("rip");
-  // }, []);
   return (
     <div>
       <AlertContextGood.Provider value={[goodMSG, setGoodMSG]}>
@@ -46,7 +43,7 @@ function App() {
           <AlertContextWarrning.Provider value={[warrningMSG, setWarrningMSG]}>
             <AlertContextSuggested.Provider value={[suggested, setSuggested]}>
               {/* <Routes>
-                <Route path="/" element={<Toodelete5 />}></Route>
+                <Route path="/" element={<Todelete1 />}></Route>
               </Routes> */}
               <Routes>
                 <Route path="/" element={<Background />}>
@@ -62,21 +59,23 @@ function App() {
 
                   <Route
                     path="rip"
-                    element={<ProtocoloInformation name={"Rip"} />}
+                    element={<RIP_Protocol_Information />}
                   ></Route>
                   <Route
                     path="dhcp"
-                    element={<ProtocoloInformation name={"DHCP"} />}
+                    element={<DHCP_Protocol_Information />}
                   ></Route>
                   <Route
                     path="ospf"
-                    element={<ProtocoloInformation name={"OSPF"} />}
+                    element={<OSPF_Protocol_Information />}
                   ></Route>
                   <Route
                     path="egrip"
-                    element={<ProtocoloInformation name={"EGRIP"} />}
+                    element={<EGRIP_Protocol_Information />}
                   ></Route>
                 </Route>
+
+                <Route path="/Toodelete5" element={<Toodelete5 />}></Route>
 
                 <Route path="/main" element={<DashBoard />}>
                   <Route path="board" element={<Board />}>

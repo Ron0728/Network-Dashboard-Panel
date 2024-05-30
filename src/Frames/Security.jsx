@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "/src/Css/applybutton.css";
 import "/src/Css/discardbutton.css";
 import "/src/Css/startcheckingbutton.css";
@@ -9,6 +9,61 @@ import MoreNetworks from "../Components/MoreNetworks";
 import ExistingDevives from "../Components/ExistingDevives";
 
 const Security = () => {
+  const [selectedDevice_Config, setSelectedDevice_Config] = useState("");
+  const [device, setDevice] = useState([]);
+  const [configaudit, setConfigaudit] = useState([]);
+  const [iP, setIP] = useState();
+  const [iP_Confing, setIP_Config] = useState();
+  const [diff_Percentage, setDiff_Percentage] = useState();
+
+  const fetchDevices = async () => {
+    await fetch("http://localhost:3000/info/routers")
+      .then((res) => res.json())
+      .then((data) => {
+        setDevice(data);
+        console.log(data);
+      }, []);
+  };
+
+  const fetchDevices_configaudit = async () => {
+    await fetch("http://localhost:3000/dashboard/security/configaudit")
+      .then((res) => res.json())
+      .then((data) => {
+        setConfigaudit(data);
+        setDiff_Percentage(data.diff_percentage);
+        setDiff_Percentage(data.device_ip);
+        console.log(data);
+        console.log(data.diff_percentage);
+        console.log(data.device_ip);
+      }, []);
+  };
+
+  const handlerDeviceChange_Config = (event) => {
+    const selectedDevice_Config = event.target.value;
+    setSelectedDevice_Config(selectedDevice_Config);
+    const selectedDevice_ConfigIP = device.find(
+      (device) => device.name === selectedDevice_Config
+    ).ip;
+    setIP_Config(selectedDevice_ConfigIP);
+    console.log(
+      `Selected device: ${selectedDevice_Config}, Selected IP: ${selectedDevice_ConfigIP}`
+    );
+  };
+
+  const Send_IP_Config_ToServer = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/basicInfo?iP_Confing=${iP_Confing}`
+    );
+    const data = await response.json();
+
+    console.log("data sent");
+  };
+
+  useEffect(() => {
+    fetchDevices();
+    fetchDevices_configaudit();
+  }, []);
+
   return (
     <div className="flex flex-col w-full h-full gap-3 bg-gray-400 p-5 overflow-y-scroll">
       <div className="bg-gradient-to-r text-gray-800 from-blue-700 to-white p-5 rounded-full font-bold shadow-md shadow-black">
@@ -17,8 +72,9 @@ const Security = () => {
 
       <ExistingDevives />
 
+      {/* Accessability */}
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-fit shadow-lg shadow-black ">
-        <div className="font-bold text-2xl ">Accessability</div>
+        <div className="font-bold text-xl ">Accessability</div>
 
         <div className="flex gap-3 items-center h-full  w-full sm:w-1/2">
           <div>
@@ -29,19 +85,21 @@ const Security = () => {
               </span>
             </div>
           </div>
-          <div className="flex justify-around items-center bg-blue-900 w-[25%] p-2 shadow-lg shadow-black rounded-full ">
-            <div>
-              <select className="flex pr-5 bg-transparent outline-none font-bold">
-                <option value="R1">R 1</option>
-                <option value="R2">R 2</option>
-                <option value="R3">R 3</option>
-                <option value="R4">R 4</option>
-                <option value="SW1">SW 1</option>
-                <option value="SW2">SW 2</option>
-                <option value="SW3">SW 3</option>
-                <option value="SW4">SW 4</option>
+          <div className="flex justify-around items-center p-2 bg-blue-900 w-[20%] shadow-lg text-white shadow-black rounded-full ">
+            <form className="flex items-center justify-center">
+              <select
+                className="bg-transparent outline-none "
+                value={selectedDevice_Config}
+                onChange={handlerDeviceChange_Config}
+              >
+                <option>Choose</option>
+                {device.map((D) => (
+                  <option className="text-black " key={D.id} value={D.name}>
+                    {D.name}
+                  </option>
+                ))}
               </select>
-            </div>
+            </form>
           </div>
         </div>
 
@@ -68,29 +126,35 @@ const Security = () => {
         </div>
       </div>
 
+      {/* Security Audit */}
       <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
-        <div className="font-bold">Security Audit</div>
-        <div className="flex h-full justify-around">
-          <div className="flex items-center gap-3 h-full w-[30%]">
+        <div className="font-bold text-xl">Security Audit</div>
+        <div className="flex h-full justify-between">
+          <div className="flex items-center gap-3  w-[30%] ">
             <div className="md:flex-col">
               <div className="text-blue-700 font-bold">Choose the device</div>
             </div>
-            <div className="flex justify-around items-center bg-blue-900 w-[40%] h-[70%] shadow-lg shadow-black rounded-full ">
-              <div>
-                <select className="flex pr-5 bg-transparent outline-none font-bold">
-                  <option value="R1">R 1</option>
-                  <option value="R2">R 2</option>
-                  <option value="R3">R 3</option>
-                  <option value="R4">R 4</option>
-                  <option value="SW1">SW 1</option>
-                  <option value="SW2">SW 2</option>
-                  <option value="SW3">SW 3</option>
-                  <option value="SW4">SW 4</option>
+            <div className="flex justify-around items-center bg-blue-900 w-[40%] h-[80%] shadow-lg text-white shadow-black rounded-full ">
+              <form className="flex items-center justify-center">
+                <select
+                  className="bg-transparent outline-none "
+                  value={selectedDevice_Config}
+                  onChange={handlerDeviceChange_Config}
+                >
+                  <option>Choose</option>
+                  {device.map((D) => (
+                    <option className="text-black " key={D.id} value={D.name}>
+                      {D.name}
+                    </option>
+                  ))}
                 </select>
-              </div>
+              </form>
             </div>
           </div>
-          <button className="startchecking bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md">
+          <button
+            onClick={Send_IP_Config_ToServer}
+            className="startchecking bg-black text-white p-3 w-[15%] rounded-full shadow-black shadow-md"
+          >
             Start
           </button>
         </div>
@@ -100,6 +164,8 @@ const Security = () => {
           </div>
         </div>
       </div>
+
+      {/* Charts */}
       <div className="flex gap-5  ">
         <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
           <div className=" w-full  ">
@@ -117,7 +183,7 @@ const Security = () => {
         </div>
         <div className="flex flex-col bg-gradient-to-t from-blue-500 to-gray-300 rounded-2xl gap-3 p-5 w-full h-full  shadow-lg shadow-black ">
           <div className="w-full ">
-            <LevelPieChart />
+            <LevelPieChart PERCENT={diff_Percentage} />
             <div className=" font-bold flex justify-center items-center">
               AL-Baath
             </div>

@@ -7,36 +7,54 @@ import "/src/Css/FetchButton.css";
 
 const Board = () => {
   // to fetch data after clicking (fetch data) button
-  const [name, setName] = useState();
+  const [hardwareData, setHardwareData] = useState([]);
+  const [name1, setName] = useState();
   const [description, setDescription] = useState();
   const [pid, setPID] = useState();
   const [sn, setSN] = useState();
   const [vid, setVID] = useState();
-  const [percentage, setPercentage] = useState();
+  const [percentages, setPercentages] = useState();
   const [actives, setActives] = useState(false);
   const [interface1Port, setInterface1Port] = useState();
   const [interface2Port, setInterface2Port] = useState();
+  const [interface3Port, setInterface3Port] = useState();
   const [interface1Active, setInterface1Active] = useState(false);
   const [interface2Active, setInterface2Active] = useState(false);
+  const [interface3Active, setInterface3Active] = useState(false);
+  const [interface1state, setInterface1state] = useState();
+  const [interface2state, setInterface2state] = useState();
+  const [interface3state, setInterface3state] = useState();
+  const [interface1type, setInterface1type] = useState();
+  const [interface2type, setInterface2type] = useState();
+  const [interface3type, setInterface3type] = useState();
   const [memory, setMemory] = useState();
 
   const fetchData = async () => {
-    await fetch("http://localhost:3000/data112")
+    await fetch("http://localhost:3000/dashboard/basicInfo")
       .then((res) => res.json())
       .then((data) => {
-        setName(data.name);
-        setDescription(data.Description);
-        setPID(data.PID);
-        setVID(data.VID);
-        setSN(data.SN);
-        setPercentage(data.Percentage);
-        setActives(data.active);
-        setInterface1Port(data.Interface1Port);
-        setInterface2Port(data.Interface2Port);
-        setInterface1Active(data.Interface1Active);
-        setInterface2Active(data.Interface2Active);
-        setMemory(data.Memory);
-      });
+        // setHardwareData(response.data);
+        setName(data.Hardware[0].name);
+        setDescription(data.Hardware[0].descr);
+        setPID(data.Hardware[0].pid);
+        setVID(data.Hardware[0].vid);
+        setSN(data.Hardware[0].sn);
+        setMemory(data.Memory.memory_usage);
+        setActives(true);
+        setInterface1Active(data.Interfaces[0].active);
+        setInterface2Active(data.Interfaces[1].active);
+        setInterface3Active(data.Interfaces[2].active);
+        setInterface1Port(data.Interfaces[0].port);
+        setInterface2Port(data.Interfaces[1].port);
+        setInterface3Port(data.Interfaces[2].port);
+        setInterface1state(data.Interfaces[0].state);
+        setInterface2state(data.Interfaces[1].state);
+        setInterface3state(data.Interfaces[2].state);
+        setInterface1type(data.Interfaces[0].type);
+        setInterface2type(data.Interfaces[1].type);
+        setInterface3type(data.Interfaces[2].type);
+        setPercentages(data.Percentage.percentage);
+      }, []);
   };
 
   return (
@@ -81,17 +99,25 @@ const Board = () => {
 
       <div className="overflow-y-scroll scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full">
         <BoardInfo
-          Name={name}
+          Name={name1}
           Description={description}
           Pid={pid}
           Vid={vid}
           Sn={sn}
-          Percentage={percentage}
-          Actives={actives}
+          Percentage={percentages}
+          Active={actives}
           Port1={interface1Port}
           Port2={interface2Port}
+          Port3={interface3Port}
+          State1={interface1state}
+          State2={interface2state}
+          State3={interface3state}
           Active1={interface1Active}
           Active2={interface2Active}
+          Active3={interface3Active}
+          Type1={interface1type}
+          Type2={interface2type}
+          Type3={interface3type}
           Memory={memory}
         />
       </div>

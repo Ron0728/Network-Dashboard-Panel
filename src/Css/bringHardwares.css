@@ -1,11 +1,10 @@
-.fetchbutton {
+.BringHardWares {
   position: relative;
 }
 
-.fetchbutton {
+.BringHardWares {
   bottom: 80%;
   color: rgb(255, 255, 255);
-  width: 120px;
 
   font-size: 18px;
 
@@ -13,11 +12,11 @@
   overflow: hidden;
 }
 
-.fetchbutton:focus {
+.BringHardWares:focus {
   outline: none;
 }
 
-.fetchbutton::before {
+.BringHardWares::before {
   content: "";
   display: block;
   position: absolute;
@@ -31,7 +30,7 @@
   transform: translate(-130px) skewX(-15deg);
 }
 
-.fetchbutton::after {
+.BringHardWares::after {
   content: "";
   display: block;
   position: absolute;
@@ -45,12 +44,11 @@
   transform: translate(-100px) skewX(-15deg);
 }
 
-.fetchbutton:hover {
-  background: rgb(8, 4, 255);
+.BringHardWares:hover {
   cursor: pointer;
 }
 
-.fetchbutton:hover:before {
+.BringHardWares:hover:before {
   transform: translateX(300px) skewX(-15deg);
   opacity: 0.6;
   transition: 0.7s;

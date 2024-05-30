@@ -15,18 +15,7 @@ const Settings = () => {
           <div className="font-bold text-xl flex justify-center  p-5 animate-pulse text-warmGray-100 ">
             DashBoard
           </div>
-          <div className="flex flex-col justify-center">
-            <div className="flex p-1 shadow-black shadow-lg justify-center items-center bg-white rounded-3xl">
-              <input
-                placeholder="Search . . ."
-                className=" rounded-2xl outline-none p-1 w-96 h-9"
-              />
-              <div>
-                <IoSearch />
-              </div>
-            </div>
-          </div>
-          ;
+
           <div className="flex gap-16 p-2 text-gray-600">
             <button
               className="topbuttons p-2 text-lg"
