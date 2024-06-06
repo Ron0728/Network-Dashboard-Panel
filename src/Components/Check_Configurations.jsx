@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Check_Configurations = () => {
   const [selectedDevice_Check, setSelectedDevice_Check] = useState("");
@@ -18,6 +20,8 @@ const Check_Configurations = () => {
     console.log(
       `Selected device : ${selectedDevice_Check} with the ip of : ${selectedDeviceIP_check_Config} for checking`
     );
+
+    notifyI(`The IP ${selectedDeviceIP_check_Config} has been Selected`);
   };
 
   const fetchDevices = async () => {
@@ -30,53 +34,59 @@ const Check_Configurations = () => {
   };
 
   const StartChecking = async () => {
-    await fetch("http://localhost:3000/dashboard/troubleshooting/checkconfig")
-      .then((res) => res.json())
-      .then((data) => {
-        Send_IP_ToCheck_ToServer();
-        {
-          data.error ? (
-            setCheckingErrorMSG(
-              <div
-                className="flex shadow-inner shadow-black bg-gradient-to-r
-                   from-[rgb(255,0,0)] to-gray-400 text-white p-2 rounded-full"
-              >
-                {data.error}
-              </div>
-            )
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.success ? (
-            setCheckingSuccessfullMSG(
-              <div
-                className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
-                  from-[rgb(0,255,0)] to-gray-400  text-white p-2 rounded-full"
-              >
-                {data.success}
-              </div>
-            )
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.suggestion ? (
-            setCheckingSuggestionMSG(
-              <div
-                className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
-                  from-[rgb(213,110,37)] to-[rgb(255,167,26)]  text-white p-2 rounded-full"
-              >
-                {data.suggestion}
-              </div>
-            )
-          ) : (
-            <></>
-          );
-        }
-      });
+    {
+      selectedDevice_Check
+        ? await fetch(
+            "http://localhost:3000/dashboard/troubleshooting/checkconfig"
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              Send_IP_ToCheck_ToServer();
+              {
+                data.error ? (
+                  setCheckingErrorMSG(
+                    <div
+                      className="flex shadow-inner shadow-black bg-gradient-to-r
+                       from-[rgb(255,0,0)] to-gray-400 text-white p-2 rounded-full"
+                    >
+                      {data.error}
+                    </div>
+                  )
+                ) : (
+                  <></>
+                );
+              }
+              {
+                data.success ? (
+                  setCheckingSuccessfullMSG(
+                    <div
+                      className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
+                      from-[rgb(0,255,0)] to-gray-400  text-white p-2 rounded-full"
+                    >
+                      {data.success}
+                    </div>
+                  )
+                ) : (
+                  <></>
+                );
+              }
+              {
+                data.suggestion ? (
+                  setCheckingSuggestionMSG(
+                    <div
+                      className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
+                      from-[rgb(213,110,37)] to-[rgb(255,167,26)]  text-white p-2 rounded-full"
+                    >
+                      {data.suggestion}
+                    </div>
+                  )
+                ) : (
+                  <></>
+                );
+              }
+            })
+        : notifyD("Please Select a Device");
+    }
   };
 
   const Send_IP_ToCheck_ToServer = async () => {
@@ -90,6 +100,45 @@ const Check_Configurations = () => {
   useEffect(() => {
     fetchDevices();
   }, []);
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
 
   return (
     <div className="flex flex-col bg-gray-300 w-full h-full gap-3 rounded-2xl p-5 shadow-lg shadow-black ">
@@ -128,6 +177,7 @@ const Check_Configurations = () => {
           >
             Start checking
           </button>
+          <ToastContainer />
         </div>
       </div>
       <div className="flex flex-col gap-1 p-3 bg-gray-400 rounded-3xl shadow-inner shadow-black">
@@ -144,6 +194,7 @@ const Check_Configurations = () => {
           </p>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

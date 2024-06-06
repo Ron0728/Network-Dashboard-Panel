@@ -10,7 +10,8 @@ import WAlertMSG from "./WAlertMSG";
 import DAlertMSG from "./DAlertMSG";
 import GAlertMSG from "./GAlertMSG";
 import SAlertMSG from "./SAlertMSG";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Protocol_RIP = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -37,28 +38,27 @@ const Protocol_RIP = () => {
   }, []);
 
   const fetchRIPdata = async () => {
-    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/rip")
       .then((res) => res.json())
       .then((data) => {
         {
-          data.messageRipW ? (
+          data.messageW ? (
             (setAlertWarningMessages([
               ...alertWarningMessages,
-              <WAlertMSG alertWarningMessages={data.messageRipW} />,
+              <WAlertMSG alertWarningMessages={data.messageW} />,
             ]),
-            call_ALerts("Worning from Rip Protocol"))
+            notifyW(data.messageW))
           ) : (
             <></>
           );
         }
         {
-          data.messageRipD ? (
+          data.messageD ? (
             (setAlertDangerMessages([
               ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageRipD} />,
+              <DAlertMSG alertDangerMessages={data.messageD} />,
             ]),
-            call_ALerts("Danger from Rip Protocol"))
+            notifyD(data.messageD))
           ) : (
             <></>
           );
@@ -69,30 +69,23 @@ const Protocol_RIP = () => {
               ...alertGoodMessages,
               <GAlertMSG alertGoodMessages={data.message} />,
             ]),
-            call_ALerts("RIP configured successfully"))
+            notifyG(data.message))
           ) : (
             <></>
           );
         }
         {
           data.messageRipS ? (
-            (setAlertSuggestedMessages([
+            setAlertSuggestedMessages([
               ...alertSuggestedMessages,
               <SAlertMSG alertSuggestedMessages={data.messageRipS} />,
-            ]),
-            call_ALerts("RIP Suggested message"))
+            ])
           ) : (
             <></>
           );
         }
-
-        // call_ALerts("done from rip");
       });
   };
-
-  function call_ALerts(msg) {
-    alert(msg);
-  }
 
   const handlerDeviceChange = (event) => {
     const selectedDevice = event.target.value;
@@ -129,12 +122,73 @@ const Protocol_RIP = () => {
       }, []);
   };
 
-  const Send_data_ToServer = async () => {
+  const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/info/interfaces?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
+      ` http://localhost:3000/dashboard/protocols/rip?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
     );
     const data = await response.json();
     console.log("data sent");
+  };
+
+  const Send_data_ToServer = async () => {
+    {
+      selectedDevice && selectedVersionRip && networkRIPData && subnetRIPData
+        ? (Send_data_ToServer2(), fetchRIPdata(), notifyG("Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedVersionRip ? (
+        notifyI(
+          `The Router ${selectedDevice} with the Version ${selectedVersionRip} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkRIPData && subnetRIPData ? (
+        notifyI(
+          `The Network ${networkRIPData} with the Subnet of  ${subnetRIPData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+  };
+
+  const Send_data_ToDiable2 = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/protocols/ripdis?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
+    );
+    const data = await response.json();
+    console.log("data sent to disable RIP");
+    console.log(data.message);
+  };
+
+  const Send_data_ToDiable = async () => {
+    {
+      selectedDevice && selectedVersionRip && networkRIPData && subnetRIPData
+        ? (Send_data_ToDiable2(), notifyG("Disable Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedVersionRip ? (
+        notifyI(
+          `The Router ${selectedDevice} with the Version ${selectedVersionRip} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkRIPData && subnetRIPData ? (
+        notifyI(
+          `The Network ${networkRIPData} with the Subnet of  ${subnetRIPData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
   };
 
   const discard = () => {
@@ -142,28 +196,84 @@ const Protocol_RIP = () => {
     setSubnetRIPData("");
   };
 
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+    <ToastContainer />;
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+    <ToastContainer />;
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+    <ToastContainer />;
+  };
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+    <ToastContainer />;
+  };
+
   return (
     <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
-      <div className="font-bold text-2xl">RIP Configuration:</div>
+      <div className="font-bold text-xl">RIP Configuration:</div>
       <div className="flex justify-between">
         <div className=" flex flex-col gap-5">
           <div className="flex gap-7">
             <div>
               <div className="text-blue-700 w-full font-bold">
-                Choose wanted device
+                Choose Wanted Device
               </div>
-              <div className="flex justify-center font-bold text-gray-600">
-                to apply RIP to it
+              <div className="flex justify-center font-bold text-gray-600 text-sm ">
+                (to Apply RIP to it)
               </div>
             </div>
-            <div className="flex justify-around items-center p-2 bg-blue-900 w-[25%] shadow-lg text-white shadow-black rounded-full ">
+            <div className="flex justify-around items-center p-2 bg-blue-900 w-[30%] shadow-lg text-white shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
                   className="bg-transparent outline-none "
                   value={selectedDevice}
                   onChange={handlerDeviceChange}
                 >
-                  <option className="text-black">Choose</option>
+                  <option>Choose</option>
                   {device.map((D) => (
                     <option className="text-black " key={D.id} value={D.name}>
                       {D.name}
@@ -176,9 +286,11 @@ const Protocol_RIP = () => {
           <div className="flex gap-3 items-center">
             <div>
               <div className="flex justify-center text-gray-600 font-bold">
-                insert network
+                Insert Network
               </div>
-              <div className="text-gray-600 font-bold">Applying Network</div>
+              <div className="text-gray-600 font-bold text-sm ">
+                (Applying Network)
+              </div>
             </div>
             <input
               value={networkRIPData}
@@ -189,7 +301,7 @@ const Protocol_RIP = () => {
         </div>
         <div className="  flex flex-col gap-5 ">
           <div className="flex items-center -translate-y-1.5 h-full gap-7">
-            <div className="text-blue-700 font-bold">Choose RIP version</div>
+            <div className="text-blue-700 font-bold">Choose RIP Version</div>
             <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
@@ -221,7 +333,7 @@ const Protocol_RIP = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            onClick={fetchRIPdata}
+            onClick={Send_data_ToServer}
             className={`px-4 py-2 rounded-lg ${
               isbuttonClicked
                 ? "apply shadow-in shadow-black bg-black text-white p-3 w-[20%] rounded-full"
@@ -230,13 +342,17 @@ const Protocol_RIP = () => {
           >
             Apply
           </button>
+          <ToastContainer />
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Discard
           </button>
-          <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={Send_data_ToDiable}
+            className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Disable
           </button>
         </div>
@@ -247,7 +363,7 @@ const Protocol_RIP = () => {
             }}
             className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
-            RIP info
+            RIP Info
           </button>
         </div>
       </div>

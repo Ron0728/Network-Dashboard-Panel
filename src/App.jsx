@@ -28,7 +28,7 @@ import RIP_Protocol_Information from "./Components/RIP_Protocol_Information";
 import DHCP_Protocol_Information from "./Components/DHCP_Protocol_Information";
 import OSPF_Protocol_Information from "./Components/OSPF_Protocol_Information";
 import EGRIP_Protocol_Information from "./Components/EGRIP_Protocol_Information";
-import Todelete1 from "./Components/DHCP_Configuration";
+import Todelete9 from "./Frames/Todelete9";
 
 function App() {
   const [goodMSG, setGoodMSG] = useState([]);
@@ -43,7 +43,7 @@ function App() {
           <AlertContextWarrning.Provider value={[warrningMSG, setWarrningMSG]}>
             <AlertContextSuggested.Provider value={[suggested, setSuggested]}>
               {/* <Routes>
-                <Route path="/" element={<Todelete1 />}></Route>
+                <Route path="/" element={<Todelete9 />}></Route>
               </Routes> */}
               <Routes>
                 <Route path="/" element={<Background />}>

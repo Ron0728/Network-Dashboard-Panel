@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "/src/Css/pingbutton.css";
 import ExistingDevives from "./ExistingDevives";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BoardInfo = ({
   Name,
@@ -39,8 +41,6 @@ const BoardInfo = ({
       .then((data) => {
         setVal(data.Message[0].value);
         setPingMessage(data.Message[0].success_rate);
-        console.log("data Sent");
-        Send_IP_ToServer();
       });
   };
 
@@ -87,6 +87,57 @@ const BoardInfo = ({
     );
     const data = await response.json();
     console.log("data sent");
+
+    {
+      (iP && iP2) == null ? (
+        notifyD("Please Select the Devices")
+      ) : iP == iP2 ? (
+        notifyW(`Can't be Pinging to the same Router with the IP ${iP} `)
+      ) : iP && iP2 ? (
+        (fetchPing(), notifyG(`Ping is Done With ${iP} and ${iP2}`))
+      ) : (
+        <></>
+      );
+    }
+  };
+
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   return (
@@ -257,11 +308,12 @@ const BoardInfo = ({
           {/* selectedDeviceIP */}
           <div className=" flex justify-center items-center h-full w-[10%]">
             <button
-              onClick={fetchPing}
+              onClick={Send_IP_ToServer}
               className="ping flex items-center justify-center bg-green-600 w-full h-[80%] text-white font-bold rounded-full p-2  shadow-lg shadow-black "
             >
               Ping
             </button>
+            <ToastContainer />
           </div>
         </div>
         <div className="flex flex-col items-center">

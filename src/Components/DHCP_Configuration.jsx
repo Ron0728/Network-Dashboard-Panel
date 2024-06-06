@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   AlertContextGood,
   AlertContextDanger,
@@ -31,67 +33,61 @@ const DHCP_Configuration = () => {
     useContext(AlertContextDanger);
 
   const fetchDHCP_TroubleShooting_data = async () => {
-    Send_data_ToServer();
-    await fetch("http://localhost:3000/dashboard/troubleshooting/dhcp")
-      .then((res) => res.json())
-      .then((data) => {
-        {
-          data.W_messageDhcpTroubleShooting ? (
-            (setAlertWarningMessages([
-              ...alertWarningMessages,
-              <WAlertMSG
-                alertWarningMessages={data.W_messageDhcpTroubleShooting}
-              />,
-            ]),
-            call_ALerts("Warning DHCP from TroubleShooting"))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.D_messageDhcpTroubleShooting ? (
-            (setAlertDangerMessages([
-              ...alertDangerMessages,
-              <DAlertMSG
-                alertDangerMessages={data.D_messageDhcpTroubleShooting}
-              />,
-            ]),
-            call_ALerts("Danger DHCP from TroubleShooting"))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.message ? (
-            (setAlertGoodMessages([
-              ...alertGoodMessages,
-              <GAlertMSG alertGoodMessages={data.message} />,
-            ]),
-            call_ALerts("DHCP configured successfully from TroubleShooting"))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.S_messageDhcpTroubleShooting ? (
-            (setAlertSuggestedMessages([
-              ...alertSuggestedMessages,
-              <SAlertMSG
-                alertSuggestedMessages={data.S_messageDhcpTroubleShooting}
-              />,
-            ]),
-            call_ALerts("DHCP suggested message from TroubleShooting"))
-          ) : (
-            <></>
-          );
-        }
-        // call_ALerts("done from dhcp");
-      });
+    try {
+      await fetch("http://localhost:3000/dashboard/troubleshooting/dhcp")
+        .then((res) => res.json())
+        .then((data) => {
+          {
+            data.messageW ? (
+              (setAlertWarningMessages([
+                ...alertWarningMessages,
+                <WAlertMSG alertWarningMessages={data.messageW} />,
+              ]),
+              notifyW(data.messageW))
+            ) : (
+              <></>
+            );
+          }
+          {
+            data.messageD ? (
+              (setAlertDangerMessages([
+                ...alertDangerMessages,
+                <DAlertMSG alertDangerMessages={data.messageD} />,
+              ]),
+              notifyD(data.messageD))
+            ) : (
+              <></>
+            );
+          }
+          {
+            data.message ? (
+              (setAlertGoodMessages([
+                ...alertGoodMessages,
+                <GAlertMSG alertGoodMessages={data.message} />,
+              ]),
+              notifyG(data.message))
+            ) : (
+              <></>
+            );
+          }
+          {
+            data.S_messageDhcpTroubleShooting ? (
+              setAlertSuggestedMessages([
+                ...alertSuggestedMessages,
+                <SAlertMSG
+                  alertSuggestedMessages={data.S_messageDhcpTroubleShooting}
+                />,
+              ])
+            ) : (
+              <></>
+            );
+          }
+          // call_ALerts("done from dhcp");
+        });
+    } catch {
+      notifyW("An Error Occurred");
+    }
   };
-
-  function call_ALerts(msg) {
-    alert(msg);
-  }
 
   useEffect(() => {
     fetchRouter();
@@ -133,15 +129,40 @@ const DHCP_Configuration = () => {
     console.log("the selected Router : -->", selected_Router);
   };
 
-  const Send_data_ToServer = async () => {
+  const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/info/interfaces?Router=${selectedRouter}&&Interface=${selectedInterfaces}&&network=${networkData}&&subnet=${subnetData}`
+      `http://localhost:3000/dashboard/protocols/dhcp?Router=${selectedRouter}&&Interface=${selectedInterfaces}&&network=${networkData}&&subnet=${subnetData}`
     );
     const data = await response.json();
     console.log("data sent");
-    call_ALerts(
-      `The Router ${selectedRouter} with the Interface ${selectedInterfaces}`
-    );
+  };
+
+  const Send_data_ToServer = async () => {
+    {
+      selectedRouter && selectedInterfaces && networkData && subnetData
+        ? (Send_data_ToServer2(),
+          fetchDHCP_TroubleShooting_data(),
+          notifyG("Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedRouter && selectedInterfaces ? (
+        notifyI(
+          `The Router ${selectedRouter} with the Interface ${selectedInterfaces} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkData && subnetData ? (
+        notifyI(
+          `The Network ${networkData} with the Subnet of ${subnetData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
   };
 
   const handleChange_for_Network = (event) => {
@@ -157,6 +178,58 @@ const DHCP_Configuration = () => {
     setSubnetData("");
   };
 
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
   return (
     // DHCP Configuration
     <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg  shadow-black ">
@@ -167,7 +240,7 @@ const DHCP_Configuration = () => {
             <div className="flex items-center gap-7">
               <div>
                 <div className="text-blue-700 font-bold text-lg">
-                  Choose a device
+                  Choose a Device
                 </div>
                 <div className="flex text-gray-600 font-bold text-sm "></div>
               </div>
@@ -189,10 +262,10 @@ const DHCP_Configuration = () => {
             <div className="flex gap-3 items-center">
               <div>
                 <div className="text-blue-700 font-bold text-lg">
-                  Insert network
+                  Insert Network
                 </div>
                 <div className="flex text-gray-600 font-bold text-sm ">
-                  the appling network
+                  (The Appling Network)
                 </div>
               </div>
               <input
@@ -210,7 +283,7 @@ const DHCP_Configuration = () => {
                 Choose Interface
               </div>
               <div className="flex text-gray-600 font-bold text-sm ">
-                All || Specific interface
+                (All || Specific Interface)
               </div>
             </div>
             <div className="flex justify-around items-center p-2 bg-blue-900 w-[30%] shadow-lg text-white shadow-black rounded-full ">
@@ -233,7 +306,7 @@ const DHCP_Configuration = () => {
                 Insert Subnet
               </div>
               <div className="flex text-gray-600 font-bold text-sm ">
-                network's mask
+                (Network's Mask)
               </div>
             </div>
             <input
@@ -247,19 +320,17 @@ const DHCP_Configuration = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            onClick={fetchDHCP_TroubleShooting_data}
+            onClick={Send_data_ToServer}
             className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
+
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Discard
-          </button>
-          <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
-            Disable
           </button>
         </div>
         <div>
@@ -269,10 +340,11 @@ const DHCP_Configuration = () => {
             }}
             className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
-            DHCP info
+            DHCP Info
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

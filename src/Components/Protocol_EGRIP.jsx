@@ -9,6 +9,8 @@ import {
   AlertContextSuggested,
   AlertContextWarrning,
 } from "../alertsContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const Protocol_EGRIP = () => {
@@ -66,28 +68,27 @@ const Protocol_EGRIP = () => {
   };
 
   const fetchEGRIPdata = async () => {
-    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/eigrp")
       .then((res) => res.json())
       .then((data) => {
         {
-          data.messageEgripW ? (
+          data.messageW ? (
             (setAlertWarningMessages([
               ...alertWarningMessages,
-              <WAlertMSG alertWarningMessages={data.messageEgripW} />,
+              <WAlertMSG alertWarningMessages={data.messageW} />,
             ]),
-            call_ALerts("Warning from EGRIP"))
+            notifyW(data.messageW))
           ) : (
             <></>
           );
         }
         {
-          data.messageEgripD ? (
+          data.messageD ? (
             (setAlertDangerMessages([
               ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageEgripD} />,
+              <DAlertMSG alertDangerMessages={data.messageD} />,
             ]),
-            call_ALerts("Danger from EGRIP"))
+            notifyD(data.messageD))
           ) : (
             <></>
           );
@@ -98,18 +99,17 @@ const Protocol_EGRIP = () => {
               ...alertGoodMessages,
               <GAlertMSG alertGoodMessages={data.message} />,
             ]),
-            call_ALerts("EGRIP configured successfully"))
+            notifyG(data.message))
           ) : (
             <></>
           );
         }
         {
           data.messageEgripS ? (
-            (setAlertSuggestedMessages([
+            setAlertSuggestedMessages([
               ...alertSuggestedMessages,
               <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
-            ]),
-            call_ALerts("Egrip Suggested message"))
+            ])
           ) : (
             <></>
           );
@@ -122,21 +122,130 @@ const Protocol_EGRIP = () => {
     fetchDevices();
   }, []);
 
-  function call_ALerts(msg) {
-    alert(msg);
-  }
-
-  const Send_data_ToServer = async () => {
+  const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/info/interfaces?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
+      `http://localhost:3000/dashboard/protocols/eigrp?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
     );
     const data = await response.json();
     console.log("data sent");
   };
 
+  const Send_data_ToServer = async () => {
+    {
+      selectedDevice && selectedAsNUmber && networkEGRIPData && subnetEGRIPData
+        ? (Send_data_ToServer2(), fetchEGRIPdata(), notifyG("Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedAsNUmber ? (
+        notifyI(
+          `The Router ${selectedDevice} with AS Number of ${selectedAsNUmber} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkEGRIPData && subnetEGRIPData ? (
+        notifyI(
+          `The Network ${networkEGRIPData} with Subnet of ${subnetEGRIPData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+  };
+
+  const Send_data_ToDisable2 = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/protocols/eigrpdis?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
+    );
+    const data = await response.json();
+    console.log("data sent to disable EGRIP");
+    console.log(data.message);
+  };
+
+  const Send_data_ToDisable = async () => {
+    {
+      selectedDevice && selectedAsNUmber && networkEGRIPData && subnetEGRIPData
+        ? (Send_data_ToDisable2(), notifyG("Disable Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedAsNUmber ? (
+        notifyI(
+          `The Router ${selectedDevice} with AS Number of ${selectedAsNUmber} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkEGRIPData && subnetEGRIPData ? (
+        notifyI(
+          `The Network ${networkEGRIPData} with Subnet of ${subnetEGRIPData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+  };
+
   const discard = () => {
     setNetworkEGRIPData("");
     setSubnetEGRIPData("");
+  };
+
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   return (
@@ -147,19 +256,20 @@ const Protocol_EGRIP = () => {
           <div className="flex gap-7">
             <div>
               <div className="text-blue-700 w-full font-bold">
-                Choose wanted device
+                Choose Wanted Device
               </div>
-              <div className="flex justify-center font-bold text-gray-600">
-                to apply EGRIP to it
+              <div className="flex justify-center font-bold text-sm  text-gray-600">
+                (to Apply EGRIP to it)
               </div>
             </div>
-            <div className="flex justify-around items-center p-2 bg-blue-900 w-[25%] shadow-lg text-white shadow-black rounded-full ">
+            <div className="flex justify-around items-center p-2 bg-blue-900 w-[30%] shadow-lg text-white shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
                   className="bg-transparent outline-none "
                   value={selectedDevice}
                   onChange={handlerDeviceChange}
                 >
+                  <option>Choose</option>
                   {device.map((D) => (
                     <option className="text-black " key={D.id} value={D.name}>
                       {D.name}
@@ -172,9 +282,11 @@ const Protocol_EGRIP = () => {
           <div className="flex gap-3 items-center">
             <div>
               <div className="flex justify-center text-gray-600 font-bold">
-                insert network
+                Insert Network
               </div>
-              <div className="text-gray-600 font-bold">Applying Network</div>
+              <div className="text-gray-600 text-sm  font-bold">
+                (Applying Network)
+              </div>
             </div>
             <input
               value={networkEGRIPData}
@@ -188,7 +300,7 @@ const Protocol_EGRIP = () => {
             <div>
               <div className="text-blue-700 font-bold">Choose AS Number</div>
               <div className="text-gray-700 font-bold">
-                (Optinal) default 10
+                (Optinal) Default 10
               </div>
             </div>
             <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
@@ -233,7 +345,7 @@ const Protocol_EGRIP = () => {
             </div>
           </div>
           <div className="flex gap-3 -translate-y-2 items-center">
-            <div className="text-gray-600 font-bold">Insert subnet</div>
+            <div className="text-gray-600 font-bold">Insert Subnet</div>
             <input
               value={subnetEGRIPData}
               onChange={handleChange_for_EGRIP}
@@ -245,18 +357,22 @@ const Protocol_EGRIP = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            onClick={fetchEGRIPdata}
+            onClick={Send_data_ToServer}
             className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
+          <ToastContainer />
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Discard
           </button>
-          <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={Send_data_ToDisable}
+            className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Disable
           </button>
         </div>
@@ -267,7 +383,7 @@ const Protocol_EGRIP = () => {
             }}
             className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
-            EGRIP info
+            EGRIP Info
           </button>
         </div>
       </div>

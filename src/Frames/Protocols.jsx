@@ -6,6 +6,8 @@ import Protocol_EGRIP from "../Components/Protocol_EGRIP";
 import Protocol_OSPF from "../Components/Protocol_OSPF";
 import Check_Protocol_Interfaces from "../Components/Check_Protocol_Interfaces";
 import DHCP_Configuration from "../Components/DHCP_Configuration";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Protocols = () => {
   return (

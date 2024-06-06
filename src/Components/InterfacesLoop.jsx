@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
+  const Send_data_ToServer = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/troubleshooting/interfaceStatus?Check=${checked}`
+    );
+    const data = await response.json();
+    console.log("check Intetface ", ID, " --> : ", checked);
+  };
+
+  useEffect(() => {
+    Send_data_ToServer();
+  });
+
   return (
     <div className="flex items-center gap-3">
       <div
@@ -44,24 +58,31 @@ const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
   );
 };
 
-const InterfacesLoop = () => {
-  useEffect(() => {
-    fetchSwitchInfo();
-  }, []);
-
+const InterfacesLoop = ({ SW_INTERFACE }) => {
   const [switches, setSwitches] = useState([]);
   const [active, setActive] = useState([]);
 
+  function call_ALerts(msg) {
+    alert(msg);
+  }
+
   const fetchSwitchInfo = async () => {
-    await fetch("http://localhost:3000/dashboard/troubleshooting/interfaces ")
+    await fetch("http://localhost:3000/dashboard/troubleshooting/interfaces")
       .then((res) => res.json())
       .then((data) => {
-        setSwitches(data);
+        console.log("XXX", SW_INTERFACE);
+        {
+          SW_INTERFACE
+            ? setSwitches(SW_INTERFACE)
+            : (setSwitches([]),
+              notifyW("Please select a device then Start checking first"));
+        }
       });
   };
 
   useEffect(() => {
-    fetchSwitchInfo();
+    handleToggle();
+    // fetchSwitchInfo();
   }, []);
 
   const handleToggle = (id) => {
@@ -70,12 +91,34 @@ const InterfacesLoop = () => {
     );
   };
 
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3">
+      <div className="flex flex-col justify-center items-center">
+        <button
+          onClick={fetchSwitchInfo}
+          className="bg-blue-800 w-[25%] p-1 rounded-2xl shadow-black shadow-md text-white"
+        >
+          Bring Interfaces
+        </button>
+        <ToastContainer />
+      </div>
       {switches.map((sw) => (
         <ToggleSwitch
           key={sw.id}
-          id={sw.id}
+          ID={sw.id}
           checked={sw.checked}
           act={active}
           State={sw.state}

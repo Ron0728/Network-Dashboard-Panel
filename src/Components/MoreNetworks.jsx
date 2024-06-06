@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MoreNetButtom from "../Components/MoreNetButton";
 import { FaNetworkWired } from "react-icons/fa6";
 import { data } from "autoprefixer";
@@ -14,6 +14,7 @@ const MoreNetworks = () => {
     const onChangeValue = [...more];
     onChangeValue[i][name] = value;
     setMore(onChangeValue);
+    console.log("---> : ", value);
   };
 
   const handleDelete = (i) => {
@@ -21,6 +22,26 @@ const MoreNetworks = () => {
     deleteValue.splice(i, 1);
     setMore(deleteValue);
   };
+
+  // const Send_data_ToServer = async () => {
+  //   const response = await fetch(
+  //     ` http://localhost:3000/dashboard/security/access?More=${more}`
+  //   );
+  //   const data = await response.json();
+  //   console.log("data sent");
+  //   console.log("data to send : ", more);
+
+  //   // {
+  //   //   selectedDevice && selectedVersionRip ? (
+  //   //     notifyI(
+  //   //       `The Router ${selectedDevice} with the Version ${selectedVersionRip} has been Selected`
+  //   //     )
+  //   //   ) : (
+  //   //     <></>
+  //   //   );
+  //   // }
+  // };
+
   return (
     <div>
       <div className="flex flex-col justify-center  items-center gap-3">
@@ -62,12 +83,17 @@ const MoreNetworks = () => {
                 ></input>
               </div>
             </div>
-            <button
-              className="flex items-center bg-[rgb(255,0,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md"
-              onClick={() => handleDelete(i)}
-            >
-              Delete
-            </button>
+            <div className="flex gap-10">
+              <button className="flex items-center bg-[rgb(0,190,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md">
+                Check
+              </button>
+              <button
+                className="flex items-center bg-[rgb(255,0,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md"
+                onClick={() => handleDelete(i)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>

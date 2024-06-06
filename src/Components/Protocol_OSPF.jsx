@@ -9,8 +9,9 @@ import {
   AlertContextSuggested,
   AlertContextWarrning,
 } from "../alertsContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Protocol_OSPF = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -21,6 +22,8 @@ const Protocol_OSPF = () => {
   const [selectedInterfaceOspfs, setSelectedInterfaceOspfs] = useState("");
   const [interfacesOspf, setInterfacesOspf] = useState([]);
   const [areaNumberData, setAreaNumberData] = useState("");
+  const navigate = useNavigate();
+
   const [alertGoodMessages, setAlertGoodMessages] =
     useContext(AlertContextGood);
   const [alertWarningMessages, setAlertWarningMessages] =
@@ -30,8 +33,6 @@ const Protocol_OSPF = () => {
   );
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
-
-  const navigate = useNavigate();
 
   const fetchDevices = async () => {
     await fetch("http://localhost:3000/info/routers")
@@ -91,28 +92,27 @@ const Protocol_OSPF = () => {
   };
 
   const fetchOSPFdata = async () => {
-    Send_data_ToServer();
     await fetch("http://localhost:3000/dashboard/protocols/ospf")
       .then((res) => res.json())
       .then((data) => {
         {
-          data.messageOspfW ? (
+          data.messageW ? (
             (setAlertWarningMessages([
               ...alertWarningMessages,
-              <WAlertMSG alertWarningMessages={data.messageOspfW} />,
+              <WAlertMSG alertWarningMessages={data.messageW} />,
             ]),
-            call_ALerts("Warning from OSPF"))
+            notifyW(data.messageW))
           ) : (
             <></>
           );
         }
         {
-          data.messageOspfD ? (
+          data.messageD ? (
             (setAlertDangerMessages([
               ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageOspfD} />,
+              <DAlertMSG alertDangerMessages={data.messageD} />,
             ]),
-            call_ALerts("Danger from OSPF"))
+            notifyD(data.messageD))
           ) : (
             <></>
           );
@@ -123,36 +123,100 @@ const Protocol_OSPF = () => {
               ...alertGoodMessages,
               <GAlertMSG alertGoodMessages={data.message} />,
             ]),
-            call_ALerts("OSPF configured successfully"))
+            notifyG(data.message))
           ) : (
             <></>
           );
         }
         {
           data.messageOspfS ? (
-            (setAlertSuggestedMessages([
+            setAlertSuggestedMessages([
               ...alertSuggestedMessages,
               <SAlertMSG alertSuggestedMessages={data.messageOspfS} />,
-            ]),
-            call_ALerts("OSPF Suggested message"))
+            ])
           ) : (
             <></>
           );
         }
-        // call_ALerts("done from ospf");
       });
   };
 
-  function call_ALerts(msg) {
-    alert(msg);
-  }
-
-  const Send_data_ToServer = async () => {
+  const Send_data_ToDisable2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/info/interfaces?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
+      `http://localhost:3000/dashboard/protocols/ospfdis?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
     );
     const data = await response.json();
+    console.log("data sent to disable OSPF");
+    console.log(data.message);
+  };
+
+  const Send_data_ToDisable = async () => {
+    {
+      selectedDevice &&
+      selectedInterfaceOspfs &&
+      networkOSPFData &&
+      subnetOSPFData &&
+      areaNumberData
+        ? (Send_data_ToDisable2(), notifyG("Disable Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedInterfaceOspfs ? (
+        notifyI(
+          `The Router ${selectedDevice} with Interface of ${selectedInterfaceOspfs} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkOSPFData && subnetOSPFData && areaNumberData ? (
+        notifyI(
+          `The Network ${networkOSPFData} with Subnet of ${subnetOSPFData} and Area Number of ${areaNumberData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+  };
+
+  const Send_data_ToServer2 = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/protocols/ospf?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
+    );
+
+    const data = await response.json();
     console.log("data sent");
+  };
+
+  const Send_data_ToServer = async () => {
+    {
+      selectedDevice &&
+      selectedInterfaceOspfs &&
+      networkOSPFData &&
+      subnetOSPFData &&
+      areaNumberData
+        ? (Send_data_ToServer2(), fetchOSPFdata(), notifyG("Done"))
+        : notifyD("Please Choose and Enter all Information");
+    }
+    {
+      selectedDevice && selectedInterfaceOspfs ? (
+        notifyI(
+          `The Router ${selectedDevice} with Interface of ${selectedInterfaceOspfs} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
+    {
+      networkOSPFData && subnetOSPFData && areaNumberData ? (
+        notifyI(
+          `The Network ${networkOSPFData} with Subnet of ${subnetOSPFData} and Area Number of ${areaNumberData} has been Selected`
+        )
+      ) : (
+        <></>
+      );
+    }
   };
 
   const discard = () => {
@@ -161,18 +225,70 @@ const Protocol_OSPF = () => {
     setSubnetOSPFData("");
   };
 
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
       <div className="font-bold text-xl">OSPF Configuration:</div>
       <div className="flex w-full justify-between">
         <div className="flex flex-col gap-5">
           <div className="flex items-center gap-7">
-            <div>
-              <div className="text-blue-700 w-full font-bold">
-                Choose wanted device
+            <div className=" w-full">
+              <div className="text-blue-700 justify-center flex  w-full font-bold">
+                Choose Wanted Device
               </div>
-              <div className="flex justify-center font-bold text-gray-600">
-                to apply OSPF to it
+              <div className="flex justify-center text-sm font-bold text-gray-600">
+                (to Apply OSPF to it)
               </div>
             </div>
             <div className="flex justify-around items-center p-4  bg-blue-900 w-[40%] h-[60%] shadow-lg text-white shadow-black rounded-full ">
@@ -195,9 +311,11 @@ const Protocol_OSPF = () => {
           <div className="flex gap-3 items-center">
             <div>
               <div className="flex justify-center text-gray-600 font-bold">
-                insert network
+                Insert Network
               </div>
-              <div className="text-gray-600 font-bold">Applying Network</div>
+              <div className="text-gray-600 text-sm  font-bold">
+                (Applying Network)
+              </div>
             </div>
             <input
               value={networkOSPFData}
@@ -207,8 +325,8 @@ const Protocol_OSPF = () => {
           </div>
         </div>
         <div className="flex w-[30%]  flex-col gap-5">
-          <div className="flex items-center w-full h-full gap-7">
-            <div className="text-blue-700 font-bold">Choose interfaces</div>
+          <div className="flex items-center  w-full h-full gap-7">
+            <div className="text-blue-700  font-bold">Choose Interfaces</div>
 
             <div className="flex justify-around items-center  bg-blue-900 w-[50%] h-[50%] shadow-lg shadow-black rounded-full ">
               <div className="flex items-center justify-center">
@@ -230,8 +348,8 @@ const Protocol_OSPF = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-3 items-center">
-            <div className="text-gray-600 font-bold">Insert subnet</div>
+          <div className="flex gap-3 justify-end items-center">
+            <div className="text-gray-600 font-bold">Insert Subnet</div>
             <input
               value={subnetOSPFData}
               onChange={handleChange_for_OSPF}
@@ -251,18 +369,22 @@ const Protocol_OSPF = () => {
       <div className="flex justify-between gap-5">
         <div className="flex gap-5">
           <button
-            onClick={fetchOSPFdata}
+            onClick={Send_data_ToServer}
             className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
+          <ToastContainer />
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Discard
           </button>
-          <button className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full">
+          <button
+            onClick={Send_data_ToDisable}
+            className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
+          >
             Disable
           </button>
         </div>
@@ -273,7 +395,7 @@ const Protocol_OSPF = () => {
             }}
             className="dhcp trasla bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
-            OSPF info
+            OSPF Info
           </button>
         </div>
       </div>

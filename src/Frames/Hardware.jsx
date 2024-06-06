@@ -3,6 +3,9 @@ import HardwareLoop from "./HardwareLoop";
 import "/src/Css/FetchButton.css";
 import "/src/Css/BringHardWares.css";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const FlipCard = () => {
   const [data5, setData5] = useState([]);
   const [name1, setName] = useState([]);
@@ -31,35 +34,39 @@ const FlipCard = () => {
   const [iP, setIP] = useState();
 
   const fetchData = async () => {
-    await fetch("http://localhost:3000/dashboard/basicInfo")
-      .then((res) => res.json())
-      .then((data) => {
-        setData5(data.Hardware);
-        setName(data.Hardware.map((item) => item.name));
-        setIDs(data.Hardware.map((item) => item.r));
-        setDescription(data.Hardware.map((item) => item.descr));
-        setPID(data.Hardware.map((item) => item.pid));
-        setSN(data.Hardware.map((item) => item.sn));
-        setVID(data.Hardware.map((item) => item.vid));
-        setActives(true);
-        setInterface1Active(data.Interfaces[0].active);
-        setInterface2Active(data.Interfaces[1].active);
-        setInterface3Active(data.Interfaces[2].active);
-        setInterface1Port(data.Interfaces[0].port);
-        setInterface2Port(data.Interfaces[1].port);
-        setInterface3Port(data.Interfaces[2].port);
-        setInterface1state(data.Interfaces[0].state);
-        setInterface2state(data.Interfaces[1].state);
-        setInterface3state(data.Interfaces[2].state);
-        setInterface1type(data.Interfaces[0].type);
-        setInterface2type(data.Interfaces[1].type);
-        setInterface3type(data.Interfaces[2].type);
-        setPercentages(data.Percentage.percentage);
-        setMemory(data.Memory.memory_usage);
-      }, []);
+    {
+      selectedDevice
+        ? await fetch("http://localhost:3000/dashboard/basicInfo")
+            .then((res) => res.json())
+            .then((data) => {
+              setData5(data.Hardware);
+              setName(data.Hardware.map((item) => item.name));
+              setIDs(data.Hardware.map((item) => item.r));
+              setDescription(data.Hardware.map((item) => item.descr));
+              setPID(data.Hardware.map((item) => item.pid));
+              setSN(data.Hardware.map((item) => item.sn));
+              setVID(data.Hardware.map((item) => item.vid));
+              setActives(true);
+              setInterface1Active(data.Interfaces[0].active);
+              setInterface2Active(data.Interfaces[1].active);
+              setInterface3Active(data.Interfaces[2].active);
+              setInterface1Port(data.Interfaces[0].port);
+              setInterface2Port(data.Interfaces[1].port);
+              setInterface3Port(data.Interfaces[2].port);
+              setInterface1state(data.Interfaces[0].state);
+              setInterface2state(data.Interfaces[1].state);
+              setInterface3state(data.Interfaces[2].state);
+              setInterface1type(data.Interfaces[0].type);
+              setInterface2type(data.Interfaces[1].type);
+              setInterface3type(data.Interfaces[2].type);
+              setPercentages(data.Percentage.percentage);
+              setMemory(data.Memory.memory_usage);
+              notifyG(`All Hardwares Related to the router ${selectedDevice}`);
+            }, [])
+        : notifyD("Please Select a Device Then Start");
+    }
   };
 
-  // ----------------------------------------------------------
   const fetchDevices = async () => {
     await fetch("http://localhost:3000/info/routers")
       .then((res) => res.json())
@@ -86,14 +93,58 @@ const FlipCard = () => {
       `http://localhost:3000/dashboard/basicInfo?selectedDeviceIP_Hardware=${iP}`
     );
     const data = await response.json();
-
     console.log("data sent");
+    {
+      iP == null
+        ? notifyD("Please Select a device")
+        : notifyI(
+            `IP ${iP} has been Selected ... Now Bring its Hardwares to see their Information`
+          );
+    }
   };
-  // -------------------------------------------------------------------------------
 
   useEffect(() => {
     fetchDevices();
   }, []);
+
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyI = (msg) => {
+    toast.info(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
 
   return (
     <div className="p-5 w-full overflow-y-scroll bg-gray-400">
@@ -146,6 +197,7 @@ const FlipCard = () => {
                 >
                   Bring Hardwares
                 </button>
+                <ToastContainer />
               </div>
             </div>
 

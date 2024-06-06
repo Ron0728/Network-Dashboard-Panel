@@ -4,6 +4,8 @@ import { IoShieldCheckmarkOutline } from "react-icons/io5";
 import { BrainCircuit } from "lucide-react";
 import BoardInfo from "./BoardInfo";
 import "/src/Css/FetchButton.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Board = () => {
   // to fetch data after clicking (fetch data) button
@@ -30,31 +32,62 @@ const Board = () => {
   const [memory, setMemory] = useState();
 
   const fetchData = async () => {
-    await fetch("http://localhost:3000/dashboard/basicInfo")
-      .then((res) => res.json())
-      .then((data) => {
-        // setHardwareData(response.data);
-        setName(data.Hardware[0].name);
-        setDescription(data.Hardware[0].descr);
-        setPID(data.Hardware[0].pid);
-        setVID(data.Hardware[0].vid);
-        setSN(data.Hardware[0].sn);
-        setMemory(data.Memory.memory_usage);
-        setActives(true);
-        setInterface1Active(data.Interfaces[0].active);
-        setInterface2Active(data.Interfaces[1].active);
-        setInterface3Active(data.Interfaces[2].active);
-        setInterface1Port(data.Interfaces[0].port);
-        setInterface2Port(data.Interfaces[1].port);
-        setInterface3Port(data.Interfaces[2].port);
-        setInterface1state(data.Interfaces[0].state);
-        setInterface2state(data.Interfaces[1].state);
-        setInterface3state(data.Interfaces[2].state);
-        setInterface1type(data.Interfaces[0].type);
-        setInterface2type(data.Interfaces[1].type);
-        setInterface3type(data.Interfaces[2].type);
-        setPercentages(data.Percentage.percentage);
-      }, []);
+    try {
+      await fetch("http://localhost:3000/dashboard/basicInfo")
+        .then((res) => res.json())
+        .then((data) => {
+          // setHardwareData(response.data);
+          setName(data.Hardware[0].name);
+          setDescription(data.Hardware[0].descr);
+          setPID(data.Hardware[0].pid);
+          setVID(data.Hardware[0].vid);
+          setSN(data.Hardware[0].sn);
+          setMemory(data.Memory.memory_usage);
+          setActives(true);
+          setInterface1Active(data.Interfaces[0].active);
+          setInterface2Active(data.Interfaces[1].active);
+          setInterface3Active(data.Interfaces[2].active);
+          setInterface1Port(data.Interfaces[0].port);
+          setInterface2Port(data.Interfaces[1].port);
+          setInterface3Port(data.Interfaces[2].port);
+          setInterface1state(data.Interfaces[0].state);
+          setInterface2state(data.Interfaces[1].state);
+          setInterface3state(data.Interfaces[2].state);
+          setInterface1type(data.Interfaces[0].type);
+          setInterface2type(data.Interfaces[1].type);
+          setInterface3type(data.Interfaces[2].type);
+          setPercentages(data.Percentage.percentage);
+          notifyG("Done");
+        }, []);
+    } catch {
+      notifyW("An Error Occurred");
+    }
+  };
+
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 1000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
   };
 
   return (
@@ -121,6 +154,7 @@ const Board = () => {
           Memory={memory}
         />
       </div>
+      <ToastContainer />
     </div>
   );
 };
