@@ -14,13 +14,15 @@ const MoreNetworks = () => {
     const onChangeValue = [...more];
     onChangeValue[i][name] = value;
     setMore(onChangeValue);
-    console.log("---> : ", value);
+    console.log(`---> ${name}: ${value}`);
+    console.log(more);
   };
 
   const handleDelete = (i) => {
     const deleteValue = [...more];
-    deleteValue.splice(i, 1);
+    deleteValue.splice(i, 0);
     setMore(deleteValue);
+    console.log("D", more);
   };
 
   // const Send_data_ToServer = async () => {
@@ -83,17 +85,13 @@ const MoreNetworks = () => {
                 ></input>
               </div>
             </div>
-            <div className="flex gap-10">
-              <button className="flex items-center bg-[rgb(0,190,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md">
-                Check
-              </button>
-              <button
-                className="flex items-center bg-[rgb(255,0,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md"
-                onClick={() => handleDelete(i)}
-              >
-                Delete
-              </button>
-            </div>
+
+            <button
+              className="flex items-center bg-[rgb(255,0,0)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-md"
+              onClick={() => handleDelete(i)}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>

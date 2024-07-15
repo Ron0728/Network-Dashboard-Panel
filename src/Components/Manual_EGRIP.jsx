@@ -1,26 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import SAlertMSG from "./SAlertMSG";
+import GAlertMSG from "./GAlertMSG";
+import DAlertMSG from "./DAlertMSG";
+import WAlertMSG from "./WAlertMSG";
 import {
   AlertContextGood,
   AlertContextDanger,
   AlertContextSuggested,
   AlertContextWarrning,
 } from "../alertsContext";
-import WAlertMSG from "./WAlertMSG";
-import DAlertMSG from "./DAlertMSG";
-import GAlertMSG from "./GAlertMSG";
-import SAlertMSG from "./SAlertMSG";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const Protocol_RIP = () => {
+import { useNavigate } from "react-router-dom";
+const Manual_EGRIP = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
-  const [subnetRIPData, setSubnetRIPData] = useState("");
-  const [networkRIPData, setNetworkRIPData] = useState("");
-  const [selectedVersionRip, setSelectedVersionRip] = useState("");
-  const [isbuttonClicked, setIsButtonClicked] = useState(false);
   const [iP, setIP] = useState();
+  const [subnetEGRIPData, setSubnetEGRIPData] = useState("");
+  const [networkEGRIPData, setNetworkEGRIPData] = useState("");
+  const [selectedAsNUmber, setSelectedAsNUmber] = useState(10);
   const navigate = useNavigate();
 
   const [alertGoodMessages, setAlertGoodMessages] =
@@ -33,12 +31,43 @@ const Protocol_RIP = () => {
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
 
-  useEffect(() => {
-    fetchDevices();
-  }, []);
+  const handlerDeviceChange = (event) => {
+    const selectedDevice = event.target.value;
+    setSelectedDevice(selectedDevice);
+    const selectedDeviceIP = device.find(
+      (device) => device.name === selectedDevice
+    ).ip;
+    setIP(selectedDeviceIP);
+    console.log(
+      `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
+    );
+  };
 
-  const fetchRIPdata = async () => {
-    await fetch("http://localhost:3000/dashboard/protocols/rip")
+  const fetchDevices = async () => {
+    await fetch("http://localhost:3000/info/routers")
+      .then((res) => res.json())
+      .then((data) => {
+        setDevice(data);
+        console.log(data);
+      }, []);
+  };
+
+  const handleChange_for_EGRIP = (event1) => {
+    setSubnetEGRIPData(event1.target.value);
+  };
+
+  const handleChange2_for_EGRIP = (event) => {
+    setNetworkEGRIPData(event.target.value);
+  };
+
+  const handleAsNumberChange = (event) => {
+    const selectedAsNumber = event.target.value;
+    setSelectedAsNUmber(selectedAsNumber);
+    console.log("AS Number : ", selectedAsNumber);
+  };
+
+  const fetchEGRIPdata = async () => {
+    await fetch("http://localhost:3000/dashboard/protocols/eigrp")
       .then((res) => res.json())
       .then((data) => {
         {
@@ -75,56 +104,26 @@ const Protocol_RIP = () => {
           );
         }
         {
-          data.messageRipS ? (
+          data.messageEgripS ? (
             setAlertSuggestedMessages([
               ...alertSuggestedMessages,
-              <SAlertMSG alertSuggestedMessages={data.messageRipS} />,
+              <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
             ])
           ) : (
             <></>
           );
         }
+        // call_ALerts("done from egrip");
       });
   };
 
-  const handlerDeviceChange = (event) => {
-    const selectedDevice = event.target.value;
-    setSelectedDevice(selectedDevice);
-    const selectedDeviceIP = device.find(
-      (device) => device.name === selectedDevice
-    ).ip;
-    setIP(selectedDeviceIP);
-    console.log(
-      `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
-    );
-  };
-
-  const handleChange_for_RIP = (event1) => {
-    setSubnetRIPData(event1.target.value);
-  };
-
-  const handleChange2_for_RIP = (event) => {
-    setNetworkRIPData(event.target.value);
-  };
-
-  const handleVersionRipChange = (event) => {
-    const selectedVersionRip = event.target.value;
-    setSelectedVersionRip(selectedVersionRip);
-    console.log("version : ", selectedVersionRip);
-  };
-
-  const fetchDevices = async () => {
-    await fetch("http://localhost:3000/info/routers")
-      .then((res) => res.json())
-      .then((data) => {
-        setDevice(data);
-        console.log(data);
-      }, []);
-  };
+  useEffect(() => {
+    fetchDevices();
+  }, []);
 
   const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      ` http://localhost:3000/dashboard/protocols/rip?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
+      `http://localhost:3000/dashboard/protocols/eigrp?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
     );
     const data = await response.json();
     console.log("data sent");
@@ -132,23 +131,23 @@ const Protocol_RIP = () => {
 
   const Send_data_ToServer = async () => {
     {
-      selectedDevice && selectedVersionRip && networkRIPData && subnetRIPData
-        ? (Send_data_ToServer2(), fetchRIPdata(), notifyG("Done"))
+      selectedDevice && selectedAsNUmber && networkEGRIPData && subnetEGRIPData
+        ? (Send_data_ToServer2(), fetchEGRIPdata(), notifyG("Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {
-      selectedDevice && selectedVersionRip ? (
+      selectedDevice && selectedAsNUmber ? (
         notifyI(
-          `The Router ${selectedDevice} with the Version ${selectedVersionRip} has been Selected`
+          `The Router ${selectedDevice} with AS Number of ${selectedAsNUmber} has been Selected`
         )
       ) : (
         <></>
       );
     }
     {
-      networkRIPData && subnetRIPData ? (
+      networkEGRIPData && subnetEGRIPData ? (
         notifyI(
-          `The Network ${networkRIPData} with the Subnet of  ${subnetRIPData} has been Selected`
+          `The Network ${networkEGRIPData} with Subnet of ${subnetEGRIPData} has been Selected`
         )
       ) : (
         <></>
@@ -156,34 +155,34 @@ const Protocol_RIP = () => {
     }
   };
 
-  const Send_data_ToDiable2 = async () => {
+  const Send_data_ToDisable2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/ripdis?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
+      `http://localhost:3000/dashboard/protocols/eigrpdis?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
     );
     const data = await response.json();
-    console.log("data sent to disable RIP");
+    console.log("data sent to disable EGRIP");
     console.log(data.message);
   };
 
-  const Send_data_ToDiable = async () => {
+  const Send_data_ToDisable = async () => {
     {
-      selectedDevice && selectedVersionRip && networkRIPData && subnetRIPData
-        ? (Send_data_ToDiable2(), notifyG("Disable Done"))
+      selectedDevice && selectedAsNUmber && networkEGRIPData && subnetEGRIPData
+        ? (Send_data_ToDisable2(), notifyG("Disable Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {
-      selectedDevice && selectedVersionRip ? (
+      selectedDevice && selectedAsNUmber ? (
         notifyI(
-          `The Router ${selectedDevice} with the Version ${selectedVersionRip} has been Selected`
+          `The Router ${selectedDevice} with AS Number of ${selectedAsNUmber} has been Selected`
         )
       ) : (
         <></>
       );
     }
     {
-      networkRIPData && subnetRIPData ? (
+      networkEGRIPData && subnetEGRIPData ? (
         notifyI(
-          `The Network ${networkRIPData} with the Subnet of  ${subnetRIPData} has been Selected`
+          `The Network ${networkEGRIPData} with Subnet of ${subnetEGRIPData} has been Selected`
         )
       ) : (
         <></>
@@ -192,8 +191,8 @@ const Protocol_RIP = () => {
   };
 
   const discard = () => {
-    setNetworkRIPData("");
-    setSubnetRIPData("");
+    setNetworkEGRIPData("");
+    setSubnetEGRIPData("");
   };
 
   const notifyG = (msg) => {
@@ -207,7 +206,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyD = (msg) => {
@@ -221,7 +219,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyW = (msg) => {
@@ -235,7 +232,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyI = (msg) => {
@@ -249,23 +245,19 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg shadow-black ">
-      <div className="flex items-center justify-between gap-5">
-        <div className="font-bold text-xl">RIP Configuration:</div>
-      </div>
+    <div>
       <div className="flex justify-between">
-        <div className=" flex flex-col gap-5">
+        <div className="flex flex-col gap-5">
           <div className="flex gap-7">
             <div>
               <div className="text-blue-700 w-full font-bold">
                 Choose Wanted Device
               </div>
-              <div className="flex justify-center font-bold text-gray-600 text-sm ">
-                (to Apply RIP to it)
+              <div className="flex justify-center font-bold text-sm  text-gray-600">
+                (to Apply EGRIP to it)
               </div>
             </div>
             <div className="flex justify-around items-center p-2 bg-blue-900 w-[30%] shadow-lg text-white shadow-black rounded-full ">
@@ -290,43 +282,71 @@ const Protocol_RIP = () => {
               <div className="flex justify-center text-gray-600 font-bold">
                 Insert Network
               </div>
-              <div className="text-gray-600 font-bold text-sm ">
+              <div className="text-gray-600 text-sm  font-bold">
                 (Applying Network)
               </div>
             </div>
             <input
-              value={networkRIPData}
-              onChange={handleChange2_for_RIP}
+              value={networkEGRIPData}
+              onChange={handleChange2_for_EGRIP}
               className="bg-gray-400 outline-none p-1 shadow-black shadow-inner rounded-full"
             ></input>
           </div>
         </div>
         <div className="  flex flex-col gap-5 ">
           <div className="flex items-center -translate-y-1.5 h-full gap-7">
-            <div className="text-blue-700 font-bold">Choose RIP Version</div>
+            <div>
+              <div className="text-blue-700 font-bold">Choose AS Number</div>
+              <div className="text-gray-700 font-bold">
+                (Optinal) Default 10
+              </div>
+            </div>
             <div className="flex justify-around items-center  bg-blue-900 w-[40%] h-[80%] shadow-lg shadow-black rounded-full ">
               <div className="flex items-center justify-center">
                 <select
                   className="bg-transparent text-white p-2  outline-none "
-                  value={selectedVersionRip}
-                  onChange={handleVersionRipChange}
+                  value={selectedAsNUmber}
+                  onChange={handleAsNumberChange}
                 >
-                  <option className="text-black">Choose</option>
+                  <option className="text-black" value="10">
+                    10
+                  </option>
                   <option className="text-black" value="1">
                     1
                   </option>
                   <option className="text-black" value="2">
                     2
                   </option>
+                  <option className="text-black" value="3">
+                    3
+                  </option>
+                  <option className="text-black" value="4">
+                    4
+                  </option>
+                  <option className="text-black" value="5">
+                    5
+                  </option>
+                  <option className="text-black" value="6">
+                    6
+                  </option>
+                  <option className="text-black" value="7">
+                    7
+                  </option>
+                  <option className="text-black" value="8">
+                    8
+                  </option>
+                  <option className="text-black" value="9">
+                    9
+                  </option>
                 </select>
               </div>
             </div>
           </div>
           <div className="flex gap-3 -translate-y-2 items-center">
-            <div className="text-gray-600 font-bold">Insert subnet</div>
+            <div className="text-gray-600 font-bold">Insert Subnet</div>
             <input
-              value={subnetRIPData}
-              onChange={handleChange_for_RIP}
+              value={subnetEGRIPData}
+              onChange={handleChange_for_EGRIP}
               className="bg-gray-400 p-1 outline-none shadow-black shadow-inner rounded-full"
             ></input>
           </div>
@@ -336,11 +356,7 @@ const Protocol_RIP = () => {
         <div className="flex gap-5">
           <button
             onClick={Send_data_ToServer}
-            className={`px-4 py-2 rounded-lg ${
-              isbuttonClicked
-                ? "apply shadow-in shadow-black bg-black text-white p-3 w-[20%] rounded-full"
-                : "apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
-            } text-white`}
+            className="apply shadow-md shadow-black bg-black text-white p-3 w-[20%] rounded-full"
           >
             Apply
           </button>
@@ -352,7 +368,7 @@ const Protocol_RIP = () => {
             Discard
           </button>
           <button
-            onClick={Send_data_ToDiable}
+            onClick={Send_data_ToDisable}
             className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
             Disable
@@ -361,11 +377,11 @@ const Protocol_RIP = () => {
         <div>
           <button
             onClick={() => {
-              navigate("/setting/rip");
+              navigate("/setting/egrip");
             }}
             className="dhcp bg-gray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
           >
-            RIP Info
+            EGRIP Info
           </button>
         </div>
       </div>
@@ -373,4 +389,4 @@ const Protocol_RIP = () => {
   );
 };
 
-export default Protocol_RIP;
+export default Manual_EGRIP;

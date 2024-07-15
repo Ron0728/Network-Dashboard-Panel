@@ -8,7 +8,7 @@ import ExistingDevives from "../Components/ExistingDevives";
 import DHCP_Configuration from "../Components/DHCP_Configuration";
 import Check_Connectivity from "../Components/Check_Connectivity";
 import Check_Configurations from "../Components/Check_Configurations";
-import Check_Protocol_Interfaces from "../Components/Check_Protocol_Interfaces";
+import Check_TroubleShooting_Interfaces from "../Components/Check_TroubleShooting_Interfaces";
 // import Check_Interface from "../Components/Check_Interface"
 
 const TroubleShooting = () => {
@@ -20,7 +20,7 @@ const TroubleShooting = () => {
 
       <Check_Configurations />
 
-      <Check_Protocol_Interfaces />
+      <Check_TroubleShooting_Interfaces />
       {/* <Check_Interface /> */}
 
       <DHCP_Configuration />

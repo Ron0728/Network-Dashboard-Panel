@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 const Help = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col w-screen bg-[url('5.jpg')] bg-cover backdrop-blur-xl h-screen justify-center items-center ">
-      <div className="flip-card-inner flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-[50%] h-[70%] shadow-lg shadow-black">
+    <div className="flex flex-col w-screen bg-[url(2.jpg)]  bg-cover backdrop-blur-xl h-screen justify-center items-center ">
+      <div className="flip-card-inner flex flex-col  rounded-2xl  bg-gradient-to-r from-blue-900 to-gray-400 gap-3 p-5 w-[50%] h-[70%] shadow-lg shadow-black">
         <div className="flex items-center border-b-2 border-gray-600 p-2 justify-between">
           <div className="font-bold animate-pulse">HELP</div>
           <div>

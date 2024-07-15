@@ -23,10 +23,10 @@ const Security = () => {
       <Accessability />
 
       {/* Security Audit */}
-      <Security_Audit />
+      {/* <Security_Audit /> */}
 
       {/* Charts */}
-      <Security_Charts />
+      {/* <Security_Charts /> */}
     </div>
   );
 };

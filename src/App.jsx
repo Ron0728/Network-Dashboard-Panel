@@ -29,6 +29,12 @@ import DHCP_Protocol_Information from "./Components/DHCP_Protocol_Information";
 import OSPF_Protocol_Information from "./Components/OSPF_Protocol_Information";
 import EGRIP_Protocol_Information from "./Components/EGRIP_Protocol_Information";
 import Todelete9 from "./Frames/Todelete9";
+import Edit from "./Frames/Edit";
+import Report from "./Frames/Report";
+import Interface_Edit from "./Components/Interface_Edit";
+import Manual_EGRIP from "./Components/Manual_EGRIP";
+import Static_Configuration from "./Components/Static_Configuration";
+import Manual_OSPF from "./Components/Manual_OSPF";
 
 function App() {
   const [goodMSG, setGoodMSG] = useState([]);
@@ -75,8 +81,6 @@ function App() {
                   ></Route>
                 </Route>
 
-                <Route path="/Toodelete5" element={<Toodelete5 />}></Route>
-
                 <Route path="/main" element={<DashBoard />}>
                   <Route path="board" element={<Board />}>
                     <Route path="boardinfo" element={<BoardInfo />}></Route>
@@ -86,7 +90,17 @@ function App() {
                     path="troubleShooting"
                     element={<TroubleShooting />}
                   ></Route>
-                  <Route path="protocols" element={<Protocols />}></Route>
+
+                  <Route path="protocols" element={<Protocols />}>
+                    <Route path="E-manual" element={<Manual_EGRIP />}></Route>
+                    <Route
+                      path="E-static"
+                      element={<Static_Configuration />}
+                    ></Route>
+                  </Route>
+
+                  <Route path="edit" element={<Edit />}></Route>
+                  <Route path="report" element={<Report />}></Route>
                   <Route path="alerts" element={<Alerts />}></Route>
                   <Route path="security" element={<Security />}></Route>
                 </Route>

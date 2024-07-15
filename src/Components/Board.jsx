@@ -122,7 +122,7 @@ const Board = () => {
 
             <button
               onClick={fetchData}
-              className="fetchbutton flex bg-blue-700 shadow-black shadow-md hover:bg-green-500 items-center text-white font-bold rounded-full p-3"
+              className="fetchbutton flex justify-center bg-blue-700 shadow-black shadow-md hover:bg-green-500 items-center text-white font-bold rounded-full p-3"
             >
               Fetch Data
             </button>

@@ -233,7 +233,11 @@ const DHCP_Configuration = () => {
   return (
     // DHCP Configuration
     <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl w-full h-full p-5 shadow-lg  shadow-black ">
-      <div className="font-bold text-xl">DHCP Configuration:</div>
+      <div className="flex items-center justify-between gap-5">
+        <div className="font-bold items-center text-xl">
+          DHCP Configuration:
+        </div>
+      </div>
       <div className="flex  ">
         <div className="flex w-[50%] flex-col gap-5">
           <div className="flex flex-col gap-5">

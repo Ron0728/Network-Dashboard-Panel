@@ -4,6 +4,8 @@ import { TbLogout2 } from "react-icons/tb";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import { AiFillAlert } from "react-icons/ai";
 import { FaTools } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { MdReport } from "react-icons/md";
 
 import { Cpu } from "lucide-react";
 
@@ -38,6 +40,18 @@ export const DASHBOARS_SIDEBAR_LNKS = [
     label: "Protocols",
     Path: "/main/protocols",
     icon: <AiOutlineFileProtect />,
+  },
+  {
+    key: "Edit",
+    label: "Edit",
+    Path: "/main/edit",
+    icon: <MdEdit />,
+  },
+  {
+    key: "Report",
+    label: "Report",
+    Path: "/main/report",
+    icon: <MdReport />,
   },
   {
     key: "Alerts",

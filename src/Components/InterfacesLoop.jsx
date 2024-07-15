@@ -62,10 +62,6 @@ const InterfacesLoop = ({ SW_INTERFACE }) => {
   const [switches, setSwitches] = useState([]);
   const [active, setActive] = useState([]);
 
-  function call_ALerts(msg) {
-    alert(msg);
-  }
-
   const fetchSwitchInfo = async () => {
     await fetch("http://localhost:3000/dashboard/troubleshooting/interfaces")
       .then((res) => res.json())

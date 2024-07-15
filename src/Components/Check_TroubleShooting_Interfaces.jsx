@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import InterfacesLoop from "./InterfacesLoop";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Interface_Edit from "./Interface_Edit";
 
-const Check_Protocol_Interfaces = () => {
+const Check_TroubleShooting_Interfaces = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
@@ -31,9 +31,9 @@ const Check_Protocol_Interfaces = () => {
     console.log(
       `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
     );
-    notifyI(
-      `The IP ${selectedDeviceIP} has been Selected to see its Interfaces`
-    );
+    // notifyI(
+    //   `The IP ${selectedDeviceIP} has been Selected to see its Interfaces`
+    // );
   };
 
   const Send_data_ToServer = async () => {
@@ -48,7 +48,7 @@ const Check_Protocol_Interfaces = () => {
 
     {
       selectedDevice
-        ? (notifyG("Done"), notifyI("Now bring Interfaces"))
+        ? notifyI("Now bring Interfaces")
         : notifyD("Please Select a Device");
     }
   };
@@ -140,12 +140,15 @@ const Check_Protocol_Interfaces = () => {
         <div>
           <InterfacesLoop SW_INTERFACE={sw_in} />
         </div>
-        <div className="flex p-2 justify-center ">
+        <div className="flex p-2 gap-52 justify-end">
           <Interface_Edit DV={selectedDevice} IP={iP} />
+          <button className="p-2 flex items-center justify-center bg-blue-700 text-white rounded-lg shadow-black shadow-lg">
+            Edit
+          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Check_Protocol_Interfaces;
+export default Check_TroubleShooting_Interfaces;
