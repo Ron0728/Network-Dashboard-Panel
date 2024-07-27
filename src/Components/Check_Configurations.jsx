@@ -34,10 +34,11 @@ const Check_Configurations = () => {
   };
 
   const StartChecking = async () => {
-    {
-      selectedDevice_Check
-        ? await fetch(
-            "http://localhost:3000/dashboard/troubleshooting/checkconfig"
+    
+      iP_Check == null ? notifyD("Please Select a Device") : 
+      (
+        await fetch(
+            `http://localhost:3000/dashboard/troubleshooting/checkconfig?selectedDeviceIP=${iP_Check}`
           )
             .then((res) => res.json())
             .then((data) => {
@@ -85,8 +86,7 @@ const Check_Configurations = () => {
                 );
               }
             })
-        : notifyD("Please Select a Device");
-    }
+      )
   };
 
   const Send_IP_ToCheck_ToServer = async () => {
@@ -175,9 +175,9 @@ const Check_Configurations = () => {
             onClick={StartChecking}
             className="startchecking flex bg-blue-950 p-5 h-[70%] items-center justify-center text-white font-bold rounded-full shadow-lg shadow-black"
           >
-            Start checking
+            Start Checking
           </button>
-          <ToastContainer />
+          
         </div>
       </div>
       <div className="flex flex-col gap-1 p-3 bg-gray-400 rounded-3xl shadow-inner shadow-black">
@@ -199,4 +199,4 @@ const Check_Configurations = () => {
   );
 };
 
-export default Check_Configurations;
+export default Check_Configurations;  //Done

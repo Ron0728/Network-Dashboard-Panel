@@ -66,28 +66,23 @@ const Manual_EGRIP = () => {
     console.log("AS Number : ", selectedAsNumber);
   };
 
-  const fetchEGRIPdata = async () => {
-    await fetch("http://localhost:3000/dashboard/protocols/eigrp")
+  useEffect(() => {
+    fetchDevices();
+  }, []);
+
+  const Send_data_ToServer2 = async () => {
+    const response = await fetch(
+      `http://localhost:3000/dashboard/protocols/EGRIP?selectedDeviceIP=${iP}&&ASNumber=${selectedAsNUmber}&&selectedNetworks=${networkEGRIPData}`
+    )
       .then((res) => res.json())
       .then((data) => {
         {
-          data.messageW ? (
-            (setAlertWarningMessages([
-              ...alertWarningMessages,
-              <WAlertMSG alertWarningMessages={data.messageW} />,
-            ]),
-            notifyW(data.messageW))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.messageD ? (
+          data.error ? (
             (setAlertDangerMessages([
               ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageD} />,
+              <DAlertMSG alertDangerMessages={data.error} />,
             ]),
-            notifyD(data.messageD))
+            notifyD(data.error))
           ) : (
             <></>
           );
@@ -103,30 +98,28 @@ const Manual_EGRIP = () => {
             <></>
           );
         }
-        {
-          data.messageEgripS ? (
-            setAlertSuggestedMessages([
-              ...alertSuggestedMessages,
-              <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
-            ])
-          ) : (
-            <></>
-          );
-        }
-        // call_ALerts("done from egrip");
+        // {
+        //   data.messageEgripS ? (
+        //     setAlertSuggestedMessages([
+        //       ...alertSuggestedMessages,
+        //       <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
+        //     ])
+        //   ) : (
+        //     <></>
+        //   );
+        // }
+        // {
+        //   data.messageW ? (
+        //     (setAlertWarningMessages([
+        //       ...alertWarningMessages,
+        //       <WAlertMSG alertWarningMessages={data.messageW} />,
+        //     ]),
+        //     notifyW(data.messageW))
+        //   ) : (
+        //     <></>
+        //   );
+        // }
       });
-  };
-
-  useEffect(() => {
-    fetchDevices();
-  }, []);
-
-  const Send_data_ToServer2 = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/eigrp?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
-    );
-    const data = await response.json();
-    console.log("data sent");
   };
 
   const Send_data_ToServer = async () => {
@@ -156,12 +149,56 @@ const Manual_EGRIP = () => {
   };
 
   const Send_data_ToDisable2 = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/eigrpdis?RouterEGRIP=${selectedDevice}&&ASNumber=${selectedAsNUmber}&&NetworkEGRIP=${networkEGRIPData}&&SubnetEGRIP=${subnetEGRIPData}`
-    );
-    const data = await response.json();
-    console.log("data sent to disable EGRIP");
-    console.log(data.message);
+    await fetch(
+      `http://localhost:3000/dashboard/protocols/eigrpdis?selectedDeviceIP=${iP}&&ASNumber=${selectedAsNUmber}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        {
+          data.messageW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageW} />,
+            ]),
+            notifyW(data.messageW))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.error ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.error} />,
+            ]),
+            notifyD(data.error))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.message ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.message} />,
+            ]),
+            notifyG(data.message))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageEgripS ? (
+            setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
+            ])
+          ) : (
+            <></>
+          );
+        }
+        // call_ALerts("done from egrip");
+      });
   };
 
   const Send_data_ToDisable = async () => {
@@ -360,7 +397,6 @@ const Manual_EGRIP = () => {
           >
             Apply
           </button>
-          <ToastContainer />
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
@@ -385,6 +421,7 @@ const Manual_EGRIP = () => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -91,8 +91,10 @@ const Manual_OSPF = () => {
     setAreaNumberData(event2.target.value);
   };
 
-  const fetchOSPFdata = async () => {
-    await fetch("http://localhost:3000/dashboard/protocols/ospf")
+  const Send_data_ToDisable2 = async () => {
+    await fetch(
+      `http://localhost:3000/dashboard/protocols/ospfdis?selectedDeviceIP=${iP}`
+    )
       .then((res) => res.json())
       .then((data) => {
         {
@@ -107,12 +109,12 @@ const Manual_OSPF = () => {
           );
         }
         {
-          data.messageD ? (
+          data.error ? (
             (setAlertDangerMessages([
               ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageD} />,
+              <DAlertMSG alertDangerMessages={data.error} />,
             ]),
-            notifyD(data.messageD))
+            notifyD(data.error))
           ) : (
             <></>
           );
@@ -139,15 +141,6 @@ const Manual_OSPF = () => {
           );
         }
       });
-  };
-
-  const Send_data_ToDisable2 = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/ospfdis?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
-    );
-    const data = await response.json();
-    console.log("data sent to disable OSPF");
-    console.log(data.message);
   };
 
   const Send_data_ToDisable = async () => {
@@ -182,11 +175,54 @@ const Manual_OSPF = () => {
 
   const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/ospf?RouterOSPF=${selectedDevice}&&InterfaceOSPF=${selectedInterfaceOspfs}&&NetworkOSPF=${networkOSPFData}&&SubnetOSPF=${subnetOSPFData}&&AreaNumber=${areaNumberData}`
-    );
-
-    const data = await response.json();
-    console.log("data sent");
+      `http://localhost:3000/dashboard/protocols/ospf?selectedDeviceIP=${iP}&&selectedDeviceInterface=${selectedInterfaceOspfs}&&selectedNetworks=${networkOSPFData}&&area=${areaNumberData}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        {
+          data.error ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.error} />,
+            ]),
+            notifyD(data.error))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.message ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.message} />,
+            ]),
+            notifyG(data.message))
+          ) : (
+            <></>
+          );
+        }
+        // {
+        //   data.messageOspfS ? (
+        //     setAlertSuggestedMessages([
+        //       ...alertSuggestedMessages,
+        //       <SAlertMSG alertSuggestedMessages={data.messageOspfS} />,
+        //     ])
+        //   ) : (
+        //     <></>
+        //   );
+        // }
+        // {
+        //   data.messageW ? (
+        //     (setAlertWarningMessages([
+        //       ...alertWarningMessages,
+        //       <WAlertMSG alertWarningMessages={data.messageW} />,
+        //     ]),
+        //     notifyW(data.messageW))
+        //   ) : (
+        //     <></>
+        //   );
+        // }
+      });
   };
 
   const Send_data_ToServer = async () => {
@@ -196,7 +232,7 @@ const Manual_OSPF = () => {
       networkOSPFData &&
       subnetOSPFData &&
       areaNumberData
-        ? (Send_data_ToServer2(), fetchOSPFdata(), notifyG("Done"))
+        ? (Send_data_ToServer2(), notifyG("Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {
@@ -373,7 +409,6 @@ const Manual_OSPF = () => {
           >
             Apply
           </button>
-          <ToastContainer />
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
@@ -398,6 +433,7 @@ const Manual_OSPF = () => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

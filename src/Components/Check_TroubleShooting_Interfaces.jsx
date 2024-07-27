@@ -38,7 +38,7 @@ const Check_TroubleShooting_Interfaces = () => {
 
   const Send_data_ToServer = async () => {
     const response = await fetch(
-      `http://localhost:3000/dashboard/troubleshooting/interfaces?SDname=${selectedDevice}&&DeviceIP=${iP}`
+      `http://localhost:3000/dashboard/troubleshooting/interfacesloop?selectedDeviceIP=${iP}`
     );
     const data = await response.json();
     console.log("K : ", data);
@@ -138,14 +138,14 @@ const Check_TroubleShooting_Interfaces = () => {
           <ToastContainer />
         </div>
         <div>
-          <InterfacesLoop SW_INTERFACE={sw_in} />
+          <InterfacesLoop SW_INTERFACE={sw_in} IP={iP} />
         </div>
-        <div className="flex p-2 gap-52 justify-end">
+        {/* <div className="flex p-2 gap-52 justify-end">
           <Interface_Edit DV={selectedDevice} IP={iP} />
           <button className="p-2 flex items-center justify-center bg-blue-700 text-white rounded-lg shadow-black shadow-lg">
             Edit
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

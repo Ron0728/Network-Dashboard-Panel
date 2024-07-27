@@ -6,6 +6,7 @@ import { AiFillAlert } from "react-icons/ai";
 import { FaTools } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdReport } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
 
 import { Cpu } from "lucide-react";
 
@@ -42,10 +43,10 @@ export const DASHBOARS_SIDEBAR_LNKS = [
     icon: <AiOutlineFileProtect />,
   },
   {
-    key: "Edit",
-    label: "Edit",
-    Path: "/main/edit",
-    icon: <MdEdit />,
+    key: "Monitor",
+    label: "Monitor",
+    Path: "/main/monitor",
+    icon: <FaEye />,
   },
   {
     key: "Report",

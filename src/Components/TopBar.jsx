@@ -17,13 +17,13 @@ const TopBar = () => {
       <div className="flex h-full justify-between">
         <div className="font-bold items-center h-full text-xl gap-7 flex justify-center p-5 text-warmGray-100 ">
           <div className="animate-pulse">DashBoard</div>
-          <button onClick={() => setShowNoti(true)} className="pt-2">
+          {/* <button onClick={() => setShowNoti(true)} className="pt-2">
             <lord-icon
               src="https://cdn.lordicon.com/lznlxwtc.json"
               trigger="hover"
               colors="primary:#ffffff"
             ></lord-icon>
-          </button>
+          </button> */}
           <div>
             {ShowNoti && <Notification onclose={() => setShowNoti(false)} />}
           </div>

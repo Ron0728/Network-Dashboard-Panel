@@ -9,18 +9,18 @@ import "react-toastify/dist/ReactToastify.css";
 import Accessability from "../Components/Accessability";
 import Security_Audit from "../Components/Security_Audit";
 import Security_Charts from "../Components/Security_Charts";
+import Accessability2 from "../Components/Accessability2";
 
 const Security = () => {
   return (
-    <div className="flex flex-col w-full h-full gap-3 bg-gray-400 p-5 overflow-y-scroll">
-      <div className="bg-gradient-to-r text-gray-800 from-blue-700 to-white p-5 rounded-full font-bold shadow-md shadow-black">
-        Text
-      </div>
+    <div className="flex flex-col w-full h-full gap-5 bg-gray-400 p-5 overflow-y-scroll">
+      <div className=" flex flex-col p-20 bg-[url('../public/Ad_Security.png')] bg-no-repeat w-full rounded-full gap-3 shadow-lg shadow-black"></div>
 
       <ExistingDevives />
 
       {/* Accessability */}
       <Accessability />
+      <Accessability2 />
 
       {/* Security Audit */}
       {/* <Security_Audit /> */}

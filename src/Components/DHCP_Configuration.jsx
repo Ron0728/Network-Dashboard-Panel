@@ -21,6 +21,7 @@ const DHCP_Configuration = () => {
   const [selectedInterfaces, setSelectedInterfaces] = useState("");
   const [networkData, setNetworkData] = useState("");
   const [subnetData, setSubnetData] = useState("");
+  const [iP, setIP] = useState();
 
   const [alertGoodMessages, setAlertGoodMessages] =
     useContext(AlertContextGood);
@@ -31,63 +32,6 @@ const DHCP_Configuration = () => {
   );
   const [alertDangerMessages, setAlertDangerMessages] =
     useContext(AlertContextDanger);
-
-  const fetchDHCP_TroubleShooting_data = async () => {
-    try {
-      await fetch("http://localhost:3000/dashboard/troubleshooting/dhcp")
-        .then((res) => res.json())
-        .then((data) => {
-          {
-            data.messageW ? (
-              (setAlertWarningMessages([
-                ...alertWarningMessages,
-                <WAlertMSG alertWarningMessages={data.messageW} />,
-              ]),
-              notifyW(data.messageW))
-            ) : (
-              <></>
-            );
-          }
-          {
-            data.messageD ? (
-              (setAlertDangerMessages([
-                ...alertDangerMessages,
-                <DAlertMSG alertDangerMessages={data.messageD} />,
-              ]),
-              notifyD(data.messageD))
-            ) : (
-              <></>
-            );
-          }
-          {
-            data.message ? (
-              (setAlertGoodMessages([
-                ...alertGoodMessages,
-                <GAlertMSG alertGoodMessages={data.message} />,
-              ]),
-              notifyG(data.message))
-            ) : (
-              <></>
-            );
-          }
-          {
-            data.S_messageDhcpTroubleShooting ? (
-              setAlertSuggestedMessages([
-                ...alertSuggestedMessages,
-                <SAlertMSG
-                  alertSuggestedMessages={data.S_messageDhcpTroubleShooting}
-                />,
-              ])
-            ) : (
-              <></>
-            );
-          }
-          // call_ALerts("done from dhcp");
-        });
-    } catch {
-      notifyW("An Error Occurred");
-    }
-  };
 
   useEffect(() => {
     fetchRouter();
@@ -123,26 +67,53 @@ const DHCP_Configuration = () => {
   };
 
   const handleRouterChange = (event) => {
-    const selected_Router = event.target.value;
-    setSelectedRouter(selected_Router);
-    fetchInterfaces(selected_Router);
-    console.log("the selected Router : -->", selected_Router);
+    const selectedDevice = event.target.value;
+    setSelectedRouter(selectedDevice);
+    fetchInterfaces(selectedDevice);
+    const selectedDeviceIP = device.find(
+      (device) => device.name === selectedDevice
+    ).ip;
+    setIP(selectedDeviceIP);
+    console.log(
+      `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
+    );
   };
 
   const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/dhcp?Router=${selectedRouter}&&Interface=${selectedInterfaces}&&network=${networkData}&&subnet=${subnetData}`
-    );
-    const data = await response.json();
-    console.log("data sent");
+      `http://localhost:3000/dashboard/protocols/dhcp?selectedDeviceIP=${iP}&&selectedDeviceInterface=${selectedInterfaces}&&selectedNetworks=${networkData}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        {
+          data.error ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.error} />,
+            ]),
+            notifyD(data.error))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.message ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.message} />,
+            ]),
+            notifyG(data.message))
+          ) : (
+            <></>
+          );
+        }
+      });
   };
 
   const Send_data_ToServer = async () => {
     {
       selectedRouter && selectedInterfaces && networkData && subnetData
-        ? (Send_data_ToServer2(),
-          fetchDHCP_TroubleShooting_data(),
-          notifyG("Done"))
+        ? (Send_data_ToServer2(), notifyG("Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {
@@ -329,7 +300,6 @@ const DHCP_Configuration = () => {
           >
             Apply
           </button>
-
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"

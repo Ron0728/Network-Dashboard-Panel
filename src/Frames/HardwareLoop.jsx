@@ -54,4 +54,4 @@ const HardwareLoop = ({ NA, I, DS, SN, PID, VID, ACT }) => {
   );
 };
 
-export default HardwareLoop;
+export default HardwareLoop; //Done

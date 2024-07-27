@@ -10,9 +10,9 @@ const GAlertMSG = ({ alertGoodMessages }) => {
   return (
     <div className="flex justify-between items-center bg-gradient-to-r from-green-500 to-gray-400 p-3 rounded-xl shadow-md shadow-black">
       <span className="font-bold">{alertGoodMessages}</span>
-      <button>
+      {/* <button>
         <MdDelete size={20} className="cursor-pointer" />
-      </button>
+      </button> */}
     </div>
   );
 };

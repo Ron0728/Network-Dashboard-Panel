@@ -49,28 +49,24 @@ const Check_Connectivity = () => {
   }, []);
 
   const fetchPing = async () => {
-    await fetch("http://localhost:3000/dashboard/basicConnectivity")
+    await fetch(`http://localhost:3000/dashboard/basicConnectivity?selectedDeviceIP1=${iP}&&selectedDeviceIP2=${iP2}`
+    )
       .then((res) => res.json())
       .then((data) => {
-        setVal(data.Message[0].value);
-        setPingMessage(data.Message[0].success_rate);
+        setVal(data.percent);
+        setPingMessage(data.success_rate);
         console.log("data Sent");
       });
   };
 
-  const Send_IP_ToServer = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/basicInfo?selectedDeviceIP=${iP}&&selectedDeviceIP2=${iP2}`
-    );
-    const data = await response.json();
-    console.log("data sent");
+  const Send_IP_ToServer =  () => {
     {
       (iP && iP2) == null ? (
         notifyD("Please Select the Devices")
       ) : iP == iP2 ? (
         notifyW(`Can't be Pinging to the same Router with the IP ${iP} `)
       ) : iP && iP2 ? (
-        (fetchPing(), notifyG(`Ping is Done With ${iP} and ${iP2}`))
+        ( fetchPing(), notifyG(`Ping is Done With ${iP} and ${iP2}`))
       ) : (
         <></>
       );
@@ -178,7 +174,7 @@ const Check_Connectivity = () => {
         {/* selectedDeviceIP */}
         <div className=" flex justify-center items-center h-full w-[10%]">
           <button
-            onClick={Send_IP_ToServer}
+            onClick={fetchPing}
             className="ping flex items-center justify-center bg-green-600 w-full h-[70%] text-white font-bold rounded-full p-3 shadow-lg shadow-black "
           >
             Ping
@@ -190,11 +186,11 @@ const Check_Connectivity = () => {
         <div className="flex font-bold gap-2 w-fit justify-center bg-gray-400 shadow-sm shadow-black rounded-md p-2">
           Ping :
           <div
-            className={`${val == "(5/5)" ? "text-[rgb(0,150,0)]" : ""} ${
-              val == "(4/5)" ? "text-green-700" : ""
-            } ${val == "(3/5)" ? "text-yellow-400" : ""}
-              ${val == "(2/5)" ? "text-orange-500" : ""}
-              ${val == "(1/5)" ? "text-[rgb(255,0,0)]" : ""}`}
+            // className={`${val == "(5/5)" ? "text-[rgb(0,150,0)]" : ""} ${
+            //   val == "(4/5)" ? "text-green-700" : ""
+            // } ${val == "(3/5)" ? "text-yellow-400" : ""}
+            //   ${val == "(2/5)" ? "text-orange-500" : ""}
+            //   ${val == "(1/5)" ? "text-[rgb(255,0,0)]" : ""}`}
           >
             {pingMessage}
           </div>

@@ -37,26 +37,25 @@ const Board = () => {
         .then((res) => res.json())
         .then((data) => {
           // setHardwareData(response.data);
-          setName(data.Hardware[0].name);
-          setDescription(data.Hardware[0].descr);
-          setPID(data.Hardware[0].pid);
-          setVID(data.Hardware[0].vid);
-          setSN(data.Hardware[0].sn);
-          setMemory(data.Memory.memory_usage);
+          setName(data.resultHardware.Hardware[0].name);
+          setDescription(data.resultHardware.Hardware[0].descr);
+          setPID(data.resultHardware.Hardware[0].pid);
+          setVID(data.resultHardware.Hardware[0].vid);
+          setSN(data.resultHardware.Hardware[0].sn);
           setActives(true);
-          setInterface1Active(data.Interfaces[0].active);
-          setInterface2Active(data.Interfaces[1].active);
-          setInterface3Active(data.Interfaces[2].active);
-          setInterface1Port(data.Interfaces[0].port);
-          setInterface2Port(data.Interfaces[1].port);
-          setInterface3Port(data.Interfaces[2].port);
-          setInterface1state(data.Interfaces[0].state);
-          setInterface2state(data.Interfaces[1].state);
-          setInterface3state(data.Interfaces[2].state);
-          setInterface1type(data.Interfaces[0].type);
-          setInterface2type(data.Interfaces[1].type);
-          setInterface3type(data.Interfaces[2].type);
-          setPercentages(data.Percentage.percentage);
+          setInterface1Active(data.resultInterfaces.Interfaces[0].active);
+          setInterface2Active(data.resultInterfaces.Interfaces[1].active);
+          setInterface3Active(data.resultInterfaces.Interfaces[2].active);
+          setInterface1Port(data.resultInterfaces.Interfaces[0].port);
+          setInterface2Port(data.resultInterfaces.Interfaces[1].port);
+          setInterface3Port(data.resultInterfaces.Interfaces[2].port);
+          setInterface1state(data.resultInterfaces.Interfaces[0].state);
+          setInterface2state(data.resultInterfaces.Interfaces[1].state);
+          setInterface3state(data.resultInterfaces.Interfaces[2].state);
+          setInterface1type(data.resultInterfaces.Interfaces[0].type);
+          setInterface2type(data.resultInterfaces.Interfaces[1].type);
+          setInterface3type(data.resultInterfaces.Interfaces[2].type);
+          setPercentages(data.resultMemory.Memory.percentage);
           notifyG("Done");
         }, []);
     } catch {
@@ -96,7 +95,7 @@ const Board = () => {
       <div>
         <div className="pl-10">
           <div className="font-bold w-fit text-white bg-blue-800 shadow-sm shadow-black p-2 rounded-full">
-            Automatic configurations & management
+            Automatic Configurations & Management
           </div>
         </div>
         <div className="flex flex-col bg-gradient-to-r from-blue-700 to-blue-200 rounded-full gap-3 p-3 w-full shadow-lg shadow-black ">
@@ -151,12 +150,12 @@ const Board = () => {
           Type1={interface1type}
           Type2={interface2type}
           Type3={interface3type}
-          Memory={memory}
         />
       </div>
+
       <ToastContainer />
     </div>
   );
 };
 
-export default Board;
+export default Board; //Done

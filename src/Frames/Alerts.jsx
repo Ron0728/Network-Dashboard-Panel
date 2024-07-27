@@ -63,4 +63,4 @@ const Alerts = () => {
   );
 };
 
-export default Alerts;
+export default Alerts; //Done

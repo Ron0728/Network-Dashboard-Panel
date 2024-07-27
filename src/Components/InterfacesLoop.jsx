@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
+const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange , swData }) => {
+  // const [iDs, setIDs] = useState([ID.length]);
   const Send_data_ToServer = async () => {
+    
     const response = await fetch(
       `http://localhost:3000/dashboard/troubleshooting/interfaceStatus?Check=${checked}`
     );
     const data = await response.json();
-    console.log("check Intetface ", ID, " --> : ", checked);
+    
+    // console.log("check Intetface ", ID, " --> : ", checked);
+    // console.log("check IDDDDDDDDDDD ", ID);
+    // setIDs(ID.length)
   };
 
   useEffect(() => {
@@ -16,7 +21,8 @@ const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
   });
 
   return (
-    <div className="flex items-center gap-3">
+    // {iDs.map((i)=>(
+    <div className="flex items-center gap-3" >
       <div
         className={`flex w-full justify-between font-bold rounded-full shadow-md shadow-black p-2
          bg-gradient-to-r from-[rgb(0,0,255)] ${
@@ -24,9 +30,9 @@ const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
          } ${State == "Administratively" ? "to-[rgb(154,29,180)]" : ""}`}
       >
         <div>
-          {Type} {Port}
+          {swData.Type} {swData.Port}
         </div>
-        <div>{checked ? `${State}` : " Down "}</div>
+        <div>{checked ? `${swData.State}` : " Down "}</div>
       </div>
       <div className=" flex w-[15%] justify-around h-full gap-3 font-bold">
         OFF
@@ -55,25 +61,38 @@ const ToggleSwitch = ({ act, ID, State, Type, Port, checked, onChange }) => {
       {/* selectedDeviceIP */} {/* selectedAction*/}{" "}
       {/* selectedDeviceInterface */}
     </div>
+    // ))}
   );
 };
 
-const InterfacesLoop = ({ SW_INTERFACE }) => {
+const InterfacesLoop = ({ SW_INTERFACE ,IP }) => {
   const [switches, setSwitches] = useState([]);
+  const [ips, setIps] = useState({IP});
+  const [ids, setIds] = useState([]);
+  const [typs, setType] = useState([]);
+  const [state, setState] = useState([]);
+  const [port, setPort] = useState([]);
   const [active, setActive] = useState([]);
+ 
 
   const fetchSwitchInfo = async () => {
-    await fetch("http://localhost:3000/dashboard/troubleshooting/interfaces")
-      .then((res) => res.json())
-      .then((data) => {
         console.log("XXX", SW_INTERFACE);
+        console.log("XXXdddd", SW_INTERFACE.Interfaces.map((item) => item.id));
+        setIds(SW_INTERFACE.Interfaces.map((item) => item.id))
+        setType(SW_INTERFACE.Interfaces.map((item) => item.type))
+        setState(SW_INTERFACE.Interfaces.map((item) => item.state))
+        setPort(SW_INTERFACE.Interfaces.map((item) => item.port))
+        setActive(SW_INTERFACE.Interfaces.map((item) => item.active))
+        // console.log("XXXdddd", ids);
+        console.log("XXX", typs);
+        console.log("XXX", port);
+        console.log("XXX", state);
+        console.log("XXX", active);
         {
-          SW_INTERFACE
-            ? setSwitches(SW_INTERFACE)
-            : (setSwitches([]),
-              notifyW("Please select a device then Start checking first"));
+          SW_INTERFACE == null ? (setSwitches([]),
+          notifyW("Please select a device then Start checking first")) : setSwitches([SW_INTERFACE])
+          
         }
-      });
   };
 
   useEffect(() => {
@@ -111,16 +130,18 @@ const InterfacesLoop = ({ SW_INTERFACE }) => {
         </button>
         <ToastContainer />
       </div>
-      {switches.map((sw) => (
+      {ids.map((sw) => (
         <ToggleSwitch
           key={sw.id}
-          ID={sw.id}
+          ID={ids}
           checked={sw.checked}
           act={active}
-          State={sw.state}
-          Type={sw.type}
-          Port={sw.port}
-          onChange={() => handleToggle(sw.id)}
+          State={state}
+          Type={typs}
+          Port={port}
+          onChange={() => handleToggle(sw.id)}  
+          swData={sw}
+
         />
       ))}
     </div>

@@ -3,6 +3,9 @@ import "/src/Css/pingbutton.css";
 import ExistingDevives from "./ExistingDevives";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TempAndVoltage from "./TempAndVoltage";
+import { Outlet } from "react-router-dom";
+import AddNewDevice from "./AddNewDevice";
 
 const BoardInfo = ({
   Name,
@@ -21,7 +24,6 @@ const BoardInfo = ({
   Active1,
   Active2,
   Active3,
-  Memory,
   Type1,
   Type2,
   Type3,
@@ -240,11 +242,13 @@ const BoardInfo = ({
             </div>
             <div className="flex flex-col items-center font-bold">
               <div>Memory R1 </div>
-              <div className="text-blue-700 ">{Memory}</div>
+             
             </div>
           </div>
         </div>
       </div>
+
+      <TempAndVoltage />
 
       {/* Check Connectivity */}
       <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl p-5 shadow-lg shadow-black ">

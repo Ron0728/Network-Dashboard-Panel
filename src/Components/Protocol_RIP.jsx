@@ -37,56 +37,6 @@ const Protocol_RIP = () => {
     fetchDevices();
   }, []);
 
-  const fetchRIPdata = async () => {
-    await fetch("http://localhost:3000/dashboard/protocols/rip")
-      .then((res) => res.json())
-      .then((data) => {
-        {
-          data.messageW ? (
-            (setAlertWarningMessages([
-              ...alertWarningMessages,
-              <WAlertMSG alertWarningMessages={data.messageW} />,
-            ]),
-            notifyW(data.messageW))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.messageD ? (
-            (setAlertDangerMessages([
-              ...alertDangerMessages,
-              <DAlertMSG alertDangerMessages={data.messageD} />,
-            ]),
-            notifyD(data.messageD))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.message ? (
-            (setAlertGoodMessages([
-              ...alertGoodMessages,
-              <GAlertMSG alertGoodMessages={data.message} />,
-            ]),
-            notifyG(data.message))
-          ) : (
-            <></>
-          );
-        }
-        {
-          data.messageRipS ? (
-            setAlertSuggestedMessages([
-              ...alertSuggestedMessages,
-              <SAlertMSG alertSuggestedMessages={data.messageRipS} />,
-            ])
-          ) : (
-            <></>
-          );
-        }
-      });
-  };
-
   const handlerDeviceChange = (event) => {
     const selectedDevice = event.target.value;
     setSelectedDevice(selectedDevice);
@@ -124,16 +74,62 @@ const Protocol_RIP = () => {
 
   const Send_data_ToServer2 = async () => {
     const response = await fetch(
-      ` http://localhost:3000/dashboard/protocols/rip?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
-    );
-    const data = await response.json();
-    console.log("data sent");
+      ` http://localhost:3000/dashboard/protocols/rip?selectedDeviceIP=${iP}&&selectedVersion=${selectedVersionRip}&&selectedNetworks=${networkRIPData}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        {
+          data.error ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.error} />,
+            ]),
+            notifyD(data.error))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.message ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.message} />,
+            ]),
+            notifyG(data.message))
+          ) : (
+            <></>
+          );
+        }
+        // {
+        //   data.message ? (
+        //     setAlertSuggestedMessages([
+        //       ...alertSuggestedMessages,
+        //       <SAlertMSG alertSuggestedMessages={data.message} />,
+        //     ])
+        //   ) : (
+        //     <></>
+        //   );
+        // }
+        // {
+        //   data.message ? (
+        //     (setAlertWarningMessages([
+        //       ...alertWarningMessages,
+        //       <WAlertMSG alertWarningMessages={data.message} />,
+        //     ]),
+        //     notifyW(data.message))
+        //   ) : (
+        //     <></>
+        //   );
+        // }
+      });
+    // const data = await response.json();
+    // console.log("data sent");
   };
 
   const Send_data_ToServer = async () => {
     {
       selectedDevice && selectedVersionRip && networkRIPData && subnetRIPData
-        ? (Send_data_ToServer2(), fetchRIPdata(), notifyG("Done"))
+        ? (Send_data_ToServer2(), notifyG("Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {
@@ -157,12 +153,55 @@ const Protocol_RIP = () => {
   };
 
   const Send_data_ToDiable2 = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/protocols/ripdis?RouterRIP=${selectedDevice}&&Version=${selectedVersionRip}&&NetworkRIP=${networkRIPData}&&SubnetRIP=${subnetRIPData}`
-    );
-    const data = await response.json();
-    console.log("data sent to disable RIP");
-    console.log(data.message);
+    await fetch(
+      `http://localhost:3000/dashboard/protocols/ripdis?selectedDeviceIP=${iP}&&selectedVersion=${selectedVersionRip}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        {
+          data.messageW ? (
+            (setAlertWarningMessages([
+              ...alertWarningMessages,
+              <WAlertMSG alertWarningMessages={data.messageW} />,
+            ]),
+            notifyW(data.messageW))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.error ? (
+            (setAlertDangerMessages([
+              ...alertDangerMessages,
+              <DAlertMSG alertDangerMessages={data.error} />,
+            ]),
+            notifyD(data.error))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.message ? (
+            (setAlertGoodMessages([
+              ...alertGoodMessages,
+              <GAlertMSG alertGoodMessages={data.message} />,
+            ]),
+            notifyG(data.message))
+          ) : (
+            <></>
+          );
+        }
+        {
+          data.messageRipS ? (
+            setAlertSuggestedMessages([
+              ...alertSuggestedMessages,
+              <SAlertMSG alertSuggestedMessages={data.messageRipS} />,
+            ])
+          ) : (
+            <></>
+          );
+        }
+      });
   };
 
   const Send_data_ToDiable = async () => {
@@ -207,7 +246,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyD = (msg) => {
@@ -221,7 +259,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyW = (msg) => {
@@ -235,7 +272,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   const notifyI = (msg) => {
@@ -249,7 +285,6 @@ const Protocol_RIP = () => {
       draggable: true,
       theme: "colored",
     });
-    <ToastContainer />;
   };
 
   return (
@@ -344,7 +379,7 @@ const Protocol_RIP = () => {
           >
             Apply
           </button>
-          <ToastContainer />
+
           <button
             onClick={discard}
             className="discard bg-warmGray-600 shadow-md shadow-black text-white p-3 w-[20%] rounded-full"
@@ -369,6 +404,7 @@ const Protocol_RIP = () => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

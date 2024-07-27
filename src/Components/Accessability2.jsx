@@ -4,17 +4,17 @@ import MoreNetworks from "./MoreNetworks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Accessability = () => {
+const Accessability2 = () => {
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
   const [selectedRouter, setSelectedRouter] = useState("");
   const [selectedInterfaces, setSelectedInterfaces] = useState("");
   const [interfaces, setInterfaces] = useState([]);
-  const [numberACL, setNumberACL] = useState();
-  const [insertedPermissionNetwork, setInsertedPermissionNetwork] = useState();
-  const [insertedPermissionSubnet, setInsertedPermissionSubnet] = useState();
-  const [insertedPreventionNetwork, setInsertedPreventionNetwork] = useState();
-  const [insertedPreventionSubnet, setInsertedPreventionSubnet] = useState();
+  const [namedACL, setNamedACL] = useState();
+
+  const handleNamedACL = (event1) => {
+    setNamedACL(event1.target.value);
+  };
 
   const handleRouterChange = (event) => {
     const selectedDevice = event.target.value;
@@ -25,22 +25,6 @@ const Accessability = () => {
     ).ip;
     setIP(selectedDeviceIP);
     console.log(`Selected device: ${selectedDevice}, Selected IP: ${iP}`);
-  };
-
-  const handleNumberACL = (event1) => {
-    setNumberACL(event1.target.value);
-  };
-  const handelInsertedPermissionNetwork = (event2) => {
-    setInsertedPermissionNetwork(event2.target.value);
-  };
-  const handelInsertedPreventionNetwork = (event3) => {
-    setInsertedPreventionNetwork(event3.target.value);
-  };
-  const handelInsertedPermissionSubnet = (event4) => {
-    setInsertedPermissionSubnet(event4.target.value);
-  };
-  const handelInsertedPreventionSubnet = (event5) => {
-    setInsertedPreventionSubnet(event5.target.value);
   };
 
   const handleInterfaceChange = (event) => {
@@ -77,7 +61,7 @@ const Accessability = () => {
 
   const Send_data_ToServer = async () => {
     const response = await fetch(
-      ` http://localhost:3000/dashboard/security/access?selectedDeviceIP=${iP}`
+      ` http://localhost:3000/dashboard/security/access?Device=${selectedDevice_Config}&&ACL_IP=${iP_Confing}`
     );
     const data = await response.json();
     console.log("data sent");
@@ -96,24 +80,13 @@ const Accessability = () => {
       draggable: true,
       theme: "colored",
     });
-  };
-  const notifyD = (msg) => {
-    toast.error(msg, {
-      position: "top-right",
-      autoClose: 3000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
     <ToastContainer />;
   };
 
   return (
     <div className="flex flex-col bg-gray-300 rounded-2xl gap-2 p-5 w-full h-fit shadow-lg shadow-black ">
-      <div className="font-bold text-xl ">Standerd ACL</div>
+      <div className="font-bold text-xl ">Extended ACL</div>
+
       <div className="flex  items-center justify-between h-full w-full ">
         <div className="flex w-full items-center justify-between gap-5">
           <div className="flex w-full items-center gap-3">
@@ -163,17 +136,18 @@ const Accessability = () => {
           </div>
           <div>
             <input
-              value={numberACL}
-              onChange={handleNumberACL}
+              value={namedACL}
+              onChange={handleNamedACL}
               className="flex p-1 rounded-full shadow-black shadow-inner outline-none"
-              placeholder="Number ACL"
+              placeholder="Named ACL"
             />
           </div>
         </div>
       </div>
+
       <div className="flex flex-col bg-gray-400 p-4 rounded-xl gap-3 shadow-inner shadow-black">
         <div className="font-bold bg-gradient-to-r from-[rgb(0,255,0)] to-gray-500 shadow-md shadow-black p-2 rounded-full">
-          Permission list
+          Permition list
         </div>
         <div className="flex flex-col justify-center  items-center gap-3">
           <div className="flex gap-20 ">
@@ -188,8 +162,6 @@ const Accessability = () => {
                   </div>
                 </div>
                 <input
-                  value={insertedPermissionNetwork}
-                  onChange={handelInsertedPermissionNetwork}
                   placeholder="Networks..."
                   className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"
                 ></input>
@@ -204,8 +176,6 @@ const Accessability = () => {
                   <div className="text-gray-600 font-bold">network's mask</div>
                 </div>
                 <input
-                  value={insertedPermissionSubnet}
-                  onChange={handelInsertedPermissionSubnet}
                   placeholder="Subnets..."
                   className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"
                 ></input>
@@ -234,8 +204,6 @@ const Accessability = () => {
                   </div>
                 </div>
                 <input
-                  value={insertedPreventionNetwork}
-                  onChange={handelInsertedPreventionNetwork}
                   placeholder="Networks..."
                   className="bg-gray-200 outline-none p-1 sm:h-[30%] md:h-[70%] shadow-black shadow-inner rounded-full"
                 ></input>
@@ -250,8 +218,6 @@ const Accessability = () => {
                   <div className="text-gray-600 font-bold">network's mask</div>
                 </div>
                 <input
-                  value={insertedPreventionSubnet}
-                  onChange={handelInsertedPreventionSubnet}
                   placeholder="Subnets..."
                   className="bg-gray-200 outline-none p-1 h-[70%] shadow-black shadow-inner rounded-full"
                 ></input>
@@ -263,9 +229,8 @@ const Accessability = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />;
     </div>
   );
 };
 
-export default Accessability;
+export default Accessability2;

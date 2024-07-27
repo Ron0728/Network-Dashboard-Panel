@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React from "react";
 
 import { Outlet, useNavigate } from "react-router-dom";
 
@@ -21,4 +21,4 @@ const Background = (props) => {
   );
 };
 
-export default Background;
+export default Background; //Done

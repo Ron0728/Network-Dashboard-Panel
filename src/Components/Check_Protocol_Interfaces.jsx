@@ -38,7 +38,7 @@ const Check_Protocol_Interfaces = () => {
 
   const Send_data_ToServer = async () => {
     const response = await fetch(
-      `http://localhost:3000/dashboard/troubleshooting/interfaces?SDname=${selectedDevice}&&DeviceIP=${iP}`
+      `http://localhost:3000/dashboard/troubleshooting/interfaces?SDname=${selectedDevice}&&selectedDeviceIP=${iP}`
     );
     const data = await response.json();
     console.log("K : ", data);
@@ -140,9 +140,9 @@ const Check_Protocol_Interfaces = () => {
         <div>
           <InterfacesLoop SW_INTERFACE={sw_in} />
         </div>
-        <div className="flex p-2 justify-center ">
+        {/* <div className="flex p-2 justify-center ">
           <Interface_Edit DV={selectedDevice} IP={iP} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

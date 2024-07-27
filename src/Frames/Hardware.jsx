@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import HardwareLoop from "./HardwareLoop";
 import "/src/Css/FetchButton.css";
 import "/src/Css/BringHardWares.css";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TempAndVoltage2 from "../Components/TempAndVoltage2";
 
 const FlipCard = () => {
-  const [data5, setData5] = useState([]);
   const [name1, setName] = useState([]);
   const [ids, setIDs] = useState([]);
   const [description, setDescription] = useState([]);
@@ -27,45 +26,12 @@ const FlipCard = () => {
   const [interface1type, setInterface1type] = useState();
   const [interface2type, setInterface2type] = useState();
   const [interface3type, setInterface3type] = useState();
-  const [memory, setMemory] = useState();
   const [percentages, setPercentages] = useState();
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
-
-  const fetchData = async () => {
-    {
-      selectedDevice
-        ? await fetch("http://localhost:3000/dashboard/basicInfo")
-            .then((res) => res.json())
-            .then((data) => {
-              setData5(data.Hardware);
-              setName(data.Hardware.map((item) => item.name));
-              setIDs(data.Hardware.map((item) => item.r));
-              setDescription(data.Hardware.map((item) => item.descr));
-              setPID(data.Hardware.map((item) => item.pid));
-              setSN(data.Hardware.map((item) => item.sn));
-              setVID(data.Hardware.map((item) => item.vid));
-              setActives(true);
-              setInterface1Active(data.Interfaces[0].active);
-              setInterface2Active(data.Interfaces[1].active);
-              setInterface3Active(data.Interfaces[2].active);
-              setInterface1Port(data.Interfaces[0].port);
-              setInterface2Port(data.Interfaces[1].port);
-              setInterface3Port(data.Interfaces[2].port);
-              setInterface1state(data.Interfaces[0].state);
-              setInterface2state(data.Interfaces[1].state);
-              setInterface3state(data.Interfaces[2].state);
-              setInterface1type(data.Interfaces[0].type);
-              setInterface2type(data.Interfaces[1].type);
-              setInterface3type(data.Interfaces[2].type);
-              setPercentages(data.Percentage.percentage);
-              setMemory(data.Memory.memory_usage);
-              notifyG(`All Hardwares Related to the router ${selectedDevice}`);
-            }, [])
-        : notifyD("Please Select a Device Then Start");
-    }
-  };
+  const [temp, setTemp] = useState();
+  const [volt, setVolt] = useState();
 
   const fetchDevices = async () => {
     await fetch("http://localhost:3000/info/routers")
@@ -89,49 +55,46 @@ const FlipCard = () => {
   };
 
   const Send_IP_ToServer = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/basicInfo?selectedDeviceIP_Hardware=${iP}`
-    );
-    const data = await response.json();
-    console.log("data sent");
     {
       iP == null
-        ? notifyD("Please Select a device")
-        : notifyI(
-            `IP ${iP} has been Selected ... Now Bring its Hardwares to see their Information`
-          );
+        ? notifyD("Please Select a Device")
+        : (await fetch(
+            `http://localhost:3000/dashboard/basicInfo?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setName(data.resultHardware.Hardware.map((item) => item.name));
+              setIDs(data.resultHardware.Hardware.map((item) => item.r));
+              setDescription(
+                data.resultHardware.Hardware.map((item) => item.descr)
+              );
+              setPID(data.resultHardware.Hardware.map((item) => item.pid));
+              setSN(data.resultHardware.Hardware.map((item) => item.sn));
+              setVID(data.resultHardware.Hardware.map((item) => item.vid));
+              setActives(
+                data.resultInterfaces.Interfaces.map((item) => item.active)
+              );
+              setInterface1Active(data.resultInterfaces.Interfaces[0].active);
+              setInterface2Active(data.resultInterfaces.Interfaces[1].active);
+              setInterface3Active(data.resultInterfaces.Interfaces[2].active);
+              setInterface1Port(data.resultInterfaces.Interfaces[0].port);
+              setInterface2Port(data.resultInterfaces.Interfaces[1].port);
+              setInterface3Port(data.resultInterfaces.Interfaces[2].port);
+              setInterface1state(data.resultInterfaces.Interfaces[0].state);
+              setInterface2state(data.resultInterfaces.Interfaces[1].state);
+              setInterface3state(data.resultInterfaces.Interfaces[2].state);
+              setInterface1type(data.resultInterfaces.Interfaces[0].type);
+              setInterface2type(data.resultInterfaces.Interfaces[1].type);
+              setInterface3type(data.resultInterfaces.Interfaces[2].type);
+              setPercentages(data.resultMemory.Memory.percentage);
+            }, []),
+          fetchDataTempAndVolt());
     }
   };
 
   useEffect(() => {
     fetchDevices();
   }, []);
-
-  const notifyG = (msg) => {
-    toast.success(msg, {
-      position: "top-right",
-      autoClose: 3000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
-  const notifyI = (msg) => {
-    toast.info(msg, {
-      position: "top-right",
-      autoClose: 3000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
 
   const notifyD = (msg) => {
     toast.error(msg, {
@@ -146,15 +109,28 @@ const FlipCard = () => {
     });
   };
 
+  const fetchDataTempAndVolt = async () => {
+    await fetch(
+      `http://localhost:3000/dashboard/hardware/tempvolt?selectedDeviceIP=${iP}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setTemp(data.TempReadings);
+        setVolt(data.VoltReadings);
+      }, []);
+  };
+
   return (
-    <div className="p-5 w-full overflow-y-scroll bg-gray-400">
+    <div className="flex flex-col p-5 h-full gap-3 w-full overflow-y-scroll bg-gray-400">
+      <div className=" flex flex-col p-20 bg-[url('../public/Ad_Hardware.png')] bg-no-repeat w-full rounded-full gap-3 shadow-lg shadow-black"></div>
+
       <div>
         {/* Hardware Info Router */}
         <div className=" flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full shadow-lg shadow-black">
           <div className=" flex flex-col gap-3">
             <div className="font-bold text-xl">Hardware Info Router :</div>
-            <div className="flex  justify-around p-3  w-full h-full">
-              <div className="flex gap-3 h-[50%] w-full">
+            <div className="flex  justify-around p-3 items-center w-full h-full">
+              <div className="flex gap-3 h-full items-center w-full">
                 <div>
                   <div className="text-blue-700 font-bold">
                     Choose wanted device
@@ -163,7 +139,7 @@ const FlipCard = () => {
                     it will return all related info:
                   </div>
                 </div>
-                <div className="flex justify-around items-center bg-blue-900 w-[25%] shadow-lg text-white shadow-black rounded-full ">
+                <div className="flex justify-around h-[80%] items-center bg-blue-900 w-[25%] shadow-lg text-white shadow-black rounded-full ">
                   <form className="flex items-center justify-center">
                     <select
                       className="bg-transparent outline-none "
@@ -184,19 +160,14 @@ const FlipCard = () => {
                   </form>
                 </div>
               </div>
-              <div className=" flex w-full h-[50%]  justify-end gap-5">
+              <div className=" flex w-full justify-end gap-5">
                 <button
                   onClick={Send_IP_ToServer}
                   className="fetchbutton items-center flex justify-center bg-blue-900 text-white p-3 w-[30%] rounded-full shadow-black shadow-md"
                 >
                   Start
                 </button>
-                <button
-                  onClick={fetchData}
-                  className="BringHardWares bg-black text-white p-3 w-[35%] rounded-full shadow-black shadow-md"
-                >
-                  Bring Hardwares
-                </button>
+
                 <ToastContainer />
               </div>
             </div>
@@ -278,15 +249,15 @@ const FlipCard = () => {
                 </div>
                 <div className="flex flex-col items-center font-bold">
                   <div>Memory R1 </div>
-                  <div className="text-blue-700 ">{memory}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <TempAndVoltage2 T={temp} V={volt} />
     </div>
   );
 };
 
-export default FlipCard;
+export default FlipCard; //Done
