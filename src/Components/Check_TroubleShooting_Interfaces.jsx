@@ -3,7 +3,6 @@ import InterfacesLoop from "./InterfacesLoop";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import Interface_Edit from "./Interface_Edit";
 
 const Check_TroubleShooting_Interfaces = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -31,25 +30,24 @@ const Check_TroubleShooting_Interfaces = () => {
     console.log(
       `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
     );
-    // notifyI(
-    //   `The IP ${selectedDeviceIP} has been Selected to see its Interfaces`
-    // );
   };
 
   const Send_data_ToServer = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/troubleshooting/interfacesloop?selectedDeviceIP=${iP}`
-    );
-    const data = await response.json();
-    console.log("K : ", data);
-    setSW_IN(data);
-    console.log("data sent with router : ", selectedDevice);
-    console.log("data sent with router  IP: ", iP);
-
-    {
-      selectedDevice
-        ? notifyI("Now bring Interfaces")
-        : notifyD("Please Select a Device");
+    try {
+      {
+        iP == null
+          ? notifyD("Please Select a Device")
+          : await fetch(
+              `http://localhost:3000/dashboard/troubleshooting/interfacesloop?selectedDeviceIP=${iP}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                setSW_IN(data);
+                notifyG("Done");
+              });
+      }
+    } catch {
+      notifyW("Something Went Wrong");
     }
   };
 
@@ -57,23 +55,10 @@ const Check_TroubleShooting_Interfaces = () => {
     fetchDevices();
   }, []);
 
-  const notifyI = (msg) => {
-    toast.info(msg, {
-      position: "top-right",
-      autoClose: 1000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
   const notifyG = (msg) => {
     toast.success(msg, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 3000,
       newestOnTop: true,
       hideProgressBar: false,
       closeOnClick: true,
@@ -86,7 +71,20 @@ const Check_TroubleShooting_Interfaces = () => {
   const notifyD = (msg) => {
     toast.error(msg, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
       newestOnTop: true,
       hideProgressBar: false,
       closeOnClick: true,
@@ -135,20 +133,14 @@ const Check_TroubleShooting_Interfaces = () => {
               Start Checking
             </button>
           </div>
-          <ToastContainer />
         </div>
         <div>
           <InterfacesLoop SW_INTERFACE={sw_in} IP={iP} />
         </div>
-        {/* <div className="flex p-2 gap-52 justify-end">
-          <Interface_Edit DV={selectedDevice} IP={iP} />
-          <button className="p-2 flex items-center justify-center bg-blue-700 text-white rounded-lg shadow-black shadow-lg">
-            Edit
-          </button>
-        </div> */}
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
-export default Check_TroubleShooting_Interfaces;
+export default Check_TroubleShooting_Interfaces; //Done

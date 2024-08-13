@@ -9,27 +9,51 @@ const Running_Configurations = () => {
   const [iP, setIP] = useState();
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/monitoring/running?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setRrunningconfig(data.RunningConfig);
-        console("---> ", data.RunningConfig);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/running?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setRrunningconfig(data.RunningConfig);
+
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/monitoring/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      runningconfig == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${runningconfig}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const notifyG = (msg) => {
     toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,
@@ -98,7 +122,7 @@ const Running_Configurations = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Monitor ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={runningconfig}
       />
       <div className="flex justify-center">

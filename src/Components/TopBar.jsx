@@ -50,7 +50,6 @@ const TopBar = () => {
           >
             <div className="flex gap-1 items-center justify-center">
               <IoMdHelpCircle />
-              Help
             </div>
           </button>
         </div>

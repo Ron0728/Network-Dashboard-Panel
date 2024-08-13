@@ -3,50 +3,25 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Interface_Info_Monitoring = () => {
-  const [interfaceInfo, setInterfaceInfo] = useState();
   const [selectedRouter, setSelectedRouter] = useState("");
+  const [iP, setIP] = useState();
+  const [int, setInt] = useState();
   const [selectedInterfaces, setSelectedInterfaces] = useState("");
   const [interfaces, setInterfaces] = useState([]);
   const [router, setRouter] = useState([]);
-
-  const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/monitoring/interface?selectedDeviceIP=${iP}&&SelectedDeviceInt=${Int}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setInterfaceInfo(data.Interface);
-        console("---> ", data.Interface);
-      });
-  };
-
-  const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/monitoring/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
-  };
-
-  const notifyG = (msg) => {
-    toast.success(msg, {
-      position: "top-right",
-      autoClose: 3000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
+  const [interfaceInfo, setInterfaceInfo] = useState();
 
   const handleRouterChange = (event) => {
-    const selected_Router = event.target.value;
-    setSelectedRouter(selected_Router);
-    fetchInterfaces(selected_Router);
-    console.log("the selected Router : -->", selected_Router);
+    const selectedDevice = event.target.value;
+    setSelectedRouter(selectedDevice);
+    fetchInterfaces(selectedDevice);
+    const selectedDeviceIP = router.find(
+      (router) => router.name === selectedDevice
+    ).ip;
+    setIP(selectedDeviceIP);
+    console.log(
+      `Selected device: ${selectedDevice}, Selected IP: ${selectedDeviceIP}`
+    );
   };
 
   const fetchInterfaces = async (Router) => {
@@ -62,25 +37,84 @@ const Interface_Info_Monitoring = () => {
     }
   };
 
-  const fetchRouter = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/info/routers");
-      const data = await response.json();
-      setRouter(data);
-    } catch (error) {
-      console.error("Error fetching router:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchRouter();
-  }, []);
-
   const handleInterfaceChange = (event) => {
     const selected_Interfaces = event.target.value;
     setSelectedInterfaces(selected_Interfaces);
+    const selectedDeviceInt = router.find(
+      (router) => router.name === selected_Interfaces
+    );
+    setInt(selectedDeviceInt);
     console.log("the selected Interface : -->", selected_Interfaces);
   };
+
+  const fetchDevices = async () => {
+    await fetch("http://localhost:3000/info/routers")
+      .then((res) => res.json())
+      .then((data) => {
+        setRouter(data);
+        console.log(data);
+      }, []);
+  };
+
+  const fetchData = async () => {
+    {
+      iP == null
+        ? notifyD("Please Select the Device and the Interface")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/interface?selectedDeviceIP=${iP}&&SelectedDeviceInt=${int}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setInterfaceInfo(data.Interface);
+              console.log("---> ", data.Interface);
+              notifyG("Done");
+            });
+    }
+  };
+
+  const fetchData2 = async () => {
+    {
+      interfaceInfo == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${interfaceInfo}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
+  };
+
+  const notifyG = (msg) => {
+    toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  useEffect(() => {
+    fetchDevices();
+  }, []);
 
   return (
     <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl p-5 w-full shadow-lg shadow-black ">
@@ -128,7 +162,7 @@ const Interface_Info_Monitoring = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Monitor ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={interfaceInfo}
       />
       <textPath />

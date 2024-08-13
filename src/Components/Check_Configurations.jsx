@@ -34,67 +34,57 @@ const Check_Configurations = () => {
   };
 
   const StartChecking = async () => {
-    
-      iP_Check == null ? notifyD("Please Select a Device") : 
-      (
-        await fetch(
-            `http://localhost:3000/dashboard/troubleshooting/checkconfig?selectedDeviceIP=${iP_Check}`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              Send_IP_ToCheck_ToServer();
-              {
-                data.error ? (
-                  setCheckingErrorMSG(
-                    <div
-                      className="flex shadow-inner shadow-black bg-gradient-to-r
+    iP_Check == null
+      ? notifyD("Please Select a Device")
+      : await fetch(
+          `http://localhost:3000/dashboard/troubleshooting/checkconfig?selectedDeviceIP=${iP_Check}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            // Send_IP_ToCheck_ToServer();
+            {
+              data.error ? (
+                setCheckingErrorMSG(
+                  <div
+                    className="flex shadow-inner shadow-black bg-gradient-to-r
                        from-[rgb(255,0,0)] to-gray-400 text-white p-2 rounded-full"
-                    >
-                      {data.error}
-                    </div>
-                  )
-                ) : (
-                  <></>
-                );
-              }
-              {
-                data.success ? (
-                  setCheckingSuccessfullMSG(
-                    <div
-                      className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
+                  >
+                    {data.error}
+                  </div>
+                )
+              ) : (
+                <></>
+              );
+            }
+            {
+              data.sucess ? (
+                setCheckingSuccessfullMSG(
+                  <div
+                    className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
                       from-[rgb(0,255,0)] to-gray-400  text-white p-2 rounded-full"
-                    >
-                      {data.success}
-                    </div>
-                  )
-                ) : (
-                  <></>
-                );
-              }
-              {
-                data.suggestion ? (
-                  setCheckingSuggestionMSG(
-                    <div
-                      className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
+                  >
+                    {data.sucess}
+                  </div>
+                )
+              ) : (
+                <></>
+              );
+            }
+            {
+              data.suggestion ? (
+                setCheckingSuggestionMSG(
+                  <div
+                    className="bg-gray-600 shadow-inner shadow-black bg-gradient-to-r
                       from-[rgb(213,110,37)] to-[rgb(255,167,26)]  text-white p-2 rounded-full"
-                    >
-                      {data.suggestion}
-                    </div>
-                  )
-                ) : (
-                  <></>
-                );
-              }
-            })
-      )
-  };
-
-  const Send_IP_ToCheck_ToServer = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/basicInfo?selectedDeviceIP_check_Config=${iP_Check}`
-    );
-    const data = await response.json();
-    console.log("data sent");
+                  >
+                    {data.suggestion}
+                  </div>
+                )
+              ) : (
+                <></>
+              );
+            }
+          });
   };
 
   useEffect(() => {
@@ -103,19 +93,6 @@ const Check_Configurations = () => {
 
   const notifyI = (msg) => {
     toast.info(msg, {
-      position: "top-right",
-      autoClose: 3000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
-  const notifyW = (msg) => {
-    toast.warn(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,
@@ -177,7 +154,6 @@ const Check_Configurations = () => {
           >
             Start Checking
           </button>
-          
         </div>
       </div>
       <div className="flex flex-col gap-1 p-3 bg-gray-400 rounded-3xl shadow-inner shadow-black">
@@ -199,4 +175,4 @@ const Check_Configurations = () => {
   );
 };
 
-export default Check_Configurations;  //Done
+export default Check_Configurations; //Done

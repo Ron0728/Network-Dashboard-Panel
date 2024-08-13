@@ -41,8 +41,8 @@ const BoardInfo = ({
     await fetch("http://localhost:3000/dashboard/basicConnectivity")
       .then((res) => res.json())
       .then((data) => {
-        setVal(data.Message[0].value);
-        setPingMessage(data.Message[0].success_rate);
+        setVal(data.percent);
+        setPingMessage(data.success_rate);
       });
   };
 
@@ -242,7 +242,6 @@ const BoardInfo = ({
             </div>
             <div className="flex flex-col items-center font-bold">
               <div>Memory R1 </div>
-             
             </div>
           </div>
         </div>

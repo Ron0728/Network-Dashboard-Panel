@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TempAndVoltage = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
@@ -29,19 +31,36 @@ const TempAndVoltage = () => {
   };
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/hardware/tempvolt?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setTemp(data.TempReadings);
-        setVolt(data.VoltReadings);
-      }, []);
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/hardware/tempvolt?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setTemp(data.TempReadings);
+              setVolt(data.VoltReadings);
+            }, []);
+    }
   };
 
   useEffect(() => {
     fetchDevices();
   }, []);
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
 
   return (
     <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full h-full shadow-lg shadow-black ">
@@ -97,8 +116,9 @@ const TempAndVoltage = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
-export default TempAndVoltage;    //Done
+export default TempAndVoltage; //Done

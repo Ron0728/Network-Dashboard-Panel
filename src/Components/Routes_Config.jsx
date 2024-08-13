@@ -7,28 +7,52 @@ const Routes_Config = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
+
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/reporting/routes?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setRoute(data.Routes);
-        consol("---> ", data.Routes);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/reporting/routes?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setRoute(data.Routes);
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/reporting/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      route == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${route}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const notifyG = (msg) => {
     toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,

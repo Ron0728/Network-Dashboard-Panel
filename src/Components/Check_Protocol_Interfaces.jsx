@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import InterfacesLoop from "./InterfacesLoop";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Outlet, useNavigate } from "react-router-dom";
-import Interface_Edit from "./Interface_Edit";
 
 const Check_Protocol_Interfaces = () => {
   const [selectedDevice, setSelectedDevice] = useState("");
   const [device, setDevice] = useState([]);
   const [iP, setIP] = useState();
   const [sw_in, setSW_IN] = useState();
-  const navigate = useNavigate();
 
   const fetchDevices = async () => {
     await fetch("http://localhost:3000/info/routers")
@@ -37,19 +34,21 @@ const Check_Protocol_Interfaces = () => {
   };
 
   const Send_data_ToServer = async () => {
-    const response = await fetch(
-      `http://localhost:3000/dashboard/troubleshooting/interfaces?SDname=${selectedDevice}&&selectedDeviceIP=${iP}`
-    );
-    const data = await response.json();
-    console.log("K : ", data);
-    setSW_IN(data);
-    console.log("data sent with router : ", selectedDevice);
-    console.log("data sent with router  IP: ", iP);
-
-    {
-      selectedDevice
-        ? (notifyG("Done"), notifyI("Now bring Interfaces"))
-        : notifyD("Please Select a Device");
+    try {
+      {
+        iP == null
+          ? notifyD("Please Select a Device")
+          : await fetch(
+              `http://localhost:3000/dashboard/troubleshooting/interfacesloop?selectedDeviceIP=${iP}`
+            )
+              .then((res) => res.json())
+              .then((data) => {
+                setSW_IN(data);
+                notifyG("Done");
+              });
+      }
+    } catch {
+      notifyW("Something Went Wrong");
     }
   };
 
@@ -57,23 +56,10 @@ const Check_Protocol_Interfaces = () => {
     fetchDevices();
   }, []);
 
-  const notifyI = (msg) => {
-    toast.info(msg, {
-      position: "top-right",
-      autoClose: 1000,
-      newestOnTop: true,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
   const notifyG = (msg) => {
     toast.success(msg, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 3000,
       newestOnTop: true,
       hideProgressBar: false,
       closeOnClick: true,
@@ -86,7 +72,20 @@ const Check_Protocol_Interfaces = () => {
   const notifyD = (msg) => {
     toast.error(msg, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyW = (msg) => {
+    toast.warn(msg, {
+      position: "top-right",
+      autoClose: 3000,
       newestOnTop: true,
       hideProgressBar: false,
       closeOnClick: true,
@@ -135,15 +134,12 @@ const Check_Protocol_Interfaces = () => {
               Start Checking
             </button>
           </div>
-          <ToastContainer />
         </div>
         <div>
           <InterfacesLoop SW_INTERFACE={sw_in} />
         </div>
-        {/* <div className="flex p-2 justify-center ">
-          <Interface_Edit DV={selectedDevice} IP={iP} />
-        </div> */}
       </div>
+      <ToastContainer />
     </div>
   );
 };

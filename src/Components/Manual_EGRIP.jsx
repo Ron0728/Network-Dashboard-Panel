@@ -98,34 +98,13 @@ const Manual_EGRIP = () => {
             <></>
           );
         }
-        // {
-        //   data.messageEgripS ? (
-        //     setAlertSuggestedMessages([
-        //       ...alertSuggestedMessages,
-        //       <SAlertMSG alertSuggestedMessages={data.messageEgripS} />,
-        //     ])
-        //   ) : (
-        //     <></>
-        //   );
-        // }
-        // {
-        //   data.messageW ? (
-        //     (setAlertWarningMessages([
-        //       ...alertWarningMessages,
-        //       <WAlertMSG alertWarningMessages={data.messageW} />,
-        //     ]),
-        //     notifyW(data.messageW))
-        //   ) : (
-        //     <></>
-        //   );
-        // }
       });
   };
 
   const Send_data_ToServer = async () => {
     {
       selectedDevice && selectedAsNUmber && networkEGRIPData && subnetEGRIPData
-        ? (Send_data_ToServer2(), fetchEGRIPdata(), notifyG("Done"))
+        ? (Send_data_ToServer2(), notifyG("Done"))
         : notifyD("Please Choose and Enter all Information");
     }
     {

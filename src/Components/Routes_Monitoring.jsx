@@ -34,23 +34,33 @@ const Routes_Monitoring = () => {
   }, []);
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/monitoring/routes?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setRoutesM(data.Routes);
-        console("---> ", data.Routes);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/routes?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setRoutesM(data.Routes);
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/monitoring/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      routesM == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${routesM}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const notifyG = (msg) => {
@@ -65,6 +75,20 @@ const Routes_Monitoring = () => {
       theme: "colored",
     });
   };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
   return (
     <div className="flex flex-col gap-5 bg-gray-300 rounded-2xl p-5 w-full shadow-lg shadow-black ">
       <div className="font-bold text-xl">Routes Monitoring </div>
@@ -97,7 +121,7 @@ const Routes_Monitoring = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Monitor ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={routesM}
       />
       <div className="flex justify-center">

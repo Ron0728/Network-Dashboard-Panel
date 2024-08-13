@@ -9,27 +9,51 @@ const Access_Lists = () => {
   const [iP, setIP] = useState();
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/reporting/accesslist?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAl(data.AccessLists);
-        console("---> ", data.AccessLists);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/reporting/accesslist?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setAl(data.AccessLists);
+              console.log(data.AccessLists);
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/reporting/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      al == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${al}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const notifyG = (msg) => {
     toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,
@@ -98,7 +122,7 @@ const Access_Lists = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Report ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={al}
       />
       <div className="flex justify-center">
@@ -114,18 +138,4 @@ const Access_Lists = () => {
   );
 };
 
-export default Access_Lists;
-{
-  /* <div className="flex flex-col bg-gray-300 rounded-2xl gap-3 p-5 w-full shadow-lg shadow-black ">
-      <div>Access Lists </div>
-      <div>
-        <div>choose</div>
-        <button onClick={fetchData}>Start</button>
-      </div>
-      <textarea>{al}</textarea>
-      <div>
-        <button onClick={fetchData2}>save</button>
-      </div>
-      <ToastContainer />
-    </div> */
-}
+export default Access_Lists; //Done

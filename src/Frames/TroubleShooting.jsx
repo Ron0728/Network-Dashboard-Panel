@@ -37,4 +37,4 @@ const TroubleShooting = () => {
   );
 };
 
-export default TroubleShooting;
+export default TroubleShooting; //Done

@@ -6,20 +6,23 @@ const AddNewDevice = ({ N }) => {
   const [password, setPassword] = useState();
   const [ip, setIP] = useState();
   const [type, setType] = useState();
-  const [hostname, setHostname] = useState({ N });
+  const [hostname, setHostname] = useState();
 
   const AddNew = async () => {
     await fetch(
-      `http://localhost:3000/dashboard/devices/post?hostname=${hostname}&&type=${type}&&username=${username}&&password=${password}$$ip=${ip}`
+      `http://localhost:3000/dashboard/devices/post?hostname=${hostname}&&type=${type}&&username=${username}&&password=${password}&&ip=${ip}`
     )
       .then((res) => res.json())
-      .then((data) => {}, []);
+      .then((data) => {
+        console.log(data.message)
+        discard();
+      }, []);
   };
 
-  const twofunc = () => {
-    AddNew();
-    discard();
-  };
+  // const twofunc = () => {
+  //   AddNew();
+
+  // };
 
   const discard = () => {
     setUsername("");
@@ -102,7 +105,7 @@ const AddNewDevice = ({ N }) => {
       </div>
       <div className="flex justify-center  ">
         <button
-          onClick={twofunc}
+          onClick={AddNew}
           className="bg-blue-700 p-2 rounded-full shadow-black shadow-md text-white"
         >
           Save & Add Another

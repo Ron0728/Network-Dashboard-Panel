@@ -18,17 +18,11 @@ const Security = () => {
 
       <ExistingDevives />
 
-      {/* Accessability */}
       <Accessability />
+
       <Accessability2 />
-
-      {/* Security Audit */}
-      {/* <Security_Audit /> */}
-
-      {/* Charts */}
-      {/* <Security_Charts /> */}
     </div>
   );
 };
 
-export default Security;
+export default Security; //Done

@@ -100,30 +100,7 @@ const Protocol_RIP = () => {
             <></>
           );
         }
-        // {
-        //   data.message ? (
-        //     setAlertSuggestedMessages([
-        //       ...alertSuggestedMessages,
-        //       <SAlertMSG alertSuggestedMessages={data.message} />,
-        //     ])
-        //   ) : (
-        //     <></>
-        //   );
-        // }
-        // {
-        //   data.message ? (
-        //     (setAlertWarningMessages([
-        //       ...alertWarningMessages,
-        //       <WAlertMSG alertWarningMessages={data.message} />,
-        //     ]),
-        //     notifyW(data.message))
-        //   ) : (
-        //     <></>
-        //   );
-        // }
       });
-    // const data = await response.json();
-    // console.log("data sent");
   };
 
   const Send_data_ToServer = async () => {

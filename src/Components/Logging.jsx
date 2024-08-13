@@ -34,27 +34,50 @@ const Logging = () => {
   }, []);
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/monitoring/logging?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setLogging(data.Logging);
-        console("---> ", data.Logging);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/logging?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setLogging(data.Logging);
+              console.log("---> ", data.Logging);
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/monitoring/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      logging == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${logging}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const notifyG = (msg) => {
     toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+  const notifyD = (msg) => {
+    toast.error(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,
@@ -97,7 +120,7 @@ const Logging = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Monitor ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={logging}
       />
       <div className="flex justify-center">
@@ -113,4 +136,4 @@ const Logging = () => {
   );
 };
 
-export default Logging;
+export default Logging; //Done

@@ -76,13 +76,35 @@ const Accessability = () => {
   }, []);
 
   const Send_data_ToServer = async () => {
-    const response = await fetch(
-      ` http://localhost:3000/dashboard/security/access?selectedDeviceIP=${iP}`
-    );
-    const data = await response.json();
-    console.log("data sent");
-    console.log("data ", data.message);
-    notifyI(data.message);
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            ` http://localhost:3000/dashboard/security/spermit?SelectedDeviceIP=${iP}&&number=${numberACL}&&permit=${insertedPermissionNetwork}&&interface=${interfaces}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("data sent");
+              console.log("data ", data.message);
+              notifyI(data.message);
+            });
+    }
+  };
+
+  const Send_data_ToServer2 = async () => {
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            ` http://localhost:3000/dashboard/security/sdeny?SelectedDeviceIP=${iP}&&number=${numberACL}&&banned=${insertedPreventionNetwork}&&interface=${interfaces}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("data sent");
+              console.log("data ", data.message);
+              notifyI(data.message);
+            });
+    }
   };
 
   const notifyI = (msg) => {
@@ -97,6 +119,7 @@ const Accessability = () => {
       theme: "colored",
     });
   };
+
   const notifyD = (msg) => {
     toast.error(msg, {
       position: "top-right",
@@ -211,7 +234,10 @@ const Accessability = () => {
                 ></input>
               </div>
             </div>
-            <button className="flex items-center bg-[rgb(0,0,255)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-lg">
+            <button
+              onClick={Send_data_ToServer}
+              className="flex items-center bg-[rgb(0,0,255)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-lg"
+            >
               Apply
             </button>
           </div>
@@ -257,7 +283,10 @@ const Accessability = () => {
                 ></input>
               </div>
             </div>
-            <button className="flex items-center bg-[rgb(0,0,255)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-lg">
+            <button
+              onClick={Send_data_ToServer2}
+              className="flex items-center bg-[rgb(0,0,255)] p-3 h-[80%] text-white rounded-xl shadow-black shadow-lg"
+            >
               Apply
             </button>
           </div>

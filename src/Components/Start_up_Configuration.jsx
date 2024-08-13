@@ -9,23 +9,33 @@ const Start_up_Configuration = () => {
   const [iP, setIP] = useState();
 
   const fetchData = async () => {
-    await fetch(
-      `http://localhost:3000/dashboard/reporting/startup?selectedDeviceIP=${iP}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setStartupConfig(data.StartupConfig);
-        console("---> ", data.StartupConfig);
-      });
+    {
+      iP == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/reporting/startup?selectedDeviceIP=${iP}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setStartupConfig(data.StartupConfig);
+              notifyG("Done");
+            });
+    }
   };
 
   const fetchData2 = async () => {
-    await fetch("http://localhost:3000/dashboard/reporting/save")
-      .then((res) => res.json())
-      .then((data) => {
-        console("---> ", data.message);
-        notifyG(data.message);
-      });
+    {
+      startupConfig == null
+        ? notifyD("Please Select a Device")
+        : await fetch(
+            `http://localhost:3000/dashboard/monitoring/save?content=${startupConfig}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              console.log("---> ", data.message);
+              notifyG(data.message);
+            });
+    }
   };
 
   const handlerDeviceChange = (event) => {
@@ -55,6 +65,19 @@ const Start_up_Configuration = () => {
 
   const notifyG = (msg) => {
     toast.success(msg, {
+      position: "top-right",
+      autoClose: 3000,
+      newestOnTop: true,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+    });
+  };
+
+  const notifyD = (msg) => {
+    toast.error(msg, {
       position: "top-right",
       autoClose: 3000,
       newestOnTop: true,
@@ -98,7 +121,7 @@ const Start_up_Configuration = () => {
       </div>
       <textarea
         placeholder="Choose a Device to Report ..."
-        className="flex outline-none h-fit p-3 shadow-inner rounded-lg shadow-black"
+        className="flex outline-none h-fit p-5 shadow-inner rounded-lg shadow-black"
         value={startupConfig}
       />
       <div className="flex justify-center">
@@ -114,4 +137,4 @@ const Start_up_Configuration = () => {
   );
 };
 
-export default Start_up_Configuration;
+export default Start_up_Configuration; //Done

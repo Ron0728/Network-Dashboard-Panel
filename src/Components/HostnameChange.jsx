@@ -40,15 +40,14 @@ const HostnameChange = () => {
 
   const fetchData = async () => {
     {
-      iP == null
-        ? notifyD("Please Select a Device")
+      (iP && hostN) == null
+        ? notifyD("Please Select a Device and Enter the HostName")
         : await fetch(
             `http://localhost:3000/dashboard/troubleshooting/hostname?selectedDeviceIP=${iP}&&selectedHostname=${hostN}`
           )
             .then((res) => res.json())
             .then((data) => {
               setHostnameMSG(data.message);
-              setHostN("");
               notifyG(hostnameMSG);
             });
     }
@@ -70,7 +69,7 @@ const HostnameChange = () => {
   const notifyD = (msg) => {
     toast.error(msg, {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 3000,
       newestOnTop: true,
       hideProgressBar: false,
       closeOnClick: true,
@@ -109,7 +108,7 @@ const HostnameChange = () => {
             <input
               value={hostN}
               onChange={handleHostName}
-              className=" outline-none shadow-black shadow-inner p-2 w-full rounded-full"
+              className=" outline-none font-bold shadow-black shadow-inner p-2 w-full rounded-full"
             />
           </div>
         </div>
@@ -127,4 +126,4 @@ const HostnameChange = () => {
   );
 };
 
-export default HostnameChange;
+export default HostnameChange; //Done
